@@ -1,0 +1,25 @@
+﻿<amexio-card [header] ="true" [footer] ="false">
+  <amexio-header>
+ <i class="fa " aria-hidden="True"></i> Инвентраизация 
+  </amexio-header>
+  <amexio-body>
+	<amexio-tab-view  [closable]="false">
+		<amexio-tab  title="Описание"  [active]="true" >
+			<app-inva_info></app-inva_info>
+		</amexio-tab>
+		
+		<amexio-tab  title="Наличие"  >
+			<app-inva_real></app-inva_real>
+		</amexio-tab>
+		
+		<amexio-tab  title="Недостача"  >
+			<app-inva_absnt></app-inva_absnt>
+		</amexio-tab>
+		
+		<amexio-tab  title="Излишки"  >
+			<app-inva_extra></app-inva_extra>
+		</amexio-tab>
+		
+	</amexio-tab-view>
+  </amexio-body>
+</amexio-card>

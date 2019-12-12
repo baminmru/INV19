@@ -1,0 +1,17 @@
+﻿<amexio-card [header] ="true" [footer] ="false">
+  <amexio-header>
+ <i class="fa " aria-hidden="True"></i> Структура склада 
+  </amexio-header>
+  <amexio-body>
+	<amexio-tab-view  [closable]="false">
+		<amexio-tab  title="Стеллаж"  [active]="true" >
+			<app-invwh_loc></app-invwh_loc>
+		</amexio-tab>
+		
+		<amexio-tab  title="Ячейка"  >
+			<app-invwh_cell></app-invwh_cell>
+		</amexio-tab>
+		
+	</amexio-tab-view>
+  </amexio-body>
+</amexio-card>

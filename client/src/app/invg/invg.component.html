@@ -1,0 +1,17 @@
+﻿<amexio-card [header] ="true" [footer] ="false">
+  <amexio-header>
+ <i class="fa " aria-hidden="True"></i> Группы 
+  </amexio-header>
+  <amexio-body>
+	<amexio-tab-view  [closable]="false">
+		<amexio-tab  title="Группа"  [active]="true" >
+			<app-invg_grp></app-invg_grp>
+		</amexio-tab>
+		
+		<amexio-tab  title="Подгруппа"  >
+			<app-invg_subgrp></app-invg_subgrp>
+		</amexio-tab>
+		
+	</amexio-tab-view>
+  </amexio-body>
+</amexio-card>

@@ -1,0 +1,46 @@
+﻿ { 
+  "data":[ 
+	{ 
+	"text": "Home", 
+	"icon" : "fa fa-home fa-fw fa-lg", 
+	"mdbIcon" : "home", 
+	"routerLink" : "/home", 
+	"selected":true 
+	} 
+	,{ 
+	  "text": "Группы", 
+	  "icon" : "fa  fa-fw", 
+	  "routerLink" : "/invg" 
+	} 
+	,{ 
+	  "text": "Движение", 
+	  "icon" : "fa  fa-fw", 
+	  "routerLink" : "/invm" 
+	} 
+	,{ 
+	  "text": "Заполнение склада", 
+	  "icon" : "fa  fa-fw", 
+	  "routerLink" : "/invw" 
+	} 
+	,{ 
+	  "text": "Запчасть", 
+	  "icon" : "fa  fa-fw", 
+	  "routerLink" : "/invi" 
+	} 
+	,{ 
+	  "text": "Инвентраизация", 
+	  "icon" : "fa  fa-fw", 
+	  "routerLink" : "/inva" 
+	} 
+	,{ 
+	  "text": "Справочник", 
+	  "icon" : "fa  fa-fw", 
+	  "routerLink" : "/invd" 
+	} 
+	,{ 
+	  "text": "Структура склада", 
+	  "icon" : "fa  fa-fw", 
+	  "routerLink" : "/invwh" 
+	} 
+	] 
+} 
