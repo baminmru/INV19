@@ -1,0 +1,24 @@
+﻿@model inv19.ViewModels.Account.LoginViewModel
+@{
+    Layout = null;
+}
+@{
+    ViewData["Title"] = "Регистрация и Восстановление";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+</head>
+<body style="margin:10px">
+    <h2>Регистрация и Восстановление пароля</h2>
+    <ul>
+        <li><a href="/Password/Register">Регистрация пользователя</a></li>
+        <li><a href="/Password/ForgotPassword">Я забыл пароль</a></li>
+    </ul>
+    
+    </body>
+</html>

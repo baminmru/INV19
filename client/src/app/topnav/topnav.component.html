@@ -1,4 +1,4 @@
-<amexio-row *ngIf="Role()=='SUPERADMIN' ">
+<amexio-row *ngIf="Role()=='' ">
  <amexio-column size="12">
     <amexio-nav [title]="' ИНВЕНТАРИЗАЦИЯ '"
 			[enable-side-nav-position]="false">
@@ -9,31 +9,36 @@
 	  [icon]="'fa fa-sign-in fa-fw'"
       (onNavItemClick)="onClick('/jwtLogin')">
     </amexio-nav-item>
+
+    <amexio-nav-item position-right
+    [type]="'link'" 
+    [title]="' Регистрация'"  
+    [icon]="'fa fa-key fa-fw fa-lg'"
+    (onNavItemClick)="RedirectTo('/password');">
+    </amexio-nav-item>
   </amexio-nav>
   </amexio-column>
 
 </amexio-row>
 
-<amexio-row *ngIf="Role()=='' ">
+<amexio-row *ngIf="Role()!='' ">
  <amexio-column size="12">
     <amexio-nav [title]="' ИНВЕНТАРИЗАЦИЯ '" [enable-side-nav-position]="false">
-	<amexio-nav-item position-right 
+	<amexio-nav-item position-left 
  [type]="'link'" 
 [title]= "' Справочник'" 
 [icon]= "'fa fa-id-card-o fa-fw'" 
 (onNavItemClick)="onClick('/invd')" 
 ></amexio-nav-item>
 
-
-
-<amexio-nav-item position-right 
+<amexio-nav-item position-left 
  [type]="'link'" 
 [title]= "' Группы'" 
 [icon]= "'fa fa-map-marker fa-fw'" 
 (onNavItemClick)="onClick('/invg')" 
 ></amexio-nav-item>
 
-<amexio-nav-item position-right 
+<amexio-nav-item position-left 
  [type]="'link'" 
 [title]= "' Запчасти'" 
 [icon]= "'fa fa-map-marker fa-fw'" 
@@ -41,34 +46,45 @@
 ></amexio-nav-item>
 
 
-<amexio-nav-item position-right 
+<amexio-nav-item position-left 
  [type]="'link'" 
 [title]= "' Структура склада'" 
 [icon]= "'fa fa-map-marker fa-fw'" 
 (onNavItemClick)="onClick('/invwh')" 
 ></amexio-nav-item>
 
-<amexio-nav-item position-right 
+<amexio-nav-item position-left 
  [type]="'link'" 
 [title]= "' Заполнение склада'" 
 [icon]= "'fa fa-map-marker fa-fw'" 
 (onNavItemClick)="onClick('/invw')" 
 ></amexio-nav-item>
 
-<amexio-nav-item position-right 
+<amexio-nav-item position-left 
  [type]="'link'" 
 [title]= "' Движение'" 
 [icon]= "'fa fa-bar-chart fa-fw'" 
 (onNavItemClick)="onClick('/invm')" 
 ></amexio-nav-item>
 
-<amexio-nav-item position-right 
+<amexio-nav-item position-left 
  [type]="'link'" 
 [title]= "' Инвентаризация'" 
 [icon]= "'fa fa-bar-chart fa-fw'" 
 (onNavItemClick)="onClick('/inva')" 
 ></amexio-nav-item>
-	
+  
+
+
+<amexio-nav-item position-right
+[type]="'link'" 
+[title]="' Выход'"  
+[icon]="'fa fa-key fa-fw fa-lg'"
+(onNavItemClick)="onClick('/jwtLogin')">
+</amexio-nav-item>
+
+
+
   </amexio-nav>
   </amexio-column>
   

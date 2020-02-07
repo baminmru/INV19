@@ -22,8 +22,7 @@ namespace inv19.models {
 	public DateTime?  Birthday{ get; set; } // Дата рождения
 	public string  Password{ get; set; } // Пароль
 	public string  City{ get; set; } // Город
-	public enum_YesNo  PIaccept{ get; set; } // Принята политика ПД
-	public enum_YesNo  HRaccept{ get; set; } // Принята политика HR
+
  }
 
  

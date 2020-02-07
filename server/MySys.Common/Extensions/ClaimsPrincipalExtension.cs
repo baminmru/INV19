@@ -11,15 +11,23 @@ namespace MySys.Common.Extensions
     {
         public static Guid GetUserId(this ClaimsPrincipal user)
         {
-            string val = user.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier).Value;
-            if (!string.IsNullOrEmpty(val))
+            try
             {
-                return new Guid(val);
+                string val = user.Claims.FirstOrDefault(p => p.Type == ClaimTypes.NameIdentifier).Value;
+                if (!string.IsNullOrEmpty(val))
+                {
+                    return new Guid(val);
+                }
+                else
+                {
+                    return Guid.Empty;
+                }
             }
-            else
+            catch 
             {
                 return Guid.Empty;
             }
+          
         }
 
         public static string GetEmail(this ClaimsPrincipal user)

@@ -23,7 +23,7 @@ using inv19.Services.Data.User;
 using inv19.Settings;
 
 
-namespace survey_api.Controllers
+namespace inv19.Controllers
 {
 
     public class NewUserInfo
@@ -80,169 +80,10 @@ namespace survey_api.Controllers
             await _signInManager.SignOutAsync();
             return Json("ok");
         }
-        [HttpPost("RegisterDevice")]
-        [AllowAnonymous]
-        [Produces(typeof(ResponseData<TokenInfo>))]
-        public async Task<ResponseData<TokenInfo>> RegisterDevice([FromBody] RegisterDeviceRequest request)
-        {
-            var response = new ResponseData<TokenInfo>();
-            try
-            {
-                var email = $"{request.DeviceId}@mobile.device";
-                var user = await _userManager.FindByEmailAsync(email);
-
-                if (user == null)
-                {
-                    var password = Guid.NewGuid().ToString().Replace("-", "");
-                    user = new ApplicationUser
-                    {
-                        Id = Guid.NewGuid(),
-                        OS = request.OS,
-                        DeviceId = request.DeviceId,
-                        Email = email,
-                        EmailConfirmed = true,
-                        UserName = email
-                    };
-
-                    await _userManager.CreateAsync(user, password);
-
-                    _context.Add(new XUserInfo
-                    {
-                        Name = "App",
-                        Family = "Mobile",
-                        Login = user.Id.ToString(),
-                        XUserInfoId = user.Id
-                    });
-                    await _context.SaveChangesAsync();
-                }
-                await _userManager.AddToRoleAsync(user, MyIdentityRole.ROLE_MOBILEAPP);
-                await _signInManager.SignInAsync(user, false);
+     
 
 
-                var currentUser = user;
-                string encodedJwt = await CreateToken(currentUser);
-
-                // Serialize and return the response
-                var oldTokens = await _identityContext.RefreshTokens.
-                    Where(p => p.UserId == currentUser.Id && p.IsExpired).
-                    ToListAsync();
-                oldTokens.ForEach(p => { p.IsExpired = true; });
-
-                var refresh_token = Guid.NewGuid().ToString().Replace("-", "");
-                var refreshToken = new RefreshToken
-                {
-                    Id = Guid.NewGuid(),
-                    UserId = currentUser.Id,
-                    Token = refresh_token,
-                    DateIssued = DateTime.Now,
-                    IsExpired = false,
-                };
-
-                response.code = BaseStatus.Success;
-                response.data = new TokenInfo
-                {
-                    access_token = encodedJwt,
-                    expires_in = (int)_jwtOptions.ValidFor.TotalSeconds,
-                    token_type = "jwt",
-                    refresh_token = refresh_token
-                };
-
-                _identityContext.Add(refreshToken);
-                await _identityContext.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                response.code = BaseStatus.Exception;
-                response.data = null;
-                response.message = ex.Message;
-                response.description = "Не удалось зарегистрироваться ";
-            }
-
-            return response;
-        }
-
-
-        [HttpPost("ClassLogin")]
-        [AllowAnonymous]
-        [Produces(typeof(ResponseData<TokenInfo>))]
-        public async Task<ResponseData<TokenInfo>> ClassLogin([FromBody] ClassLoginRequest request)
-        {
-            var response = new ResponseData<TokenInfo>();
-            try
-            {
-                var user = await _userManager.Users.
-                    Where(p => !p.IsDisabled && p.IsSingleSignon && p.Passcode == request.Passcode).
-                    FirstOrDefaultAsync();
-
-                if (user != null)
-                {
-                    var now = DateTime.Now;
-                    if (user.ExpireTime.HasValue)
-                    {
-                        if (now > user.ExpireTime.Value)
-                        {
-                            user.IsDisabled = true;
-                        }
-                    }
-                    else
-                    {
-                        user.ExpireTime = now.AddHours(3);
-                    }
-                    await _userManager.UpdateAsync(user);
-                }
-
-                if (user != null && !user.IsDisabled)
-                {
-                    var result = await _signInManager.PasswordSignInAsync(user.Email, "TestClassPassword", false, lockoutOnFailure: false);
-                if (result.Succeeded)
-                {
-                        var currentUser = await _userManager.FindByEmailAsync(user.Email);
-                    string encodedJwt = await CreateToken(currentUser);
-
-                    // Serialize and return the response
-                    var oldTokens = await _identityContext.RefreshTokens.
-                        Where(p => p.UserId == currentUser.Id && p.IsExpired).
-                        ToListAsync();
-                    oldTokens.ForEach(p => { p.IsExpired = true; });
-
-                    var refresh_token = $"{Guid.NewGuid()}{Guid.NewGuid()}{Guid.NewGuid()}".Replace("-", "");
-                    var refreshToken = new RefreshToken
-                    {
-                        Id = Guid.NewGuid(),
-                        UserId = currentUser.Id,
-                        Token = refresh_token,
-                        DateIssued = DateTime.Now,
-                        IsExpired = false
-                    };
-
-                    response.code = BaseStatus.Success;
-                    response.data = new TokenInfo
-                    {
-                        access_token = encodedJwt,
-                        expires_in = (int)_jwtOptions.ValidFor.TotalSeconds,
-                        token_type = "jwt",
-                        refresh_token = refresh_token
-                    };
-
-                    _identityContext.Add(refreshToken);
-                    await _identityContext.SaveChangesAsync();
-
-                    return response;
-                }
-                }
-                response.code = BaseStatus.Error;
-                response.description = "Не удалось войти в систему";
-                return response;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "could not login");
-                response.code = BaseStatus.Exception;
-                response.message = "Ошибка";
-                response.description = "Не удалось выполнить вход";
-                return response;
-            }
-        }
+       
 
         [HttpPost("Login")]
         [AllowAnonymous]
@@ -459,17 +300,19 @@ namespace survey_api.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> InitUsers()
         {
+            
+            await _roleManager.CreateAsync(new MyIdentityRole
+            {
+                Name = MyIdentityRole.ROLE_USER,
+                Id = new Guid("EA275999-49D0-4A0A-658B-08D5AF855020")
+            });
+
             await _roleManager.CreateAsync(new MyIdentityRole
             {
                 Name = MyIdentityRole.ROLE_ADMIN,
                 Id = new Guid("BE2C9C98-8174-4798-6589-08D5AF855020")
             });
-            await _roleManager.CreateAsync(new MyIdentityRole
-            {
-                Name = MyIdentityRole.ROLE_CLIENT,
-                Id = new Guid("EA275962-49D0-4A0A-658B-08D5AF855020")
-            });
-            
+
             var email = "developer.bami@gmail.com";
             var user = new ApplicationUser
             {

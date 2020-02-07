@@ -49,15 +49,15 @@ export class AppService {
 		var li:UserProfile.LoginRequest = new UserProfile.LoginRequest();
 		li.email = email;
 		li.password = password; 
-		//console.log("Send: "+JSON.stringify( li));
+		console.log("Send: "+JSON.stringify( li));
 		this.http.post(this.serviceURL + '/account/login',JSON.stringify( li) , { headers: cpHeaders }).subscribe(
 		    Data => {
 				this.authResponce=Data;
-				//console.log("RcvAuth: " + JSON.stringify(this.authResponce));
+				console.log("RcvAuth: " + JSON.stringify(this.authResponce));
 				this.myToken=this.authResponce.data;
 				if(	  this.myToken != null ){
 					 sessionStorage.setItem('auth_token', this.myToken.access_token);
-					 //console.log("Rcv: " + JSON.stringify(this.myToken));
+					 console.log("Rcv: " + JSON.stringify(this.myToken));
 					 this.jwtUserInfo(callback);
 					  setTimeout(this.jwtRefresh.bind(this),(this.myToken.expires_in-5) * 1000);
 				}else{

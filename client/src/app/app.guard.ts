@@ -33,27 +33,29 @@ export class AppGuard implements CanActivate, CanActivateChild {
 				case '/jwtLogin':
 					return true;
 					
-				case '/Organization':
-					return true;
-					
 				case '/Users':
 					return true;
 					
-				/*case '/classTest':
-					return true; */
+				case '/invg':
+					return true; 
 					
-				case '/classLogin':
+				case '/invm':
 					return true;
 					
-				case '/Certification':
+				case '/invw':
 					return true;	
 					
-				case '/CheckForm':
+				case '/invi':
 					return true;
 					
-				case '/Dictionary':
+				case '/inva':
 					return true;
 
+				case '/invd':
+					return true;
+
+				case '/invwh':
+					return true;
 					
 				default:
 				this.router.navigate(['/']);
@@ -70,130 +72,70 @@ export class AppGuard implements CanActivate, CanActivateChild {
 					return true;
 					
 				
-				case '/Exam':
-					return true;	
-					
-				case '/FindExams':
-					return true;	
-				
-					
-				case '/classLogin':
-					return true;
-					
-				default:
-				this.router.navigate(['/']);
-				return false;
-				
-			}
-		}
-		
-		if(this.AppService.Role=="Разработчик Теста"){
-			switch(url){
-				
-				case '/jwtLogin':
-					return true;
-					
-				case '/TestVariant':
-					return true;
-					
-			
-				case '/TestCreator':
-					return true;
-					
-				
-				default:
-					this.router.navigate(['/']);
-					return false;
-			}
-		}
-		
-		if(this.AppService.Role=="Проверяющий"){
-			switch(url){
-				
-				
-				case '/jwtLogin':
-					return true;
-					
-				case '/CheckTests':
-					return true;
-					
-				case '/CheckExams':
-					return true;
-
-
-				default:
-					this.router.navigate(['/']);
-					return false;
-			}
-		}
-		
-		if(this.AppService.Role=="Тестируемый"){
-			switch(url){
-				
-				case '/Me':
-					return true;
-					
-				case '/RecordToExam':
-					return true;
-					
-				case '/OnlineTest':
-					return true;
-					
-				case '/OnlineExam':
-					return true;
-					
-					
-				case '/MyTests':
-					return true;
-					
-				case '/MyExams':
-					return true;
-					
-				default:
-				this.router.navigate(['/']);
-				return false;
-				
-			}
-		}
-		
-		
-		if(this.AppService.Role=="Класс"){
-			switch(url){
-				
-				
-				/* case '/jwtLogin':
-					return true; */
-					
-				case '/classExam':
-					return true;
-
-
-				default:
-					//this.router.navigate(['/']);
-					return false;
-			}
-		}
+					case '/invg':
+						return true; 
+						
+					case '/invm':
+						return true;
+						
+					case '/invw':
+						return true;	
+						
+					case '/invi':
+						return true;
+						
+					case '/inva':
+						return true;
 	
-		return false; 
-	}else{
-		
-		switch(url){
-				
-				
-				/* case '/jwtLogin':
-					return true; */
+					case '/invd':
+						return true;
+	
+					case '/invwh':
+						return true;
+	
 					
-				case '/classLogin':
-					return true;
-
-
 				default:
-					//this.router.navigate(['/']);
+				this.router.navigate(['/']);
+				return false;
+				
+			}
+		}
+		
+		if(this.AppService.Role=="Пользователь"){
+			switch(url){
+				
+				case '/jwtLogin':
+					return true;
+					
+					case '/invg':
+						return true; 
+						
+					case '/invm':
+						return true;
+						
+					case '/invw':
+						return true;	
+						
+					case '/invi':
+						return true;
+						
+					case '/inva':
+						return true;
+	
+					case '/invd':
+						return true;
+	
+					case '/invwh':
+						return true;
+	
+					
+				
+				default:
+					this.router.navigate(['/']);
 					return false;
 			}
-		// Navigate to the login page with extras
-		this.router.navigate(['/classLogin']);
-		return false;
+		}
+		
 	}
   }
 } 

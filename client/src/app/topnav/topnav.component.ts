@@ -24,4 +24,9 @@ export class TopnavComponent  {
       this._router.navigate([link]);
   }
 
+  RedirectTo(link:string){
+    if( link !="")
+     window.location.href=link;
+  }
+
 }

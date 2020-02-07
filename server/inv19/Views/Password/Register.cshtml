@@ -1,0 +1,41 @@
+﻿@model inv19.ViewModels.Account.RegisterViewModel
+@{
+    Layout = null;
+}
+@{
+    ViewData["Title"] = "Регистрация пользователя";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
+</head>
+<body style="margin:10px">
+    <h2>Регистрация нового пользователя</h2>
+    <form method="post" asp-controller="Password" asp-action="Register">
+        <div asp-validation-summary="ModelOnly"></div>
+        <div class="form-group">
+            <label asp-for="Email"></label><br />
+            <input asp-for="Email" />
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label><br />
+            <input asp-for="Password" />
+            <span asp-validation-for="Password"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="PasswordConfirm"></label><br />
+            <input asp-for="PasswordConfirm" />
+            <span asp-validation-for="PasswordConfirm"></span>
+        </div>
+        <div class="form-group">
+             <button type="submit" class="btn btn-primary">Регистрация</button>
+        </div>
+
+    </form>
+</body>
+</html>

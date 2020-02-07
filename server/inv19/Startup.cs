@@ -134,7 +134,7 @@ namespace inv19
 
 
             ///
-         
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
