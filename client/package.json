@@ -1,6 +1,6 @@
 {
-  "name": "amexio-cli",
-  "version": "0.0.0",
+  "name": "inventory2020",
+  "version": "0.0.1",
   "license": "MIT",
   "scripts": {
     "ng": "ng",
@@ -25,18 +25,16 @@
     "@angular/platform-browser-dynamic": "^7.2.0",
     "@angular/router": "^7.2.0",
     "@types/knockout": "^3.4.65",
-    "amexio-chart-d3": "^0.1.9",
     "amexio-ng-extensions": "^5.20.0",
     "angular": "^1.7.8",
     "angular-font-awesome": "^3.1.2",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.6.5",
-    "d3": "^5.15.0",
     "font-awesome": "^4.7.0",
     "install": "^0.12.2",
     "jquery": "^3.4.1",
     "ngx-cookie-service": "^1.0.10",
-    "ngx-wig": "^1.6.0",
+    "ngx-wig": "^2.0.0",
     "npm": "^6.13.4",
     "popper": "^1.0.1",
     "rxjs": "^6.5.1",
@@ -44,7 +42,7 @@
     "saas": "^1.0.0",
     "tether": "^1.4.6",
     "tsickle": "0.35.0",
-    "xlsx": "^0.15.1",
+    "xlsx": "^0.15.5",
     "zone.js": "^0.8.29"
   },
   "devDependencies": {
@@ -80,7 +78,7 @@
     "typescript": "3.2.1",
     "typings": "^1.4.0",
     "webdriver-manager": "^12.1.4",
-    "webpack": "^4.30.0",
+    "webpack": "^4.41.1",
     "webpack-dev-middleware": "3.4.0",
     "webpack-dev-server": "^3.3.1"
   }

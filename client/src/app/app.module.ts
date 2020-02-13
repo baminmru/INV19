@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms'; 
 import { HttpClientModule, HttpClient } from '@angular/common/http'; 
 import { AmexioWidgetModule, CommonDataService, AmexioChartsModule,  AmexioDashBoardModule } from 'amexio-ng-extensions';
-import { AmexioChartD3Module } from 'amexio-chart-d3';
+// import { AmexioChartD3Module } from 'amexio-chart-d3';
 
 
 import {CookieService} from 'ngx-cookie-service'; 
@@ -112,9 +112,9 @@ jwtLoginComponent,
 		
 		// AMEXIO 
         AmexioWidgetModule, 
-		AmexioChartsModule,  
-		AmexioDashBoardModule, 
-		AmexioChartD3Module,
+	//	AmexioChartsModule,  
+	//	AmexioDashBoardModule, 
+	//	AmexioChartD3Module,
 		
  NgxWigModule,
 	CommonModule,
