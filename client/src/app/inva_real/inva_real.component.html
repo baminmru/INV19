@@ -50,10 +50,10 @@
   </amexio-dropdown>
      </amexio-column></amexio-row>
      <amexio-row><amexio-column size="12" >
- <amexio-number-input  [enable-popover]= "false" [field-label]="'Количество'" name ="Qty" 
+ <amexio-number-input  [enable-popover]= "false" [field-label]="'Количество'" name ="qty" 
                     [place-holder]="'Количество'" 
             [allow-blank]="false" [error-msg] ="'Не задано: Количество'" 
-	 [(ngModel)]="currentinva_real.Qty"
+	 [(ngModel)]="currentinva_real.qty"
                     > 
  </amexio-number-input>
      </amexio-column></amexio-row>
@@ -87,6 +87,27 @@
 	 >
   </amexio-dropdown>
      </amexio-column></amexio-row>
+     <amexio-row><amexio-column size="12" >
+	 <amexio-dropdown 
+	 [place-holder] = "'Склад'"
+	 name ="theStore"
+	 [field-label]= "'Склад'"
+            [allow-blank]="false" [error-msg] ="'Не задано: Склад'" 
+	 
+	 [display-field]="'name'"
+	 [value-field]="'id'"
+	 [data]="AppService.Comboinvd_store"
+	 
+	 [(ngModel)]="currentinva_real.theStore"
+	 >
+  </amexio-dropdown>
+     </amexio-column></amexio-row>
+     <amexio-row><amexio-column size="12" >
+                    <amexio-text-input [field-label]= "'Метка RFID'" name ="rFID"  
+                    [place-holder] = "'Метка RFID'" 
+                    [icon-feedback] = "true" [(ngModel)]="currentinva_real.rFID" >
+                    </amexio-text-input>
+     </amexio-column></amexio-row>
 	</amexio-body> 
 	<amexio-action> 
 	<amexio-row> 
@@ -103,9 +124,10 @@
     <amexio-header> 
 	<amexio-row> 
 		<amexio-column size="12" > 
-		<amexio-button [disabled]="AppService.Lastinva_info.inva_infoId==null" [label]="'Создать'" [type]="'secondary'" [tooltip]="'Создать новую запись'" [icon]="'fa fa-plus'" (onClick)="onNew()"></amexio-button>
+<!--		<amexio-button [disabled]="AppService.Lastinva_info.inva_infoId==null" [label]="'Создать'" [type]="'secondary'" [tooltip]="'Создать новую запись'" [icon]="'fa fa-plus'" (onClick)="onNew()"></amexio-button>
 		<amexio-button [disabled]="currentinva_real.inva_realId==null" [label]="'Изменить'" (onClick)="onEdit(currentinva_real)" [type]="'secondary'" [tooltip]="'Изменить запись'" [icon]="'fa fa-edit'"></amexio-button>
-     <amexio-button [disabled]="currentinva_real.inva_realId==null" [label]="'Удалить'" (onClick)="onDelete(currentinva_real)" [type]="'secondary'" [tooltip]="'Удалить запись'" [icon]="'fa fa-trash'"></amexio-button>
+	 <amexio-button [disabled]="currentinva_real.inva_realId==null" [label]="'Удалить'" (onClick)="onDelete(currentinva_real)" [type]="'secondary'" [tooltip]="'Удалить запись'" [icon]="'fa fa-trash'"></amexio-button>
+-->
      <amexio-button  [label]="'Обновить'" (onClick)="refreshinva_real()" [type]="'secondary'" [tooltip]="'Обновить данные'" [icon]="'fa fa-refresh'"></amexio-button>
      <amexio-button  [label]="'Экспорт'" (onClick)="exportXSLX()" [type]="'secondary'" [tooltip]="'Экспорт данных'" [icon]="'fa fa-cloud'"></amexio-button>
 		</amexio-column>
@@ -115,15 +137,21 @@
 		<amexio-datagrid 
 		  [title]="'Инвентраизация::Наличие'" 
 		  [page-size] = "10" 
-		  [enable-data-filter]="false" 
+		  [enable-data-filter]="true" 
 		  [enable-checkbox]="false" 
 		  [data]="inva_realArray" 
 		  (selectedRowData)="onSelect($event)" 
 		  (rowSelect)="onSelect($event)"> 
 		  <amexio-data-table-column [data-index]="'storepartid_name'" [data-type]="'string'" [hidden]="false" [text]="'Запчасть'"></amexio-data-table-column> 
-		  <amexio-data-table-column [data-index]="'Qty'" [data-type]="'number'" [hidden]="false" [text]="'Количество'"></amexio-data-table-column> 
+		  <amexio-data-table-column [data-index]="'qty'" [data-type]="'number'" [hidden]="false" [text]="'Количество'"></amexio-data-table-column> 
 		  <amexio-data-table-column [data-index]="'locationid_name'" [data-type]="'string'" [hidden]="false" [text]="'Стеллаж'"></amexio-data-table-column> 
 		  <amexio-data-table-column [data-index]="'cellid_name'" [data-type]="'string'" [hidden]="false" [text]="'Ячейка'"></amexio-data-table-column> 
+		  <amexio-data-table-column [data-index]="'theStore_name'" [data-type]="'string'" [hidden]="false" [text]="'Склад'"></amexio-data-table-column> 
+		  <amexio-data-table-column [data-index]="'rFID'" [data-type]="'string'" [hidden]="false" [text]="'Метка RFID'"> 
+ 		  <ng-template #amexioBodyTmpl let-column let-row="row">
+             {{  ((row.rFID) ? ((row.rFID.length>100) ? row.rFID.substr(0,100)+'...' : row.rFID ) : '-') | removehtmltag }} 
+           </ng-template>
+		  </amexio-data-table-column> 
 		</amexio-datagrid> 
 	</amexio-body> 
 </amexio-card> 
@@ -135,7 +163,7 @@
 Удалить строку:  Инвентраизация::Наличие ?
     </amexio-header> 
     <amexio-body> 
-            Удалить запись: {{ ( (currentinva_real.storepartid_name +'; '+  currentinva_real.Qty||'').length >100 ? (currentinva_real.storepartid_name +'; '+  currentinva_real.Qty||'').substr(0,100)+'...' : (currentinva_real.storepartid_name +'; '+  currentinva_real.Qty||'')) | removehtmltag }}?  
+            Удалить запись: {{ ( (currentinva_real.storepartid_name +'; '+  currentinva_real.qty +'; '+  currentinva_real.theStore_name +'; '+  currentinva_real.rFID||'').length >100 ? (currentinva_real.storepartid_name +'; '+  currentinva_real.qty +'; '+  currentinva_real.theStore_name +'; '+  currentinva_real.rFID||'').substr(0,100)+'...' : (currentinva_real.storepartid_name +'; '+  currentinva_real.qty +'; '+  currentinva_real.theStore_name +'; '+  currentinva_real.rFID||'')) | removehtmltag }}?  
 	</amexio-body> 
 	<amexio-action> 
 	<amexio-row> 

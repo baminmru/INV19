@@ -56,10 +56,10 @@ export class invp_data_Service {
 	}
  
 	   //Create invp_data
-    create_invp_data(invp_data: invi.invp_data): Observable<Object > {
+    create_invp_data(invp_data: invi.invp_data): Observable<invi.invp_data > {
        // invp_data.invp_dataId = '';
         let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
-        return this.http.post(this.serviceURL + '/invp_data/', invp_data, { headers: cpHeaders })
+        return this.http.post<invi.invp_data >(this.serviceURL + '/invp_data/', invp_data, { headers: cpHeaders })
 		
     }
 	

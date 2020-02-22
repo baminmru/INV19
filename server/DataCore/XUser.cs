@@ -4,26 +4,19 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace inv19.models { 
-	/* XUser -  Пользователь */ 
+	/* XUser -  Оператор */ 
 
- public class  XUserInfo { // Описание
-	 public System.Guid  XUserInfoId{ get; set; } // Primary key field
-
+ public class  xUserInfo { // Оператор
+	 public System.Guid  xUserInfoId{ get; set; } // Идентификатор (первичный ключ)
 	[Required]
-	public string  Family{ get; set; } // Фамилия
+	public string  family{ get; set; } // Фамилия
 	[Required]
-	public string  Login{ get; set; } // Имя для входа
+	public string  name{ get; set; } // Имя
+	public string  partonymic{ get; set; } // Отчество
+	public string  email{ get; set; } // e-mail
+	public string  phone{ get; set; } // Телефон
 	[Required]
-	public string  SurName{ get; set; } // Отчество
-	public string  EMail{ get; set; } // e-mail
-	public string  Phone{ get; set; } // Телефон
-	[Required]
-	public string  Name{ get; set; } // Имя
-	public DateTime?  Birthday{ get; set; } // Дата рождения
-	public string  Password{ get; set; } // Пароль
-	public string  City{ get; set; } // Город
-
+	public string  login{ get; set; } // Имя для входа
+	public enum_YesNo  islocked{ get; set; } // Заблокирован
  }
-
- 
 }

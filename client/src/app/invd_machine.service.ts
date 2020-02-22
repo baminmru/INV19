@@ -50,10 +50,10 @@ export class invd_machine_Service {
 	}
  
 	   //Create invd_machine
-    create_invd_machine(invd_machine: invd.invd_machine): Observable<Object > {
+    create_invd_machine(invd_machine: invd.invd_machine): Observable<invd.invd_machine > {
        // invd_machine.invd_machineId = '';
         let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
-        return this.http.post(this.serviceURL + '/invd_machine/', invd_machine, { headers: cpHeaders })
+        return this.http.post<invd.invd_machine >(this.serviceURL + '/invd_machine/', invd_machine, { headers: cpHeaders })
 		
     }
 	

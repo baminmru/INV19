@@ -34,7 +34,7 @@ export class inva_realComponent implements OnInit {
     }
 
     ngOnInit() {
-		   console.log("Subscribe inva_real"); 
+		   // console.log("Subscribe inva_real"); 
         this.subscription=this.AppService.currentinva_info.subscribe(si =>{ this.refreshinva_real(); }, error => { this.ShowError(error.message); } );
         this.refreshinva_real();
     }
@@ -42,9 +42,10 @@ export class inva_realComponent implements OnInit {
      this.AppService.refreshComboinvp_data();
      this.AppService.refreshComboinvwh_loc();
      this.AppService.refreshComboinvwh_cell();
+     this.AppService.refreshComboinvd_store();
     }
     ngOnDestroy() {
-		   console.log("Unsubscribe inva_real"); 
+		   // console.log("Unsubscribe inva_real"); 
         this.subscription.unsubscribe();
     }
 
@@ -113,8 +114,10 @@ export class inva_realComponent implements OnInit {
 
     save(item: inva.inva_real) {
         this.valid=true; 
-     if(this.currentinva_real.Qty == undefined  ) this.valid=false;
+     if(this.currentinva_real.qty == undefined  ) this.valid=false;
      if(this.currentinva_real.locationid == undefined ) this.valid=false;
+     if(this.currentinva_real.theStore == undefined ) this.valid=false;
+     if(this.currentinva_real.rFID == undefined || this.currentinva_real.rFID=='') this.valid=false;
         if (this.valid) {
             switch (this.mode) {
                 case MODE_NEW: {
@@ -144,13 +147,17 @@ export class inva_realComponent implements OnInit {
             aoa[0][1]='Количество';
             aoa[0][2]='Стеллаж';
             aoa[0][3]='Ячейка';
+            aoa[0][4]='Склад';
+            aoa[0][5]='Метка RFID';
 /* fill data to array */
         for(var i = 0; i < this.inva_realArray.length; ++i) {
             if(!aoa[i+1]) aoa[i+1] = [];
             aoa[i+1][0]=this.inva_realArray[i].storepartid_name;
-            aoa[i+1][1]=this.inva_realArray[i].Qty;
+            aoa[i+1][1]=this.inva_realArray[i].qty;
             aoa[i+1][2]=this.inva_realArray[i].locationid_name;
             aoa[i+1][3]=this.inva_realArray[i].cellid_name;
+            aoa[i+1][4]=this.inva_realArray[i].theStore_name;
+            aoa[i+1][5]=this.inva_realArray[i].rFID;
         }
 		/* generate worksheet */
 		const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(aoa);
@@ -160,6 +167,8 @@ export class inva_realComponent implements OnInit {
 ,            {wch: 20}
 ,            {wch: 50}
 ,            {wch: 50}
+,            {wch: 50}
+,            {wch: 64}
         ];
 
         ws['!cols'] = wscols;

@@ -34,7 +34,7 @@ export class inva_extraComponent implements OnInit {
     }
 
     ngOnInit() {
-		   console.log("Subscribe inva_extra"); 
+		   // console.log("Subscribe inva_extra"); 
         this.subscription=this.AppService.currentinva_info.subscribe(si =>{ this.refreshinva_extra(); }, error => { this.ShowError(error.message); } );
         this.refreshinva_extra();
     }
@@ -44,7 +44,7 @@ export class inva_extraComponent implements OnInit {
      this.AppService.refreshComboinvwh_cell();
     }
     ngOnDestroy() {
-		   console.log("Unsubscribe inva_extra"); 
+		   // console.log("Unsubscribe inva_extra"); 
         this.subscription.unsubscribe();
     }
 
@@ -113,8 +113,9 @@ export class inva_extraComponent implements OnInit {
 
     save(item: inva.inva_extra) {
         this.valid=true; 
-     if(this.currentinva_extra.Qty == undefined  ) this.valid=false;
+     if(this.currentinva_extra.qty == undefined  ) this.valid=false;
      if(this.currentinva_extra.locationid == undefined ) this.valid=false;
+     //if(this.currentinva_extra.RFID == undefined || this.currentinva_extra.RFID=='') this.valid=false;
         if (this.valid) {
             switch (this.mode) {
                 case MODE_NEW: {
@@ -144,13 +145,15 @@ export class inva_extraComponent implements OnInit {
             aoa[0][1]='Количество';
             aoa[0][2]='Стеллаж';
             aoa[0][3]='Ячейка';
+            aoa[0][4]='Метка RFID';
 /* fill data to array */
         for(var i = 0; i < this.inva_extraArray.length; ++i) {
             if(!aoa[i+1]) aoa[i+1] = [];
             aoa[i+1][0]=this.inva_extraArray[i].storepartid_name;
-            aoa[i+1][1]=this.inva_extraArray[i].Qty;
+            aoa[i+1][1]=this.inva_extraArray[i].qty;
             aoa[i+1][2]=this.inva_extraArray[i].locationid_name;
             aoa[i+1][3]=this.inva_extraArray[i].cellid_name;
+            aoa[i+1][4]=this.inva_extraArray[i].rFID;
         }
 		/* generate worksheet */
 		const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(aoa);
@@ -160,6 +163,7 @@ export class inva_extraComponent implements OnInit {
 ,            {wch: 20}
 ,            {wch: 50}
 ,            {wch: 50}
+,            {wch: 64}
         ];
 
         ws['!cols'] = wscols;

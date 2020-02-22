@@ -50,10 +50,10 @@ export class invd_dep_Service {
 	}
  
 	   //Create invd_dep
-    create_invd_dep(invd_dep: invd.invd_dep): Observable<Object > {
+    create_invd_dep(invd_dep: invd.invd_dep): Observable<invd.invd_dep > {
        // invd_dep.invd_depId = '';
         let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
-        return this.http.post(this.serviceURL + '/invd_dep/', invd_dep, { headers: cpHeaders })
+        return this.http.post<invd.invd_dep >(this.serviceURL + '/invd_dep/', invd_dep, { headers: cpHeaders })
 		
     }
 	

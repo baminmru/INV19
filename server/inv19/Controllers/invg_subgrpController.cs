@@ -17,9 +17,9 @@ namespace inv19.Controllers
     public class invg_subgrpController : Controller
     {
         private readonly MyContext _context;
-        IHostingEnvironment _appEnvironment;
+        IWebHostEnvironment _appEnvironment;
 
-        public invg_subgrpController(MyContext context, IHostingEnvironment appEnvironment)
+        public invg_subgrpController(MyContext context, IWebHostEnvironment appEnvironment)
         {
             _context = context;
             _appEnvironment = appEnvironment;
@@ -27,14 +27,14 @@ namespace inv19.Controllers
 
         // GET: api/invg_subgrp
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IActionResult Getinvg_subgrp()
         {
             return Json (_context.invg_subgrp, _context.serializerSettings());
         }
 
         [HttpGet("combo")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public List<Dictionary<string, object>> GetCombo()
         {
             //var uid = User.GetUserId();
@@ -45,9 +45,22 @@ namespace inv19.Controllers
                             order by name ";
             return _context.GetRaw(sql);
         }
-        
+
+        [HttpGet("combo/{id}")]
+        //[AllowAnonymous]
+        public List<Dictionary<string, object>> GetDependedCombo([FromRoute] Guid id)
+        {
+            //var uid = User.GetUserId();
+
+            string sql = @"SELECT invg_subgrpId id, ( [dbo].[invg_subgrp_BRIEF_F](invg_subgrpId,null)  ) name
+                         FROM            
+                          invg_subgrp where invg_grpID='" + id.ToString() + @"'
+                            order by name ";
+            return _context.GetRaw(sql);
+        }
+
         [HttpGet("byparent/{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public List<Dictionary<string, object>> GetByBarent([FromRoute] Guid id)
         {
             //var uid = User.GetUserId();
@@ -58,7 +71,7 @@ namespace inv19.Controllers
         
         // GET: api/invg_subgrp/5
         [HttpGet("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Getinvg_subgrp([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
@@ -78,7 +91,7 @@ namespace inv19.Controllers
 
         // PUT: api/invg_subgrp/5
         [HttpPut("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Putinvg_subgrp([FromRoute] Guid id, [FromBody] invg_subgrp varinvg_subgrp)
         {
             if (!ModelState.IsValid)
@@ -114,7 +127,7 @@ namespace inv19.Controllers
 
         // POST: api/invg_subgrp
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Postinvg_subgrp([FromBody] invg_subgrp varinvg_subgrp)
         {
             if (!ModelState.IsValid)
@@ -130,7 +143,7 @@ namespace inv19.Controllers
 
         // DELETE: api/invg_subgrp/5
         [HttpDelete("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Deleteinvg_subgrp([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)

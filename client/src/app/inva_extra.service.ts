@@ -14,6 +14,7 @@ export class inva_extra_Service {
 	
 	
 	Qty:string = '';
+	RFID:string = '';
 	PageSize:number=10;
 	PageUrl:string='';
     
@@ -25,6 +26,10 @@ export class inva_extra_Service {
 		if(this.Qty!=''){
 			if(qry !='') qry=qry +'&';
 			qry='Qty='+encodeURIComponent(this.Qty)
+		}
+		if(this.RFID!=''){
+			if(qry !='') qry=qry +'&';
+			qry='RFID='+encodeURIComponent(this.RFID)
 		}
 		/*
 		if(this.PageNo!=null){
@@ -46,14 +51,15 @@ export class inva_extra_Service {
 	
 	clearSearch():void{
 	this.Qty = '';
+	this.RFID = '';
 		
 	}
  
 	   //Create inva_extra
-    create_inva_extra(inva_extra: inva.inva_extra): Observable<Object > {
+    create_inva_extra(inva_extra: inva.inva_extra): Observable<inva.inva_extra > {
        // inva_extra.inva_extraId = '';
         let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
-        return this.http.post(this.serviceURL + '/inva_extra/', inva_extra, { headers: cpHeaders })
+        return this.http.post<inva.inva_extra >(this.serviceURL + '/inva_extra/', inva_extra, { headers: cpHeaders })
 		
     }
 	

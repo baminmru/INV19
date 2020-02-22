@@ -17,9 +17,9 @@ namespace inv19.Controllers
     public class invwh_cellController : Controller
     {
         private readonly MyContext _context;
-        IHostingEnvironment _appEnvironment;
+        IWebHostEnvironment _appEnvironment;
 
-        public invwh_cellController(MyContext context, IHostingEnvironment appEnvironment)
+        public invwh_cellController(MyContext context, IWebHostEnvironment appEnvironment)
         {
             _context = context;
             _appEnvironment = appEnvironment;
@@ -27,14 +27,14 @@ namespace inv19.Controllers
 
         // GET: api/invwh_cell
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IActionResult Getinvwh_cell()
         {
             return Json (_context.invwh_cell, _context.serializerSettings());
         }
 
         [HttpGet("combo")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public List<Dictionary<string, object>> GetCombo()
         {
             //var uid = User.GetUserId();
@@ -47,7 +47,7 @@ namespace inv19.Controllers
         }
         
         [HttpGet("byparent/{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public List<Dictionary<string, object>> GetByBarent([FromRoute] Guid id)
         {
             //var uid = User.GetUserId();
@@ -58,7 +58,7 @@ namespace inv19.Controllers
         
         // GET: api/invwh_cell/5
         [HttpGet("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Getinvwh_cell([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
@@ -78,7 +78,7 @@ namespace inv19.Controllers
 
         // PUT: api/invwh_cell/5
         [HttpPut("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Putinvwh_cell([FromRoute] Guid id, [FromBody] invwh_cell varinvwh_cell)
         {
             if (!ModelState.IsValid)
@@ -114,7 +114,7 @@ namespace inv19.Controllers
 
         // POST: api/invwh_cell
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Postinvwh_cell([FromBody] invwh_cell varinvwh_cell)
         {
             if (!ModelState.IsValid)
@@ -130,7 +130,7 @@ namespace inv19.Controllers
 
         // DELETE: api/invwh_cell/5
         [HttpDelete("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Deleteinvwh_cell([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)

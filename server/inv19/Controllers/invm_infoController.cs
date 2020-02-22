@@ -17,9 +17,9 @@ namespace inv19.Controllers
     public class invm_infoController : Controller
     {
         private readonly MyContext _context;
-        IHostingEnvironment _appEnvironment;
+        IWebHostEnvironment _appEnvironment;
 
-        public invm_infoController(MyContext context, IHostingEnvironment appEnvironment)
+        public invm_infoController(MyContext context, IWebHostEnvironment appEnvironment)
         {
             _context = context;
             _appEnvironment = appEnvironment;
@@ -27,14 +27,14 @@ namespace inv19.Controllers
 
         // GET: api/invm_info
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IActionResult Getinvm_info()
         {
             return Json (_context.invm_info, _context.serializerSettings());
         }
 
         [HttpGet("combo")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public List<Dictionary<string, object>> GetCombo()
         {
             //var uid = User.GetUserId();
@@ -47,7 +47,7 @@ namespace inv19.Controllers
         }
         
         [HttpGet("view")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public List<Dictionary<string, object>> GetView()
         {
             //var uid = User.GetUserId();
@@ -58,7 +58,7 @@ namespace inv19.Controllers
         
         // GET: api/invm_info/5
         [HttpGet("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Getinvm_info([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
@@ -78,7 +78,7 @@ namespace inv19.Controllers
 
         // PUT: api/invm_info/5
         [HttpPut("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Putinvm_info([FromRoute] Guid id, [FromBody] invm_info varinvm_info)
         {
             if (!ModelState.IsValid)
@@ -114,7 +114,7 @@ namespace inv19.Controllers
 
         // POST: api/invm_info
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Postinvm_info([FromBody] invm_info varinvm_info)
         {
             if (!ModelState.IsValid)
@@ -130,7 +130,7 @@ namespace inv19.Controllers
 
         // DELETE: api/invm_info/5
         [HttpDelete("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Deleteinvm_info([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)

@@ -34,14 +34,14 @@ export class invg_subgrpComponent implements OnInit {
     }
 
     ngOnInit() {
-		   console.log("Subscribe invg_subgrp"); 
+		   // console.log("Subscribe invg_subgrp"); 
         this.subscription=this.AppService.currentinvg_grp.subscribe(si =>{ this.refreshinvg_subgrp(); }, error => { this.ShowError(error.message); } );
         this.refreshinvg_subgrp();
     }
     refreshCombo() {
     }
     ngOnDestroy() {
-		   console.log("Unsubscribe invg_subgrp"); 
+		   // console.log("Unsubscribe invg_subgrp"); 
         this.subscription.unsubscribe();
     }
 

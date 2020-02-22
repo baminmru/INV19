@@ -36,6 +36,7 @@ export class invwh_locComponent implements OnInit {
         this.refreshinvwh_loc();
     }
     refreshCombo() {
+     this.AppService.refreshComboinvd_store();
      this.AppService.refreshComboinvd_zone();
     }
     ngOnDestroy() {
@@ -92,6 +93,7 @@ export class invwh_locComponent implements OnInit {
 
     save(item: invwh.invwh_loc) {
         this.valid=true; 
+     if(this.currentinvwh_loc.theStore == undefined ) this.valid=false;
      if(this.currentinvwh_loc.name == undefined || this.currentinvwh_loc.name=='') this.valid=false;
         if (this.valid) {
             switch (this.mode) {
@@ -118,19 +120,22 @@ export class invwh_locComponent implements OnInit {
         var aoa = [];
 /* set column headers at first line */
         if(!aoa[0]) aoa[0] = [];
-            aoa[0][0]='Название';
-            aoa[0][1]='Зона';
+            aoa[0][0]='Склад';
+            aoa[0][1]='Название';
+            aoa[0][2]='Зона';
 /* fill data to array */
         for(var i = 0; i < this.invwh_locArray.length; ++i) {
             if(!aoa[i+1]) aoa[i+1] = [];
-            aoa[i+1][0]=this.invwh_locArray[i].name;
-            aoa[i+1][1]=this.invwh_locArray[i].whZone_name;
+            aoa[i+1][0]=this.invwh_locArray[i].theStore_name;
+            aoa[i+1][1]=this.invwh_locArray[i].name;
+            aoa[i+1][2]=this.invwh_locArray[i].whZone_name;
         }
 		/* generate worksheet */
 		const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(aoa);
 
         var wscols = [
-            {wch: 64}
+            {wch: 50}
+,            {wch: 64}
 ,            {wch: 50}
         ];
 

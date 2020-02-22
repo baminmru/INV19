@@ -68,14 +68,14 @@ namespace inv19.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+       // [AllowAnonymous]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpGet]
-        [AllowAnonymous]
+       // [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
             return View();
@@ -138,6 +138,20 @@ namespace inv19.Controllers
 
                     await SharedFunc.SendEmail(model.Email, $"Подтвердите регистрацию,<br/> перейдя по ссылке: <a href='{callbackUrl}'>link</a>", $"Подтвердите регистрацию");
 
+                    _ctx.Add(new xUserInfo
+                    {
+                        email = model.Email,
+                        name = model.Email,
+                        family = model.Email,
+                        partonymic = model.Email,
+                        //theClient  = request.OrganizationId,
+                        phone = "",
+                        islocked = 0,
+                        login  = user.Id.ToString(),
+                        xUserInfoId = user.Id
+                    });
+                    await _ctx.SaveChangesAsync();
+
                     return Content("Для завершения регистрации проверьте электронную почту и перейдите по ссылке, указанной в письме");
                 }
                 else
@@ -152,7 +166,7 @@ namespace inv19.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
+       // [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
             if (userId == null || code == null)
@@ -230,7 +244,7 @@ namespace inv19.Controllers
         //}
 
         [HttpPost]
-        [AllowAnonymous]
+       // [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
@@ -256,14 +270,14 @@ namespace inv19.Controllers
 
 
         [HttpGet]
-        [AllowAnonymous]
+       // [AllowAnonymous]
         public IActionResult ResetPassword(string code = null)
         {
             return code == null ? View("Error") : View();
         }
 
         [HttpPost]
-        [AllowAnonymous]
+       // [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {

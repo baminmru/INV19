@@ -35,7 +35,7 @@ namespace inv19.Controllers
         public string lastName;
     }
 
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("api/account")]
     public class AccountController : Controller
@@ -227,12 +227,7 @@ namespace inv19.Controllers
                 return Content(""); // RedirectToAction(nameof(HomeController.Index), "Home");
             }
         }
-        [HttpGet("Index")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Index()
-        {
-            return Content("Hello");
-        }
+       
         [HttpPost("Private")]
         public  IActionResult Private()
         {
@@ -242,21 +237,22 @@ namespace inv19.Controllers
             
             return Json(new { id = id, roles = string.Join(',', roles.Select(p=>p.Value)) });
         }
-        [HttpPost("PrivateAdmin")]
-        [Authorize(Roles = "SUPERADMIN")]
-        public async Task<IActionResult> PrivateAdmin()
-        {
-            return Json(new { name = "Hello from private method" });
-        }
-        [HttpPost("PrivatePost")]
-        public async Task<IActionResult> PrivatePost()
-        {
-            return Content("Hello from private method");
-        }
+
+        //[HttpPost("PrivateAdmin")]
+        //[Authorize(Roles = "SUPERADMIN")]
+        //public async Task<IActionResult> PrivateAdmin()
+        //{
+        //    return Json(new { name = "Hello from private method" });
+        //}
+        //[HttpPost("PrivatePost")]
+        //public async Task<IActionResult> PrivatePost()
+        //{
+        //    return Content("Hello from private method");
+        //}
 
 
         [HttpPost("AddUser")]
-        [AllowAnonymous]
+       // [AllowAnonymous]
         public async Task<IActionResult> AddUser([FromBody] NewUserInfo newUser)
         {
             try
@@ -276,13 +272,13 @@ namespace inv19.Controllers
 
                 await _userManager.AddToRoleAsync(user, newUser.role);
 
-                _context.Add(new XUserInfo
+                _context.Add(new xUserInfo
                 {
-                    EMail = email,
-                    Name = newUser.lastName,
-                    Family = newUser.firstName,
-                    Login= user.Id.ToString() ,
-                    XUserInfoId = user.Id
+                    email = email,
+                    name = newUser.lastName,
+                    family = newUser.firstName,
+                    login= user.Id.ToString() ,
+                    xUserInfoId = user.Id
                 });
 
                 await _context.SaveChangesAsync();
@@ -297,7 +293,7 @@ namespace inv19.Controllers
         }
 
         [HttpGet("InitUsers")]
-        [AllowAnonymous]
+       // [AllowAnonymous]
         public async Task<IActionResult> InitUsers()
         {
             
@@ -330,13 +326,13 @@ namespace inv19.Controllers
 
             await _userManager.AddToRoleAsync(user, MyIdentityRole.ROLE_SUPERADMIN);
 
-            _context.Add(new XUserInfo
+            _context.Add(new xUserInfo
             {
-                EMail = email,
-                Name = "Super",
-                Family = "Administrator",
-                Login = user.Id.ToString(),
-                XUserInfoId = user.Id
+                email = email,
+                name = "Super",
+                family = "Administrator",
+                login = user.Id.ToString(),
+                xUserInfoId = user.Id
             });
             await _context.SaveChangesAsync();
 
@@ -344,7 +340,7 @@ namespace inv19.Controllers
         }
 
         [HttpGet("AccessDenied")]
-        [AllowAnonymous]
+       // [AllowAnonymous]
         public async Task<IActionResult> AccessDenied()
         {
             return StatusCode(401);

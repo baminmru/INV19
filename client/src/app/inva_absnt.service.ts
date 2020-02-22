@@ -50,10 +50,10 @@ export class inva_absnt_Service {
 	}
  
 	   //Create inva_absnt
-    create_inva_absnt(inva_absnt: inva.inva_absnt): Observable<Object > {
+    create_inva_absnt(inva_absnt: inva.inva_absnt): Observable<inva.inva_absnt > {
        // inva_absnt.inva_absntId = '';
         let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
-        return this.http.post(this.serviceURL + '/inva_absnt/', inva_absnt, { headers: cpHeaders })
+        return this.http.post<inva.inva_absnt >(this.serviceURL + '/inva_absnt/', inva_absnt, { headers: cpHeaders })
 		
     }
 	

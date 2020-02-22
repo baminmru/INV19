@@ -17,9 +17,9 @@ namespace inv19.Controllers
     public class invp_dataController : Controller
     {
         private readonly MyContext _context;
-        IHostingEnvironment _appEnvironment;
+        IWebHostEnvironment _appEnvironment;
 
-        public invp_dataController(MyContext context, IHostingEnvironment appEnvironment)
+        public invp_dataController(MyContext context, IWebHostEnvironment appEnvironment)
         {
             _context = context;
             _appEnvironment = appEnvironment;
@@ -27,14 +27,14 @@ namespace inv19.Controllers
 
         // GET: api/invp_data
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IActionResult Getinvp_data()
         {
             return Json (_context.invp_data, _context.serializerSettings());
         }
 
         [HttpGet("combo")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public List<Dictionary<string, object>> GetCombo()
         {
             //var uid = User.GetUserId();
@@ -47,7 +47,7 @@ namespace inv19.Controllers
         }
         
         [HttpGet("view")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public List<Dictionary<string, object>> GetView()
         {
             //var uid = User.GetUserId();
@@ -58,7 +58,7 @@ namespace inv19.Controllers
         
         // GET: api/invp_data/5
         [HttpGet("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Getinvp_data([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
@@ -78,7 +78,7 @@ namespace inv19.Controllers
 
         // PUT: api/invp_data/5
         [HttpPut("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Putinvp_data([FromRoute] Guid id, [FromBody] invp_data varinvp_data)
         {
             if (!ModelState.IsValid)
@@ -114,7 +114,7 @@ namespace inv19.Controllers
 
         // POST: api/invp_data
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Postinvp_data([FromBody] invp_data varinvp_data)
         {
             if (!ModelState.IsValid)
@@ -130,7 +130,7 @@ namespace inv19.Controllers
 
         // DELETE: api/invp_data/5
         [HttpDelete("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Deleteinvp_data([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)

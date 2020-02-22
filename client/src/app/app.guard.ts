@@ -42,6 +42,9 @@ export class AppGuard implements CanActivate, CanActivateChild {
 				case '/invm':
 					return true;
 					
+				case '/invops':
+					return true;	
+
 				case '/invw':
 					return true;	
 					
@@ -89,6 +92,8 @@ export class AppGuard implements CanActivate, CanActivateChild {
 	
 					case '/invd':
 						return true;
+						case '/invops':
+							return true;	
 	
 					case '/invwh':
 						return true;
@@ -124,11 +129,14 @@ export class AppGuard implements CanActivate, CanActivateChild {
 	
 					case '/invd':
 						return true;
+						case '/invops':
+							return true;	
 	
 					case '/invwh':
 						return true;
 	
-					
+						case '/XUser':
+						return true;
 				
 				default:
 					this.router.navigate(['/']);

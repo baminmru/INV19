@@ -17,9 +17,9 @@ namespace inv19.Controllers
     public class invd_machineController : Controller
     {
         private readonly MyContext _context;
-        IHostingEnvironment _appEnvironment;
+        IWebHostEnvironment _appEnvironment;
 
-        public invd_machineController(MyContext context, IHostingEnvironment appEnvironment)
+        public invd_machineController(MyContext context, IWebHostEnvironment appEnvironment)
         {
             _context = context;
             _appEnvironment = appEnvironment;
@@ -27,14 +27,14 @@ namespace inv19.Controllers
 
         // GET: api/invd_machine
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IActionResult Getinvd_machine()
         {
             return Json (_context.invd_machine, _context.serializerSettings());
         }
 
         [HttpGet("combo")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public List<Dictionary<string, object>> GetCombo()
         {
             //var uid = User.GetUserId();
@@ -47,7 +47,7 @@ namespace inv19.Controllers
         }
         
         [HttpGet("view")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public List<Dictionary<string, object>> GetView()
         {
             //var uid = User.GetUserId();
@@ -58,7 +58,7 @@ namespace inv19.Controllers
         
         // GET: api/invd_machine/5
         [HttpGet("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Getinvd_machine([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
@@ -78,7 +78,7 @@ namespace inv19.Controllers
 
         // PUT: api/invd_machine/5
         [HttpPut("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Putinvd_machine([FromRoute] Guid id, [FromBody] invd_machine varinvd_machine)
         {
             if (!ModelState.IsValid)
@@ -114,7 +114,7 @@ namespace inv19.Controllers
 
         // POST: api/invd_machine
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Postinvd_machine([FromBody] invd_machine varinvd_machine)
         {
             if (!ModelState.IsValid)
@@ -130,7 +130,7 @@ namespace inv19.Controllers
 
         // DELETE: api/invd_machine/5
         [HttpDelete("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Deleteinvd_machine([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)

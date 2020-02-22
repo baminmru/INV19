@@ -36,6 +36,7 @@ export class invw_infoComponent implements OnInit {
         this.refreshinvw_info();
     }
     refreshCombo() {
+     this.AppService.refreshComboinvd_store();
      this.AppService.refreshComboinvwh_loc();
      this.AppService.refreshComboinvwh_cell();
      this.AppService.refreshComboinvp_data();
@@ -91,8 +92,10 @@ export class invw_infoComponent implements OnInit {
 
     save(item: invw.invw_info) {
         this.valid=true; 
+     if(this.currentinvw_info.theStore == undefined ) this.valid=false;
      if(this.currentinvw_info.locationid == undefined ) this.valid=false;
-     if(this.currentinvw_info.Qty == undefined  ) this.valid=false;
+     if(this.currentinvw_info.qty == undefined  ) this.valid=false;
+     if(this.currentinvw_info.rFID == undefined || this.currentinvw_info.rFID=='') this.valid=false;
         if (this.valid) {
             switch (this.mode) {
                 case MODE_NEW: {
@@ -118,17 +121,21 @@ export class invw_infoComponent implements OnInit {
         var aoa = [];
 /* set column headers at first line */
         if(!aoa[0]) aoa[0] = [];
-            aoa[0][0]='Стеллаж';
-            aoa[0][1]='Ячейка';
-            aoa[0][2]='Запчасть';
-            aoa[0][3]='Количество';
+            aoa[0][0]='Склад';
+            aoa[0][1]='Стеллаж';
+            aoa[0][2]='Ячейка';
+            aoa[0][3]='Запчасть';
+            aoa[0][4]='Количество';
+            aoa[0][5]='Метка RFID';
 /* fill data to array */
         for(var i = 0; i < this.invw_infoArray.length; ++i) {
             if(!aoa[i+1]) aoa[i+1] = [];
-            aoa[i+1][0]=this.invw_infoArray[i].locationid_name;
-            aoa[i+1][1]=this.invw_infoArray[i].cellid_name;
-            aoa[i+1][2]=this.invw_infoArray[i].storepartid_name;
-            aoa[i+1][3]=this.invw_infoArray[i].Qty;
+            aoa[i+1][0]=this.invw_infoArray[i].theStore_name;
+            aoa[i+1][1]=this.invw_infoArray[i].locationid_name;
+            aoa[i+1][2]=this.invw_infoArray[i].cellid_name;
+            aoa[i+1][3]=this.invw_infoArray[i].storepartid_name;
+            aoa[i+1][4]=this.invw_infoArray[i].qty;
+            aoa[i+1][5]=this.invw_infoArray[i].rFID;
         }
 		/* generate worksheet */
 		const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(aoa);
@@ -137,7 +144,9 @@ export class invw_infoComponent implements OnInit {
             {wch: 50}
 ,            {wch: 50}
 ,            {wch: 50}
+,            {wch: 50}
 ,            {wch: 20}
+,            {wch: 64}
         ];
 
         ws['!cols'] = wscols;
@@ -148,8 +157,8 @@ export class invw_infoComponent implements OnInit {
         
 
         wb.Props = {
-            Title: "Заполнение склада::Заполнение",
-            Subject: "Заполнение склада::Заполнение",
+            Title: "Наличие::Наличие",
+            Subject: "Наличие::Наличие",
             Company: "master.bami",
             Category: "Experimentation",
             Keywords: "Export service",

@@ -6,7 +6,7 @@ export namespace invi {
  export interface   invp_data { // Описание
 	invp_dataId:string; // Primary key field
 	name:string; // Название
-	RFID:string; // Метка RFID
+	rFID:string; // Метка RFID
 	groupid:string; //Группа -> invg_grp
 	subgroupid:string; //Подгруппа -> invg_subgrp
 	departmentid:string; //Отдел -> invd_dep

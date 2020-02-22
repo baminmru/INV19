@@ -17,9 +17,9 @@ namespace inv19.Controllers
     public class invg_grpController : Controller
     {
         private readonly MyContext _context;
-        IHostingEnvironment _appEnvironment;
+        IWebHostEnvironment _appEnvironment;
 
-        public invg_grpController(MyContext context, IHostingEnvironment appEnvironment)
+        public invg_grpController(MyContext context, IWebHostEnvironment appEnvironment)
         {
             _context = context;
             _appEnvironment = appEnvironment;
@@ -27,14 +27,14 @@ namespace inv19.Controllers
 
         // GET: api/invg_grp
         [HttpGet]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public IActionResult Getinvg_grp()
         {
             return Json (_context.invg_grp, _context.serializerSettings());
         }
 
         [HttpGet("combo")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public List<Dictionary<string, object>> GetCombo()
         {
             //var uid = User.GetUserId();
@@ -47,7 +47,7 @@ namespace inv19.Controllers
         }
         
         [HttpGet("view")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public List<Dictionary<string, object>> GetView()
         {
             //var uid = User.GetUserId();
@@ -58,7 +58,7 @@ namespace inv19.Controllers
         
         // GET: api/invg_grp/5
         [HttpGet("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Getinvg_grp([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
@@ -78,7 +78,7 @@ namespace inv19.Controllers
 
         // PUT: api/invg_grp/5
         [HttpPut("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Putinvg_grp([FromRoute] Guid id, [FromBody] invg_grp varinvg_grp)
         {
             if (!ModelState.IsValid)
@@ -114,7 +114,7 @@ namespace inv19.Controllers
 
         // POST: api/invg_grp
         [HttpPost]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Postinvg_grp([FromBody] invg_grp varinvg_grp)
         {
             if (!ModelState.IsValid)
@@ -130,7 +130,7 @@ namespace inv19.Controllers
 
         // DELETE: api/invg_grp/5
         [HttpDelete("{id}")]
-        [AllowAnonymous]
+        //[AllowAnonymous]
         public async Task<IActionResult> Deleteinvg_grp([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)

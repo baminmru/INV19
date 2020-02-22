@@ -14,6 +14,7 @@ export class invw_info_Service {
 	
 	
 	Qty:string = '';
+	RFID:string = '';
 	PageSize:number=10;
 	PageUrl:string='';
     
@@ -25,6 +26,10 @@ export class invw_info_Service {
 		if(this.Qty!=''){
 			if(qry !='') qry=qry +'&';
 			qry='Qty='+encodeURIComponent(this.Qty)
+		}
+		if(this.RFID!=''){
+			if(qry !='') qry=qry +'&';
+			qry='RFID='+encodeURIComponent(this.RFID)
 		}
 		/*
 		if(this.PageNo!=null){
@@ -46,14 +51,15 @@ export class invw_info_Service {
 	
 	clearSearch():void{
 	this.Qty = '';
+	this.RFID = '';
 		
 	}
  
 	   //Create invw_info
-    create_invw_info(invw_info: invw.invw_info): Observable<Object > {
+    create_invw_info(invw_info: invw.invw_info): Observable<invw.invw_info > {
        // invw_info.invw_infoId = '';
         let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
-        return this.http.post(this.serviceURL + '/invw_info/', invw_info, { headers: cpHeaders })
+        return this.http.post<invw.invw_info >(this.serviceURL + '/invw_info/', invw_info, { headers: cpHeaders })
 		
     }
 	

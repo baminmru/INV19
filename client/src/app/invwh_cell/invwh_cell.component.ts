@@ -34,14 +34,14 @@ export class invwh_cellComponent implements OnInit {
     }
 
     ngOnInit() {
-		   console.log("Subscribe invwh_cell"); 
+		   // console.log("Subscribe invwh_cell"); 
         this.subscription=this.AppService.currentinvwh_loc.subscribe(si =>{ this.refreshinvwh_cell(); }, error => { this.ShowError(error.message); } );
         this.refreshinvwh_cell();
     }
     refreshCombo() {
     }
     ngOnDestroy() {
-		   console.log("Unsubscribe invwh_cell"); 
+		   // console.log("Unsubscribe invwh_cell"); 
         this.subscription.unsubscribe();
     }
 
@@ -142,7 +142,7 @@ export class invwh_cellComponent implements OnInit {
         for(var i = 0; i < this.invwh_cellArray.length; ++i) {
             if(!aoa[i+1]) aoa[i+1] = [];
             aoa[i+1][0]=this.invwh_cellArray[i].name;
-            aoa[i+1][1]=this.invwh_cellArray[i].SHCODE;
+            aoa[i+1][1]=this.invwh_cellArray[i].sHCODE;
         }
 		/* generate worksheet */
 		const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(aoa);

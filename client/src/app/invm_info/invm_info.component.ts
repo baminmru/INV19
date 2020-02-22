@@ -38,7 +38,10 @@ export class invm_infoComponent implements OnInit {
     refreshCombo() {
      this.AppService.refreshComboinvwh_cell();
      this.AppService.refreshComboinvwh_cell();
+     this.AppService.refreshComboinvd_dep();
      this.AppService.refreshComboinvp_data();
+     this.AppService.refreshComboinvd_op();
+     this.AppService.refreshComboxUserInfo();
     }
     ngOnDestroy() {
     }
@@ -92,8 +95,8 @@ export class invm_infoComponent implements OnInit {
     save(item: invm.invm_info) {
         this.valid=true; 
      if(this.currentinvm_info.fromcell == undefined ) this.valid=false;
-     if(this.currentinvm_info.toCell == undefined ) this.valid=false;
-     if(this.currentinvm_info.Qty == undefined  ) this.valid=false;
+     if(this.currentinvm_info.qty == undefined  ) this.valid=false;
+     if(this.currentinvm_info.theOP == undefined ) this.valid=false;
      if(this.currentinvm_info.optime == undefined ) this.valid=false;
         if (this.valid) {
             switch (this.mode) {
@@ -122,17 +125,23 @@ export class invm_infoComponent implements OnInit {
         if(!aoa[0]) aoa[0] = [];
             aoa[0][0]='Из ячейки';
             aoa[0][1]='В ячейку';
-            aoa[0][2]='Запчасть';
-            aoa[0][3]='Количество';
-            aoa[0][4]='Время операции';
+            aoa[0][2]='В отдел';
+            aoa[0][3]='Запчасть';
+            aoa[0][4]='Количество';
+            aoa[0][5]='Операция';
+            aoa[0][6]='Время операции';
+            aoa[0][7]='Оператор';
 /* fill data to array */
         for(var i = 0; i < this.invm_infoArray.length; ++i) {
             if(!aoa[i+1]) aoa[i+1] = [];
             aoa[i+1][0]=this.invm_infoArray[i].fromcell_name;
             aoa[i+1][1]=this.invm_infoArray[i].toCell_name;
-            aoa[i+1][2]=this.invm_infoArray[i].storepartid_name;
-            aoa[i+1][3]=this.invm_infoArray[i].Qty;
-            aoa[i+1][4]=this.invm_infoArray[i].optime;
+            aoa[i+1][2]=this.invm_infoArray[i].theDep_name;
+            aoa[i+1][3]=this.invm_infoArray[i].storepartid_name;
+            aoa[i+1][4]=this.invm_infoArray[i].qty;
+            aoa[i+1][5]=this.invm_infoArray[i].theOP_name;
+            aoa[i+1][6]=this.invm_infoArray[i].optime;
+            aoa[i+1][7]=this.invm_infoArray[i].theUser_name;
         }
 		/* generate worksheet */
 		const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(aoa);
@@ -141,8 +150,11 @@ export class invm_infoComponent implements OnInit {
             {wch: 50}
 ,            {wch: 50}
 ,            {wch: 50}
+,            {wch: 50}
 ,            {wch: 20}
+,            {wch: 50}
 ,            {wch: 18}
+,            {wch: 50}
         ];
 
         ws['!cols'] = wscols;
@@ -153,8 +165,8 @@ export class invm_infoComponent implements OnInit {
         
 
         wb.Props = {
-            Title: "Движение::Движение",
-            Subject: "Движение::Движение",
+            Title: "История::История",
+            Subject: "История::История",
             Company: "master.bami",
             Category: "Experimentation",
             Keywords: "Export service",

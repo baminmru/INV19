@@ -35,6 +35,21 @@
       </amexio-header> 
      <amexio-body> 
      <amexio-row><amexio-column size="12" >
+	 <amexio-dropdown 
+	 [place-holder] = "'Склад'"
+	 name ="theStore"
+	 [field-label]= "'Склад'"
+            [allow-blank]="false" [error-msg] ="'Не задано: Склад'" 
+	 
+	 [display-field]="'name'"
+	 [value-field]="'id'"
+	 [data]="AppService.Comboinvd_store"
+	 
+	 [(ngModel)]="currentinvwh_loc.theStore"
+	 >
+  </amexio-dropdown>
+     </amexio-column></amexio-row>
+     <amexio-row><amexio-column size="12" >
                     <amexio-text-input [field-label]= "'Название'" name ="name"  
                     [place-holder] = "'Название'" 
                     [icon-feedback] = "true" [(ngModel)]="currentinvwh_loc.name" >
@@ -83,11 +98,12 @@
 		<amexio-datagrid 
 		  [title]="'Структура склада::Стеллаж'" 
 		  [page-size] = "10" 
-		  [enable-data-filter]="false" 
+		  [enable-data-filter]="true" 
 		  [enable-checkbox]="false" 
 		  [data]="invwh_locArray" 
 		  (selectedRowData)="onSelect($event)" 
 		  (rowSelect)="onSelect($event)"> 
+		  <amexio-data-table-column [data-index]="'theStore_name'" [data-type]="'string'" [hidden]="false" [text]="'Склад'"></amexio-data-table-column> 
 		  <amexio-data-table-column [data-index]="'name'" [data-type]="'string'" [hidden]="false" [text]="'Название'"> 
  		  <ng-template #amexioBodyTmpl let-column let-row="row">
              {{  ((row.name) ? ((row.name.length>100) ? row.name.substr(0,100)+'...' : row.name ) : '-') | removehtmltag }} 
@@ -105,7 +121,7 @@
 Удалить строку:  Структура склада::Стеллаж ?
     </amexio-header> 
     <amexio-body> 
-            Удалить запись: {{ ( (currentinvwh_loc.name +'; '+  currentinvwh_loc.whZone_name||'').length >100 ? (currentinvwh_loc.name +'; '+  currentinvwh_loc.whZone_name||'').substr(0,100)+'...' : (currentinvwh_loc.name +'; '+  currentinvwh_loc.whZone_name||'')) | removehtmltag }}?  
+            Удалить запись: {{ ( (currentinvwh_loc.theStore_name +'; '+  currentinvwh_loc.name +'; '+  currentinvwh_loc.whZone_name||'').length >100 ? (currentinvwh_loc.theStore_name +'; '+  currentinvwh_loc.name +'; '+  currentinvwh_loc.whZone_name||'').substr(0,100)+'...' : (currentinvwh_loc.theStore_name +'; '+  currentinvwh_loc.name +'; '+  currentinvwh_loc.whZone_name||'')) | removehtmltag }}?  
 	</amexio-body> 
 	<amexio-action> 
 	<amexio-row> 

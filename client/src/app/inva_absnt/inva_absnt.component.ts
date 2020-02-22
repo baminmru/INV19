@@ -34,7 +34,7 @@ export class inva_absntComponent implements OnInit {
     }
 
     ngOnInit() {
-		   console.log("Subscribe inva_absnt"); 
+		   // console.log("Subscribe inva_absnt"); 
         this.subscription=this.AppService.currentinva_info.subscribe(si =>{ this.refreshinva_absnt(); }, error => { this.ShowError(error.message); } );
         this.refreshinva_absnt();
     }
@@ -42,7 +42,7 @@ export class inva_absntComponent implements OnInit {
      this.AppService.refreshComboinvp_data();
     }
     ngOnDestroy() {
-		   console.log("Unsubscribe inva_absnt"); 
+		   // console.log("Unsubscribe inva_absnt"); 
         this.subscription.unsubscribe();
     }
 
@@ -111,7 +111,7 @@ export class inva_absntComponent implements OnInit {
 
     save(item: inva.inva_absnt) {
         this.valid=true; 
-     if(this.currentinva_absnt.Qty == undefined  ) this.valid=false;
+     if(this.currentinva_absnt.qty == undefined  ) this.valid=false;
         if (this.valid) {
             switch (this.mode) {
                 case MODE_NEW: {
@@ -143,7 +143,7 @@ export class inva_absntComponent implements OnInit {
         for(var i = 0; i < this.inva_absntArray.length; ++i) {
             if(!aoa[i+1]) aoa[i+1] = [];
             aoa[i+1][0]=this.inva_absntArray[i].storepartid_name;
-            aoa[i+1][1]=this.inva_absntArray[i].Qty;
+            aoa[i+1][1]=this.inva_absntArray[i].qty;
         }
 		/* generate worksheet */
 		const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(aoa);

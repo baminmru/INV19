@@ -50,10 +50,10 @@ export class invwh_loc_Service {
 	}
  
 	   //Create invwh_loc
-    create_invwh_loc(invwh_loc: invwh.invwh_loc): Observable<Object > {
+    create_invwh_loc(invwh_loc: invwh.invwh_loc): Observable<invwh.invwh_loc > {
        // invwh_loc.invwh_locId = '';
         let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
-        return this.http.post(this.serviceURL + '/invwh_loc/', invwh_loc, { headers: cpHeaders })
+        return this.http.post<invwh.invwh_loc >(this.serviceURL + '/invwh_loc/', invwh_loc, { headers: cpHeaders })
 		
     }
 	

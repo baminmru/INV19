@@ -15,20 +15,23 @@ export namespace inva {
 	inva_realId:string; // Primary key field
 	  inva_infoId:string; // Описание
 	storepartid:string; //Запчасть -> invp_data
-	Qty:Number; // Количество
+	qty:Number; // Количество
 	locationid:string; //Стеллаж -> invwh_loc
 	cellid:string; //Ячейка -> invwh_cell
+	theStore:string; //Склад -> invd_store
+	rFID:string; // Метка RFID
 	// add dereference fields 
 	storepartid_name :string; // dereference for invp_data
 	locationid_name :string; // dereference for invwh_loc
 	cellid_name :string; // dereference for invwh_cell
+	theStore_name :string; // dereference for invd_store
  }
 
  export interface   inva_absnt { // Недостача
 	inva_absntId:string; // Primary key field
 	  inva_infoId:string; // Описание
 	storepartid:string; //Запчасть -> invp_data
-	Qty:Number; // Количество
+	qty:Number; // Количество
 	// add dereference fields 
 	storepartid_name :string; // dereference for invp_data
  }
@@ -37,9 +40,10 @@ export namespace inva {
 	inva_extraId:string; // Primary key field
 	  inva_infoId:string; // Описание
 	storepartid:string; //Запчасть -> invp_data
-	Qty:Number; // Количество
+	qty:Number; // Количество
 	locationid:string; //Стеллаж -> invwh_loc
 	cellid:string; //Ячейка -> invwh_cell
+	rFID:string; // Метка RFID
 	// add dereference fields 
 	storepartid_name :string; // dereference for invp_data
 	locationid_name :string; // dereference for invwh_loc

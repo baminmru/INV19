@@ -56,10 +56,10 @@ export class invwh_cell_Service {
 	}
  
 	   //Create invwh_cell
-    create_invwh_cell(invwh_cell: invwh.invwh_cell): Observable<Object > {
+    create_invwh_cell(invwh_cell: invwh.invwh_cell): Observable<invwh.invwh_cell > {
        // invwh_cell.invwh_cellId = '';
         let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
-        return this.http.post(this.serviceURL + '/invwh_cell/', invwh_cell, { headers: cpHeaders })
+        return this.http.post<invwh.invwh_cell >(this.serviceURL + '/invwh_cell/', invwh_cell, { headers: cpHeaders })
 		
     }
 	

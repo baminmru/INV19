@@ -50,10 +50,10 @@ export class invg_subgrp_Service {
 	}
  
 	   //Create invg_subgrp
-    create_invg_subgrp(invg_subgrp: invg.invg_subgrp): Observable<Object > {
+    create_invg_subgrp(invg_subgrp: invg.invg_subgrp): Observable<invg.invg_subgrp > {
        // invg_subgrp.invg_subgrpId = '';
         let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
-        return this.http.post(this.serviceURL + '/invg_subgrp/', invg_subgrp, { headers: cpHeaders })
+        return this.http.post<invg.invg_subgrp >(this.serviceURL + '/invg_subgrp/', invg_subgrp, { headers: cpHeaders })
 		
     }
 	

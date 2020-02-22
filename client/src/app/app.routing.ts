@@ -10,6 +10,8 @@ import { inviComponent } from './invi/invi.component';
 import { invaComponent } from './inva/inva.component'; 
 import { invdComponent } from './invd/invd.component'; 
 import { invwhComponent } from './invwh/invwh.component';  
+import { XUserComponent } from './XUser/XUser.component'; 
+import { invopsComponent } from './invops/invops.component'; 
 import { jwtLoginComponent } from './jwtlogin/jwtlogin.component';  
 export const ROUTES: Routes = [ 
     {path: '', redirectTo: 'home', pathMatch: 'full'}, 
@@ -20,7 +22,9 @@ export const ROUTES: Routes = [
 	{path: 'invi', canActivate: [AppGuard],component:  inviComponent}, 
 	{path: 'inva', canActivate: [AppGuard],component:  invaComponent}, 
 	{path: 'invd', canActivate: [AppGuard],component:  invdComponent}, 
-	{path: 'invwh', canActivate: [AppGuard],component:  invwhComponent}, 
+    {path: 'XUser', canActivate: [AppGuard],component:  XUserComponent},
+	{path: 'invops', canActivate: [AppGuard], component:  invopsComponent}, 
+	{path: 'invwh',  canActivate: [AppGuard], component:  invwhComponent}, 
 	{path: 'jwtLogin', component:  jwtLoginComponent}, 
 	{path: 'password', redirectTo: '/password', pathMatch:'full'},
 	{path: 'home', component: AboutComponent} 

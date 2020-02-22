@@ -41,9 +41,9 @@
                     </amexio-text-input>
      </amexio-column></amexio-row>
      <amexio-row><amexio-column size="12" >
-                    <amexio-text-input [field-label]= "'Штрихкод ячейки'" name ="SHCODE"  
+                    <amexio-text-input [field-label]= "'Штрихкод ячейки'" name ="sHCODE"  
                     [place-holder] = "'Штрихкод ячейки'" 
-                    [icon-feedback] = "true" [(ngModel)]="currentinvwh_cell.SHCODE" >
+                    [icon-feedback] = "true" [(ngModel)]="currentinvwh_cell.sHCODE" >
                     </amexio-text-input>
      </amexio-column></amexio-row>
 	</amexio-body> 
@@ -74,7 +74,7 @@
 		<amexio-datagrid 
 		  [title]="'Структура склада::Ячейка'" 
 		  [page-size] = "10" 
-		  [enable-data-filter]="false" 
+		  [enable-data-filter]="true" 
 		  [enable-checkbox]="false" 
 		  [data]="invwh_cellArray" 
 		  (selectedRowData)="onSelect($event)" 
@@ -84,9 +84,9 @@
              {{  ((row.name) ? ((row.name.length>100) ? row.name.substr(0,100)+'...' : row.name ) : '-') | removehtmltag }} 
            </ng-template>
 		  </amexio-data-table-column> 
-		  <amexio-data-table-column [data-index]="'SHCODE'" [data-type]="'string'" [hidden]="false" [text]="'Штрихкод ячейки'"> 
+		  <amexio-data-table-column [data-index]="'sHCODE'" [data-type]="'string'" [hidden]="false" [text]="'Штрихкод ячейки'"> 
  		  <ng-template #amexioBodyTmpl let-column let-row="row">
-             {{  ((row.SHCODE) ? ((row.SHCODE.length>100) ? row.SHCODE.substr(0,100)+'...' : row.SHCODE ) : '-') | removehtmltag }} 
+             {{  ((row.sHCODE) ? ((row.sHCODE.length>100) ? row.sHCODE.substr(0,100)+'...' : row.sHCODE ) : '-') | removehtmltag }} 
            </ng-template>
 		  </amexio-data-table-column> 
 		</amexio-datagrid> 

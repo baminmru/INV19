@@ -113,10 +113,10 @@ namespace inv19.Services.Users
                     throw new ServiceException("Неправильный пользователь");
 
 
-                profile.Phone = request.Phone;
-                profile.Name = request.FirstName;
-                profile.SurName  = request.MiddleName;
-                profile.Family = request.LastName;
+                profile.phone = request.Phone;
+                profile.name = request.FirstName;
+                profile.partonymic  = request.MiddleName;
+                profile.family = request.LastName;
 
                 await _ctx.SaveChangesAsync();
 
@@ -155,7 +155,7 @@ namespace inv19.Services.Users
                 if (role == null)
                     throw new ServiceException("Роль не найдена");
 
-                var user = await _userManager.Users.FirstOrDefaultAsync(p => p.Id == profile.XUserInfoId );
+                var user = await _userManager.Users.FirstOrDefaultAsync(p => p.Id == profile.xUserInfoId );
 
                 var removeRoleResult = await _userManager.RemoveFromRolesAsync(user, MyIdentityRole.ALL_ROLES);
                 if (!removeRoleResult.Succeeded)
@@ -213,8 +213,8 @@ namespace inv19.Services.Users
                 //if (organization == null)
                 //    throw new ServiceException("Несуществующая организация");
 
-                var selfProfile = await _ctx.XUserInfo
-                                    .Where(p => p.Login == userToken.Id.ToString())
+                var selfProfile = await _ctx.xUserInfo
+                                    .Where(p => p.login == userToken.Id.ToString() && p.islocked == 0)
                                     .AsNoTracking()
                                     .FirstOrDefaultAsync();
 
@@ -251,16 +251,17 @@ namespace inv19.Services.Users
                 if (!addRoleResult.Succeeded)
                     throw new ServiceException("Не удалось назначить роль");
 
-                _ctx.Add(new XUserInfo
+                _ctx.Add(new xUserInfo
                 {
-                    EMail  = request.Email,
-                    Name = request.FirstName,
-                    Family  = request.FirstName,
-                    SurName = request.MiddleName,
+                    email  = request.Email,
+                    name = request.FirstName,
+                    family  = request.FirstName,
+                    partonymic = request.MiddleName,
                     //theClient  = request.OrganizationId,
-                    Phone  = request.Phone,
+                    phone  = request.Phone,
+                    islocked =0,
                     //login  = user.Id.ToString(),
-                    XUserInfoId = user.Id
+                    xUserInfoId = user.Id
                 });
                 await _ctx.SaveChangesAsync();
 
@@ -338,16 +339,16 @@ namespace inv19.Services.Users
                 if (userToken == null)
                     throw new UnauthorizedAccessException();
 
-                var profile = await _ctx.XUserInfo
-                                .Where(p => p.Login == request.Id.ToString())
+                var profile = await _ctx.xUserInfo
+                                .Where(p => p.login == request.Id.ToString() && p.islocked == 0)
                                 .FirstOrDefaultAsync();
 
                 // access
                 bool isOwner = false;
                 if (userToken.Id != request.Id)
                 {
-                    var selfProfile = await _ctx.XUserInfo
-                        .Where(p => p.Login == userToken.Id.ToString() )
+                    var selfProfile = await _ctx.xUserInfo
+                        .Where(p => p.login == userToken.Id.ToString() && p.islocked == 0)
                         .AsNoTracking()
                         .FirstOrDefaultAsync();
 
@@ -428,8 +429,8 @@ namespace inv19.Services.Users
                 if (userToken == null)
                     throw new UnauthorizedAccessException();
 
-                var selfProfile = await _ctx.XUserInfo
-                        .Where(p => p.Login == userToken.Id.ToString())
+                var selfProfile = await _ctx.xUserInfo
+                        .Where(p => p.login == userToken.Id.ToString() && p.islocked == 0)
                         .AsNoTracking()
                         .FirstOrDefaultAsync();
 
@@ -467,79 +468,79 @@ namespace inv19.Services.Users
                 };
             }
         }
-        public async Task<ResponseData<GetOrganizationUsersResponse>> GetOrganizationUsers(UserToken userToken, GetOrganizationUsersRequest request)
-        {
-            try
-            {
-                var response = new ResponseData<GetOrganizationUsersResponse>();
+        //public async Task<ResponseData<GetOrganizationUsersResponse>> GetOrganizationUsers(UserToken userToken, GetOrganizationUsersRequest request)
+        //{
+        //    try
+        //    {
+        //        var response = new ResponseData<GetOrganizationUsersResponse>();
 
-                if (userToken == null)
-                    throw new UnauthorizedAccessException();
+        //        if (userToken == null)
+        //            throw new UnauthorizedAccessException();
 
-                // access
-                var selfProfile = await _ctx.XUserInfo
-                    .Where(p => p.Login == userToken.Id.ToString())
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync();
+        //        // access
+        //        var selfProfile = await _ctx.xUserInfo
+        //            .Where(p => p.login == userToken.Id.ToString())
+        //            .AsNoTracking()
+        //            .FirstOrDefaultAsync();
 
-                var selfuser = await _userManager.Users.FirstOrDefaultAsync(p => p.Id == userToken.Id);
+        //        var selfuser = await _userManager.Users.FirstOrDefaultAsync(p => p.Id == userToken.Id);
 
-                List<OrganizationUserItem> items = null;
-                if (await _userManager.IsInRoleAsync(selfuser, MyIdentityRole.ROLE_SUPERADMIN) 
-                    // || request.Id == selfProfile.theClient 
-                    )
-                {
-                    //items = await _ctx.XUserInfo.Where(p => p.theClient  == request.Id).
-                    //    Select(p => new OrganizationUserItem
-                    //    {
-                    //        Id = p.XUserInfoId,
-                    //        FirstName = p.name,
-                    //        MiddleName = p.surname,
-                    //        LastName = p.lastname,
-                    //        Email = p.email,
-                    //    }).ToListAsync();
+        //        List<OrganizationUserItem> items = null;
+        //        if (await _userManager.IsInRoleAsync(selfuser, MyIdentityRole.ROLE_SUPERADMIN) 
+        //            // || request.Id == selfProfile.theClient 
+        //            )
+        //        {
+        //            //items = await _ctx.XUserInfo.Where(p => p.theClient  == request.Id).
+        //            //    Select(p => new OrganizationUserItem
+        //            //    {
+        //            //        Id = p.XUserInfoId,
+        //            //        FirstName = p.name,
+        //            //        MiddleName = p.surname,
+        //            //        LastName = p.lastname,
+        //            //        Email = p.email,
+        //            //    }).ToListAsync();
 
-                    foreach (var item in items)
-                    {
-                        var user = await _userManager.Users.FirstOrDefaultAsync(p => p.Id == item.Id);
-                        var roles = await _userManager.GetRolesAsync(user);
-                        item.Role = roles.FirstOrDefault();
-                    }
+        //            foreach (var item in items)
+        //            {
+        //                var user = await _userManager.Users.FirstOrDefaultAsync(p => p.Id == item.Id);
+        //                var roles = await _userManager.GetRolesAsync(user);
+        //                item.Role = roles.FirstOrDefault();
+        //            }
                     
-                }
-                else
-                    throw new UnauthorizedAccessException();
+        //        }
+        //        else
+        //            throw new UnauthorizedAccessException();
 
 
-                response.code = BaseStatus.Success;
-                response.data = new GetOrganizationUsersResponse() { Items = items };
-                return response;
+        //        response.code = BaseStatus.Success;
+        //        response.data = new GetOrganizationUsersResponse() { Items = items };
+        //        return response;
 
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "could not get organization users");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "could not get organization users");
 
-                return new ResponseData<GetOrganizationUsersResponse>
-                {
-                    code = BaseStatus.Exception,
-                    message = "Ошибка",
-                    description = "Не удалось получить пользователей"
-                };
-            }
-        }
+        //        return new ResponseData<GetOrganizationUsersResponse>
+        //        {
+        //            code = BaseStatus.Exception,
+        //            message = "Ошибка",
+        //            description = "Не удалось получить пользователей"
+        //        };
+        //    }
+        //}
 
-        private async Task<XUserInfo> CheckAccess(UserToken userToken, Guid userId)
+        private async Task<xUserInfo> CheckAccess(UserToken userToken, Guid userId)
         {
-            var profile = await _ctx.XUserInfo
-                                .Where(p => p.Login  == userId.ToString())
+            var profile = await _ctx.xUserInfo
+                                .Where(p => p.login  == userId.ToString() && p.islocked==0)
                                 .FirstOrDefaultAsync();
 
             // access
             if (userToken.Id != userId)
             {
-                var selfProfile = await _ctx.XUserInfo
-                    .Where(p => p.Login == userToken.Id.ToString())
+                var selfProfile = await _ctx.xUserInfo
+                    .Where(p => p.login == userToken.Id.ToString() && p.islocked == 0)
                     .AsNoTracking()
                     .FirstOrDefaultAsync();
 

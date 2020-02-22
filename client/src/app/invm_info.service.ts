@@ -56,10 +56,10 @@ export class invm_info_Service {
 	}
  
 	   //Create invm_info
-    create_invm_info(invm_info: invm.invm_info): Observable<Object > {
+    create_invm_info(invm_info: invm.invm_info): Observable<invm.invm_info > {
        // invm_info.invm_infoId = '';
         let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
-        return this.http.post(this.serviceURL + '/invm_info/', invm_info, { headers: cpHeaders })
+        return this.http.post<invm.invm_info >(this.serviceURL + '/invm_info/', invm_info, { headers: cpHeaders })
 		
     }
 	

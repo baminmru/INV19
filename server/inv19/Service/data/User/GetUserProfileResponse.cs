@@ -16,7 +16,9 @@ namespace inv19.Services.Users.Data
         public string LastName { get; set; }
         public string MiddleName { get; set; }
         public string Phone { get; set; }
-        public Guid? OrganizationId { get; set; }
+        // public Guid? OrganizationId { get; set; }
+
+        public int islocked { get; set; }
 
 
 
@@ -35,14 +37,15 @@ namespace inv19.Services.Users.Data
 
         }
 
-        public GetUserProfileResponse(XUserInfo user)
+        public GetUserProfileResponse(xUserInfo user)
         {
-            Id = user.XUserInfoId;
-            FirstName = user.Name;
-            MiddleName = user.SurName;
-            LastName = user.Family;
-            Phone = user.Phone;
-            LoginId = new Guid(user.Login);
+            Id = user.xUserInfoId;
+            FirstName = user.name;
+            MiddleName = user.partonymic;
+            LastName = user.family;
+            Phone = user.phone;
+            LoginId = new Guid(user.login);
+            islocked = (int) user.islocked;
             //OrganizationId = user.theClient ;
 
         }

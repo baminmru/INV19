@@ -13,6 +13,16 @@ export namespace invd {
 	name:string; // Название
  }
 
+ export interface   invd_op { // Операции
+	invd_opId:string; // Primary key field
+	name:string; // Название
+ }
+
+ export interface   invd_store { // Склад
+	invd_storeId:string; // Primary key field
+	name:string; // Название
+ }
+
  export interface   invd_zone { // Зона склада
 	invd_zoneId:string; // Primary key field
 	name:string; // Название

@@ -50,10 +50,10 @@
   </amexio-dropdown>
      </amexio-column></amexio-row>
      <amexio-row><amexio-column size="12" >
- <amexio-number-input  [enable-popover]= "false" [field-label]="'Количество'" name ="Qty" 
+ <amexio-number-input  [enable-popover]= "false" [field-label]="'Количество'" name ="qty" 
                     [place-holder]="'Количество'" 
             [allow-blank]="false" [error-msg] ="'Не задано: Количество'" 
-	 [(ngModel)]="currentinva_absnt.Qty"
+	 [(ngModel)]="currentinva_absnt.qty"
                     > 
  </amexio-number-input>
      </amexio-column></amexio-row>
@@ -73,9 +73,9 @@
     <amexio-header> 
 	<amexio-row> 
 		<amexio-column size="12" > 
-		<amexio-button [disabled]="AppService.Lastinva_info.inva_infoId==null" [label]="'Создать'" [type]="'secondary'" [tooltip]="'Создать новую запись'" [icon]="'fa fa-plus'" (onClick)="onNew()"></amexio-button>
+		<!-- <amexio-button [disabled]="AppService.Lastinva_info.inva_infoId==null" [label]="'Создать'" [type]="'secondary'" [tooltip]="'Создать новую запись'" [icon]="'fa fa-plus'" (onClick)="onNew()"></amexio-button>
 		<amexio-button [disabled]="currentinva_absnt.inva_absntId==null" [label]="'Изменить'" (onClick)="onEdit(currentinva_absnt)" [type]="'secondary'" [tooltip]="'Изменить запись'" [icon]="'fa fa-edit'"></amexio-button>
-     <amexio-button [disabled]="currentinva_absnt.inva_absntId==null" [label]="'Удалить'" (onClick)="onDelete(currentinva_absnt)" [type]="'secondary'" [tooltip]="'Удалить запись'" [icon]="'fa fa-trash'"></amexio-button>
+     <amexio-button [disabled]="currentinva_absnt.inva_absntId==null" [label]="'Удалить'" (onClick)="onDelete(currentinva_absnt)" [type]="'secondary'" [tooltip]="'Удалить запись'" [icon]="'fa fa-trash'"></amexio-button> -->
      <amexio-button  [label]="'Обновить'" (onClick)="refreshinva_absnt()" [type]="'secondary'" [tooltip]="'Обновить данные'" [icon]="'fa fa-refresh'"></amexio-button>
      <amexio-button  [label]="'Экспорт'" (onClick)="exportXSLX()" [type]="'secondary'" [tooltip]="'Экспорт данных'" [icon]="'fa fa-cloud'"></amexio-button>
 		</amexio-column>
@@ -91,7 +91,7 @@
 		  (selectedRowData)="onSelect($event)" 
 		  (rowSelect)="onSelect($event)"> 
 		  <amexio-data-table-column [data-index]="'storepartid_name'" [data-type]="'string'" [hidden]="false" [text]="'Запчасть'"></amexio-data-table-column> 
-		  <amexio-data-table-column [data-index]="'Qty'" [data-type]="'number'" [hidden]="false" [text]="'Количество'"></amexio-data-table-column> 
+		  <amexio-data-table-column [data-index]="'qty'" [data-type]="'number'" [hidden]="false" [text]="'Количество'"></amexio-data-table-column> 
 		</amexio-datagrid> 
 	</amexio-body> 
 </amexio-card> 
@@ -103,7 +103,7 @@
 Удалить строку:  Инвентраизация::Недостача ?
     </amexio-header> 
     <amexio-body> 
-            Удалить запись: {{ ( (currentinva_absnt.storepartid_name +'; '+  currentinva_absnt.Qty||'').length >100 ? (currentinva_absnt.storepartid_name +'; '+  currentinva_absnt.Qty||'').substr(0,100)+'...' : (currentinva_absnt.storepartid_name +'; '+  currentinva_absnt.Qty||'')) | removehtmltag }}?  
+            Удалить запись: {{ ( (currentinva_absnt.storepartid_name +'; '+  currentinva_absnt.qty||'').length >100 ? (currentinva_absnt.storepartid_name +'; '+  currentinva_absnt.qty||'').substr(0,100)+'...' : (currentinva_absnt.storepartid_name +'; '+  currentinva_absnt.qty||'')) | removehtmltag }}?  
 	</amexio-body> 
 	<amexio-action> 
 	<amexio-row> 

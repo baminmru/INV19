@@ -79,7 +79,7 @@
 		<amexio-column size="12" > 
 		<amexio-button [label]="'Создать'" [type]="'secondary'" [tooltip]="'Создать новую запись'" [icon]="'fa fa-plus'" (onClick)="onNew()"></amexio-button>
 		<amexio-button [disabled]="currentinva_info.inva_infoId==null" [label]="'Изменить'" (onClick)="onEdit(currentinva_info)" [type]="'secondary'" [tooltip]="'Изменить запись'" [icon]="'fa fa-edit'"></amexio-button>
-     <amexio-button [disabled]="currentinva_info.inva_infoId==null" [label]="'Удалить'" (onClick)="onDelete(currentinva_info)" [type]="'secondary'" [tooltip]="'Удалить запись'" [icon]="'fa fa-trash'"></amexio-button>
+     <!-- <amexio-button [disabled]="currentinva_info.inva_infoId==null" [label]="'Удалить'" (onClick)="onDelete(currentinva_info)" [type]="'secondary'" [tooltip]="'Удалить запись'" [icon]="'fa fa-trash'"></amexio-button> -->
      <amexio-button  [label]="'Обновить'" (onClick)="refreshinva_info()" [type]="'secondary'" [tooltip]="'Обновить данные'" [icon]="'fa fa-refresh'"></amexio-button>
      <amexio-button  [label]="'Экспорт'" (onClick)="exportXSLX()" [type]="'secondary'" [tooltip]="'Экспорт данных'" [icon]="'fa fa-cloud'"></amexio-button>
 		</amexio-column>
@@ -89,7 +89,7 @@
 		<amexio-datagrid 
 		  [title]="'Инвентраизация::Описание'" 
 		  [page-size] = "10" 
-		  [enable-data-filter]="false" 
+		  [enable-data-filter]="true" 
 		  [enable-checkbox]="false" 
 		  [data]="inva_infoArray" 
 		  (selectedRowData)="onSelect($event)" 

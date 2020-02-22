@@ -37,15 +37,21 @@ export class invp_dataComponent implements OnInit {
     }
     refreshCombo() {
      this.AppService.refreshComboinvg_grp();
-     this.AppService.refreshComboinvg_subgrp();
+     
      this.AppService.refreshComboinvd_dep();
      this.AppService.refreshComboinvd_machine();
     }
+
+    groupSelected(item:any){
+        console.log("refreshing subgroup for: " +item.id); 
+        this.AppService.refreshComboinvg_subgrp(item.id);
+    }
+
     ngOnDestroy() {
     }
 
     refreshinvp_data() {
-		   console.log("refreshing invp_data"); 
+		console.log("refreshing invp_data"); 
         this.invp_data_Service.getAll_invp_datas().subscribe(invp_dataArray => { this.invp_dataArray = invp_dataArray; }, error => { this.ShowError(error.message); })
         this.currentinvp_data = {} as invi.invp_data;
     }
@@ -62,6 +68,7 @@ export class invp_dataComponent implements OnInit {
 
     onSelect(item: invi.invp_data) {
         this.currentinvp_data = item;
+        this.AppService.refreshComboinvg_subgrp(this.currentinvp_data.groupid);
     }
 
     onNew() {
@@ -93,7 +100,7 @@ export class invp_dataComponent implements OnInit {
     save(item: invi.invp_data) {
         this.valid=true; 
      if(this.currentinvp_data.name == undefined || this.currentinvp_data.name=='') this.valid=false;
-     if(this.currentinvp_data.RFID == undefined || this.currentinvp_data.RFID=='') this.valid=false;
+     if(this.currentinvp_data.rFID == undefined || this.currentinvp_data.rFID=='') this.valid=false;
         if (this.valid) {
             switch (this.mode) {
                 case MODE_NEW: {
@@ -129,7 +136,7 @@ export class invp_dataComponent implements OnInit {
         for(var i = 0; i < this.invp_dataArray.length; ++i) {
             if(!aoa[i+1]) aoa[i+1] = [];
             aoa[i+1][0]=this.invp_dataArray[i].name;
-            aoa[i+1][1]=this.invp_dataArray[i].RFID;
+            aoa[i+1][1]=this.invp_dataArray[i].rFID;
             aoa[i+1][2]=this.invp_dataArray[i].groupid_name;
             aoa[i+1][3]=this.invp_dataArray[i].subgroupid_name;
             aoa[i+1][4]=this.invp_dataArray[i].departmentid_name;

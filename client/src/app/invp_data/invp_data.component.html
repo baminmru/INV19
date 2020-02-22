@@ -41,9 +41,9 @@
                     </amexio-text-input>
      </amexio-column></amexio-row>
      <amexio-row><amexio-column size="12" >
-                    <amexio-text-input [field-label]= "'Метка RFID'" name ="RFID"  
+                    <amexio-text-input [field-label]= "'Метка RFID'" name ="rFID"  
                     [place-holder] = "'Метка RFID'" 
-                    [icon-feedback] = "true" [(ngModel)]="currentinvp_data.RFID" >
+                    [icon-feedback] = "true" [(ngModel)]="currentinvp_data.rFID" >
                     </amexio-text-input>
      </amexio-column></amexio-row>
      <amexio-row><amexio-column size="12" >
@@ -51,12 +51,13 @@
 	 [place-holder] = "'Группа'"
 	 name ="groupid"
 	 [field-label]= "'Группа'"
-            [allow-blank]="false" [error-msg] ="'Не задано: Группа'" 
+     [allow-blank]="false" [error-msg] ="'Не задано: Группа'" 
 	 
 	 [display-field]="'name'"
 	 [value-field]="'id'"
 	 [data]="AppService.Comboinvg_grp"
-	 
+	 (onSingleSelect) ="groupSelected($event)"
+
 	 [(ngModel)]="currentinvp_data.groupid"
 	 >
   </amexio-dropdown>
@@ -134,7 +135,8 @@
 		<amexio-datagrid 
 		  [title]="'Запчасть::Описание'" 
 		  [page-size] = "10" 
-		  [enable-data-filter]="false" 
+		  [enable-data-filter]="true" 
+		  [global-filter]="false" 
 		  [enable-checkbox]="false" 
 		  [data]="invp_dataArray" 
 		  (selectedRowData)="onSelect($event)" 
@@ -144,9 +146,9 @@
              {{  ((row.name) ? ((row.name.length>100) ? row.name.substr(0,100)+'...' : row.name ) : '-') | removehtmltag }} 
            </ng-template>
 		  </amexio-data-table-column> 
-		  <amexio-data-table-column [data-index]="'RFID'" [data-type]="'string'" [hidden]="false" [text]="'Метка RFID'"> 
+		  <amexio-data-table-column [data-index]="'rFID'" [data-type]="'string'" [hidden]="false" [text]="'Метка RFID'"> 
  		  <ng-template #amexioBodyTmpl let-column let-row="row">
-             {{  ((row.RFID) ? ((row.RFID.length>100) ? row.RFID.substr(0,100)+'...' : row.RFID ) : '-') | removehtmltag }} 
+             {{  ((row.rFID) ? ((row.rFID.length>100) ? row.rFID.substr(0,100)+'...' : row.rFID ) : '-') | removehtmltag }} 
            </ng-template>
 		  </amexio-data-table-column> 
 		  <amexio-data-table-column [data-index]="'groupid_name'" [data-type]="'string'" [hidden]="false" [text]="'Группа'"></amexio-data-table-column> 
@@ -164,7 +166,7 @@
 Удалить строку:  Запчасть::Описание ?
     </amexio-header> 
     <amexio-body> 
-            Удалить запись: {{ ( (currentinvp_data.name +'; '+  currentinvp_data.RFID||'').length >100 ? (currentinvp_data.name +'; '+  currentinvp_data.RFID||'').substr(0,100)+'...' : (currentinvp_data.name +'; '+  currentinvp_data.RFID||'')) | removehtmltag }}?  
+            Удалить запись: {{ ( (currentinvp_data.name +'; '+  currentinvp_data.rFID||'').length >100 ? (currentinvp_data.name +'; '+  currentinvp_data.rFID||'').substr(0,100)+'...' : (currentinvp_data.name +'; '+  currentinvp_data.rFID||'')) | removehtmltag }}?  
 	</amexio-body> 
 	<amexio-action> 
 	<amexio-row> 

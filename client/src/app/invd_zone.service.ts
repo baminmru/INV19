@@ -50,10 +50,10 @@ export class invd_zone_Service {
 	}
  
 	   //Create invd_zone
-    create_invd_zone(invd_zone: invd.invd_zone): Observable<Object > {
+    create_invd_zone(invd_zone: invd.invd_zone): Observable<invd.invd_zone > {
        // invd_zone.invd_zoneId = '';
         let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
-        return this.http.post(this.serviceURL + '/invd_zone/', invd_zone, { headers: cpHeaders })
+        return this.http.post<invd.invd_zone >(this.serviceURL + '/invd_zone/', invd_zone, { headers: cpHeaders })
 		
     }
 	

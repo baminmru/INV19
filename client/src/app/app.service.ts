@@ -4,12 +4,14 @@ import { Observable,BehaviorSubject } from 'rxjs';
 import { environment } from '../environments/environment';
 
 import { invg } from "app/invg";
-import { invm } from "app/invm";
-import { invw } from "app/invw";
 import { invi } from "app/invi";
 import { inva } from "app/inva";
+import { invm } from "app/invm";
+import { invw } from "app/invw";
+import { XUser } from "app/XUser";
 import { invd } from "app/invd";
 import { invwh } from "app/invwh";
+import { invops } from "app/invops";
 import { UserProfile } from "app/UserProfile";
 	
 export class ComboInfo{ 
@@ -248,28 +250,10 @@ public SelectedRole = new BehaviorSubject<string>("");
 	public currentinvg_subgrp = this.Selectedinvg_subgrp.asObservable(); 
 
 
-	// support for Selected invm.invm_info; 
-	public Lastinvm_info:invm.invm_info = {} as invm.invm_info; 
-	public Selectedinvm_info = new BehaviorSubject<invm.invm_info>({} as invm.invm_info); 
-	public pushSelectedinvm_info(item:invm.invm_info){ 
-		console.log("change Selected invm_info"); 
-		this.Lastinvm_info=item; 
-		this.Selectedinvm_info.next(item); 
-		 
-	} 
-	public currentinvm_info = this.Selectedinvm_info.asObservable(); 
+	
 
 
-	// support for Selected invw.invw_info; 
-	public Lastinvw_info:invw.invw_info = {} as invw.invw_info; 
-	public Selectedinvw_info = new BehaviorSubject<invw.invw_info>({} as invw.invw_info); 
-	public pushSelectedinvw_info(item:invw.invw_info){ 
-		console.log("change Selected invw_info"); 
-		this.Lastinvw_info=item; 
-		this.Selectedinvw_info.next(item); 
-		 
-	} 
-	public currentinvw_info = this.Selectedinvw_info.asObservable(); 
+	
 
 
 	// support for Selected invi.invp_data; 
@@ -329,6 +313,76 @@ public SelectedRole = new BehaviorSubject<string>("");
 	public currentinva_extra = this.Selectedinva_extra.asObservable(); 
 
 
+	// support for Selected invm.invm_info; 
+	public Lastinvm_info:invm.invm_info = {} as invm.invm_info; 
+	public Selectedinvm_info = new BehaviorSubject<invm.invm_info>({} as invm.invm_info); 
+	public pushSelectedinvm_info(item:invm.invm_info){ 
+		console.log("change Selected invm_info"); 
+		this.Lastinvm_info=item; 
+		this.Selectedinvm_info.next(item); 
+		 
+	} 
+	public currentinvm_info = this.Selectedinvm_info.asObservable(); 
+
+
+	// support for Selected invw.invw_info; 
+	public Lastinvw_info:invw.invw_info = {} as invw.invw_info; 
+	public Selectedinvw_info = new BehaviorSubject<invw.invw_info>({} as invw.invw_info); 
+	public pushSelectedinvw_info(item:invw.invw_info){ 
+		console.log("change Selected invw_info"); 
+		this.Lastinvw_info=item; 
+		this.Selectedinvw_info.next(item); 
+		 
+	} 
+	public currentinvw_info = this.Selectedinvw_info.asObservable(); 
+
+
+	// support for Selected XUser.xUserInfo; 
+	public LastxUserInfo:XUser.xUserInfo = {} as XUser.xUserInfo; 
+	public SelectedxUserInfo = new BehaviorSubject<XUser.xUserInfo>({} as XUser.xUserInfo); 
+	public pushSelectedxUserInfo(item:XUser.xUserInfo){ 
+		console.log("change Selected xUserInfo"); 
+		this.LastxUserInfo=item; 
+		this.SelectedxUserInfo.next(item); 
+		 
+	} 
+	public currentxUserInfo = this.SelectedxUserInfo.asObservable(); 
+
+
+	// support for Selected invops.invops_in; 
+	public Lastinvops_in:invops.invops_in = {} as invops.invops_in; 
+	public Selectedinvops_in = new BehaviorSubject<invops.invops_in>({} as invops.invops_in); 
+	public pushSelectedinvops_in(item:invops.invops_in){ 
+		console.log("change Selected invops_in"); 
+		this.Lastinvops_in=item; 
+		this.Selectedinvops_in.next(item); 
+		 
+	} 
+	public currentinvops_in = this.Selectedinvops_in.asObservable(); 
+
+	// support for Selected invops.invops_move; 
+	public Lastinvops_move:invops.invops_move = {} as invops.invops_move; 
+	public Selectedinvops_move = new BehaviorSubject<invops.invops_move>({} as invops.invops_move); 
+	public pushSelectedinvops_move(item:invops.invops_move){ 
+		console.log("change Selected invops_move"); 
+		this.Lastinvops_move=item; 
+		this.Selectedinvops_move.next(item); 
+		 
+	} 
+	public currentinvops_move = this.Selectedinvops_move.asObservable(); 
+
+	// support for Selected invops.invops_out; 
+	public Lastinvops_out:invops.invops_out = {} as invops.invops_out; 
+	public Selectedinvops_out = new BehaviorSubject<invops.invops_out>({} as invops.invops_out); 
+	public pushSelectedinvops_out(item:invops.invops_out){ 
+		console.log("change Selected invops_out"); 
+		this.Lastinvops_out=item; 
+		this.Selectedinvops_out.next(item); 
+		 
+	} 
+	public currentinvops_out = this.Selectedinvops_out.asObservable(); 
+
+
 	// support for Selected invd.invd_dep; 
 	public Lastinvd_dep:invd.invd_dep = {} as invd.invd_dep; 
 	public Selectedinvd_dep = new BehaviorSubject<invd.invd_dep>({} as invd.invd_dep); 
@@ -350,6 +404,28 @@ public SelectedRole = new BehaviorSubject<string>("");
 		 
 	} 
 	public currentinvd_machine = this.Selectedinvd_machine.asObservable(); 
+
+	// support for Selected invd.invd_op; 
+	public Lastinvd_op:invd.invd_op = {} as invd.invd_op; 
+	public Selectedinvd_op = new BehaviorSubject<invd.invd_op>({} as invd.invd_op); 
+	public pushSelectedinvd_op(item:invd.invd_op){ 
+		console.log("change Selected invd_op"); 
+		this.Lastinvd_op=item; 
+		this.Selectedinvd_op.next(item); 
+		 
+	} 
+	public currentinvd_op = this.Selectedinvd_op.asObservable(); 
+
+	// support for Selected invd.invd_store; 
+	public Lastinvd_store:invd.invd_store = {} as invd.invd_store; 
+	public Selectedinvd_store = new BehaviorSubject<invd.invd_store>({} as invd.invd_store); 
+	public pushSelectedinvd_store(item:invd.invd_store){ 
+		console.log("change Selected invd_store"); 
+		this.Lastinvd_store=item; 
+		this.Selectedinvd_store.next(item); 
+		 
+	} 
+	public currentinvd_store = this.Selectedinvd_store.asObservable(); 
 
 	// support for Selected invd.invd_zone; 
 	public Lastinvd_zone:invd.invd_zone = {} as invd.invd_zone; 
@@ -390,36 +466,21 @@ public SelectedRole = new BehaviorSubject<string>("");
 	public getinvg_grp(): Observable<ComboInfo[]> { 
      let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
 		return this.http.get<ComboInfo[]>(this.serviceURL + '/invg_grp/Combo', { headers: cpHeaders }); 
- }
+    }
 	public refreshComboinvg_grp() { 
 	this.getinvg_grp().subscribe(Data => {this.Comboinvg_grp=Data;});
- }
+    }
 	public Comboinvg_subgrp:Array<ComboInfo> = []; 
-	public getinvg_subgrp(): Observable<ComboInfo[]> { 
+
+	public getinvg_subgrp(id:string): Observable<ComboInfo[]> { 
      let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
-		return this.http.get<ComboInfo[]>(this.serviceURL + '/invg_subgrp/Combo', { headers: cpHeaders }); 
- }
-	public refreshComboinvg_subgrp() { 
-	this.getinvg_subgrp().subscribe(Data => {this.Comboinvg_subgrp=Data;});
+		return this.http.get<ComboInfo[]>(this.serviceURL + '/invg_subgrp/Combo/'+id, { headers: cpHeaders }); 
+    }
+	public refreshComboinvg_subgrp(id:string) { 
+	this.getinvg_subgrp(id).subscribe(Data => {this.Comboinvg_subgrp=Data;});
  }
 
-	public Comboinvm_info:Array<ComboInfo> = []; 
-	public getinvm_info(): Observable<ComboInfo[]> { 
-     let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
-		return this.http.get<ComboInfo[]>(this.serviceURL + '/invm_info/Combo', { headers: cpHeaders }); 
- }
-	public refreshComboinvm_info() { 
-	this.getinvm_info().subscribe(Data => {this.Comboinvm_info=Data;});
- }
 
-	public Comboinvw_info:Array<ComboInfo> = []; 
-	public getinvw_info(): Observable<ComboInfo[]> { 
-     let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
-		return this.http.get<ComboInfo[]>(this.serviceURL + '/invw_info/Combo', { headers: cpHeaders }); 
- }
-	public refreshComboinvw_info() { 
-	this.getinvw_info().subscribe(Data => {this.Comboinvw_info=Data;});
- }
 
 	public Comboinvp_data:Array<ComboInfo> = []; 
 	public getinvp_data(): Observable<ComboInfo[]> { 
@@ -463,6 +524,33 @@ public SelectedRole = new BehaviorSubject<string>("");
 	this.getinva_extra().subscribe(Data => {this.Comboinva_extra=Data;});
  }
 
+	public Comboinvm_info:Array<ComboInfo> = []; 
+	public getinvm_info(): Observable<ComboInfo[]> { 
+     let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
+		return this.http.get<ComboInfo[]>(this.serviceURL + '/invm_info/Combo', { headers: cpHeaders }); 
+ }
+	public refreshComboinvm_info() { 
+	this.getinvm_info().subscribe(Data => {this.Comboinvm_info=Data;});
+ }
+
+	public Comboinvw_info:Array<ComboInfo> = []; 
+	public getinvw_info(): Observable<ComboInfo[]> { 
+     let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
+		return this.http.get<ComboInfo[]>(this.serviceURL + '/invw_info/Combo', { headers: cpHeaders }); 
+ }
+	public refreshComboinvw_info() { 
+	this.getinvw_info().subscribe(Data => {this.Comboinvw_info=Data;});
+ }
+
+	public ComboxUserInfo:Array<ComboInfo> = []; 
+	public getxUserInfo(): Observable<ComboInfo[]> { 
+     let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
+		return this.http.get<ComboInfo[]>(this.serviceURL + '/xUserInfo/Combo', { headers: cpHeaders }); 
+ }
+	public refreshComboxUserInfo() { 
+	this.getxUserInfo().subscribe(Data => {this.ComboxUserInfo=Data;});
+ }
+
 	public Comboinvd_dep:Array<ComboInfo> = []; 
 	public getinvd_dep(): Observable<ComboInfo[]> { 
      let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
@@ -478,6 +566,22 @@ public SelectedRole = new BehaviorSubject<string>("");
  }
 	public refreshComboinvd_machine() { 
 	this.getinvd_machine().subscribe(Data => {this.Comboinvd_machine=Data;});
+ }
+	public Comboinvd_op:Array<ComboInfo> = []; 
+	public getinvd_op(): Observable<ComboInfo[]> { 
+     let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
+		return this.http.get<ComboInfo[]>(this.serviceURL + '/invd_op/Combo', { headers: cpHeaders }); 
+ }
+	public refreshComboinvd_op() { 
+	this.getinvd_op().subscribe(Data => {this.Comboinvd_op=Data;});
+ }
+	public Comboinvd_store:Array<ComboInfo> = []; 
+	public getinvd_store(): Observable<ComboInfo[]> { 
+     let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
+		return this.http.get<ComboInfo[]>(this.serviceURL + '/invd_store/Combo', { headers: cpHeaders }); 
+ }
+	public refreshComboinvd_store() { 
+	this.getinvd_store().subscribe(Data => {this.Comboinvd_store=Data;});
  }
 	public Comboinvd_zone:Array<ComboInfo> = []; 
 	public getinvd_zone(): Observable<ComboInfo[]> { 
@@ -507,22 +611,29 @@ public SelectedRole = new BehaviorSubject<string>("");
 
  
 public RefreshCombo(){
-	this.getinvg_grp().subscribe(data => {this.Comboinvg_grp=data;}); 
-	this.getinvg_subgrp().subscribe(data => {this.Comboinvg_subgrp=data;}); 
-
-	this.getinvm_info().subscribe(data => {this.Comboinvm_info=data;}); 
-
-	this.getinvw_info().subscribe(data => {this.Comboinvw_info=data;}); 
+	this.getinvg_grp().subscribe(data => {this.Comboinvg_grp=data;
+	
+		this.getinvg_subgrp(this.Comboinvg_grp[0].id).subscribe(data => {this.Comboinvg_subgrp=data;});
+	
+	}); 
 
 	this.getinvp_data().subscribe(data => {this.Comboinvp_data=data;}); 
-
+	 
 	this.getinva_info().subscribe(data => {this.Comboinva_info=data;}); 
 	this.getinva_real().subscribe(data => {this.Comboinva_real=data;}); 
 	this.getinva_absnt().subscribe(data => {this.Comboinva_absnt=data;}); 
 	this.getinva_extra().subscribe(data => {this.Comboinva_extra=data;}); 
 
+	this.getinvm_info().subscribe(data => {this.Comboinvm_info=data;}); 
+
+	this.getinvw_info().subscribe(data => {this.Comboinvw_info=data;}); 
+
+	this.getxUserInfo().subscribe(data => {this.ComboxUserInfo=data;}); 
+
 	this.getinvd_dep().subscribe(data => {this.Comboinvd_dep=data;}); 
 	this.getinvd_machine().subscribe(data => {this.Comboinvd_machine=data;}); 
+	this.getinvd_op().subscribe(data => {this.Comboinvd_op=data;}); 
+	this.getinvd_store().subscribe(data => {this.Comboinvd_store=data;}); 
 	this.getinvd_zone().subscribe(data => {this.Comboinvd_zone=data;}); 
 
 	this.getinvwh_loc().subscribe(data => {this.Comboinvwh_loc=data;}); 
