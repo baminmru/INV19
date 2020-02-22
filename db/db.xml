@@ -595,6 +595,165 @@ GO
 alter table xUserInfo add constraint pk_xUserInfo primary key (xUserInfoID)
 
 GO
+/* TYPE=invops (Операции) */
+GO
+/*Приемка*/
+if not exists (select * from sysobjects where id = object_id(N'invops_in') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+create table invops_in/**/ (
+invops_inid uniqueidentifier not null rowguidcol default ( newid())  
+)
+END
+go
+if  not exists(select * from syscolumns where name='shCode' and id=object_id(N'invops_in'))
+alter table invops_in add 
+shCode
+ VARCHAR (64) null /* Штрихкод ячейки */
+go
+if  not exists(select * from syscolumns where name='rfid' and id=object_id(N'invops_in'))
+alter table invops_in add 
+rfid
+ VARCHAR (64) null /* RFID детали */
+go
+if  not exists(select * from syscolumns where name='quantity' and id=object_id(N'invops_in'))
+alter table invops_in add 
+quantity
+ integer null /* Количество */
+go
+go
+-- drop extra columns from generated table: invops_in
+declare @n nvarchar(255)
+declare @e_str nvarchar(4000)
+
+declare nnn cursor local for
+select name from syscolumns where id = object_id('invops_in')
+and name not in('invops_inID','shCode','rfid','quantity')
+open nnn
+fetch next from nnn into @n
+while @@fetch_status &gt;=0
+begin
+  set @e_str=N'alter table invops_in drop column '+@n
+  exec  sp_sqlexec @e_str
+  fetch next from nnn into @n
+End
+Close nnn
+deallocate nnn
+go
+
+if exists(select * from sysobjects where id=object_id(N'pk_invops_in') and xtype='PK' and type='K')
+ALTER TABLE invops_in DROP CONSTRAINT pk_invops_in
+GO
+alter table invops_in add constraint pk_invops_in primary key (invops_inID)
+
+GO
+/*Перемещение*/
+if not exists (select * from sysobjects where id = object_id(N'invops_move') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+create table invops_move/**/ (
+invops_moveid uniqueidentifier not null rowguidcol default ( newid())  
+)
+END
+go
+if  not exists(select * from syscolumns where name='shCodeFrom' and id=object_id(N'invops_move'))
+alter table invops_move add 
+shCodeFrom
+ VARCHAR (64) null /* Штрихкод начальной ячейки  */
+go
+if  not exists(select * from syscolumns where name='shCodeTo' and id=object_id(N'invops_move'))
+alter table invops_move add 
+shCodeTo
+ VARCHAR (64) null /* Штрихкод конечной ячейки */
+go
+if  not exists(select * from syscolumns where name='rfid' and id=object_id(N'invops_move'))
+alter table invops_move add 
+rfid
+ VARCHAR (64) null /* RFID детали */
+go
+if  not exists(select * from syscolumns where name='quantity' and id=object_id(N'invops_move'))
+alter table invops_move add 
+quantity
+ integer null /* Количество */
+go
+go
+-- drop extra columns from generated table: invops_move
+declare @n nvarchar(255)
+declare @e_str nvarchar(4000)
+
+declare nnn cursor local for
+select name from syscolumns where id = object_id('invops_move')
+and name not in('invops_moveID','shCodeFrom','shCodeTo','rfid','quantity')
+open nnn
+fetch next from nnn into @n
+while @@fetch_status &gt;=0
+begin
+  set @e_str=N'alter table invops_move drop column '+@n
+  exec  sp_sqlexec @e_str
+  fetch next from nnn into @n
+End
+Close nnn
+deallocate nnn
+go
+
+if exists(select * from sysobjects where id=object_id(N'pk_invops_move') and xtype='PK' and type='K')
+ALTER TABLE invops_move DROP CONSTRAINT pk_invops_move
+GO
+alter table invops_move add constraint pk_invops_move primary key (invops_moveID)
+
+GO
+/*Отргузка*/
+if not exists (select * from sysobjects where id = object_id(N'invops_out') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+create table invops_out/**/ (
+invops_outid uniqueidentifier not null rowguidcol default ( newid())  
+)
+END
+go
+if  not exists(select * from syscolumns where name='shCode' and id=object_id(N'invops_out'))
+alter table invops_out add 
+shCode
+ VARCHAR (64) null /* Штрихкод ячейки */
+go
+if  not exists(select * from syscolumns where name='rfid' and id=object_id(N'invops_out'))
+alter table invops_out add 
+rfid
+ VARCHAR (64) null /* RFID детали */
+go
+if  not exists(select * from syscolumns where name='quantity' and id=object_id(N'invops_out'))
+alter table invops_out add 
+quantity
+ integer null /* Количество */
+go
+if  not exists(select * from syscolumns where name='theDept' and id=object_id(N'invops_out'))
+alter table invops_out add 
+theDept
+ UNIQUEIDENTIFIER null /* Отдел */
+go
+go
+-- drop extra columns from generated table: invops_out
+declare @n nvarchar(255)
+declare @e_str nvarchar(4000)
+
+declare nnn cursor local for
+select name from syscolumns where id = object_id('invops_out')
+and name not in('invops_outID','shCode','rfid','quantity','theDept')
+open nnn
+fetch next from nnn into @n
+while @@fetch_status &gt;=0
+begin
+  set @e_str=N'alter table invops_out drop column '+@n
+  exec  sp_sqlexec @e_str
+  fetch next from nnn into @n
+End
+Close nnn
+deallocate nnn
+go
+
+if exists(select * from sysobjects where id=object_id(N'pk_invops_out') and xtype='PK' and type='K')
+ALTER TABLE invops_out DROP CONSTRAINT pk_invops_out
+GO
+alter table invops_out add constraint pk_invops_out primary key (invops_outID)
+
+GO
 /* TYPE=MTZwp (Описание АРМ) */
 GO
 /* TYPE=MTZJrnl (Описание журнала) */
@@ -1175,6 +1334,84 @@ drop function xUserInfo_MREF_F
 GO
 create function xUserInfo_MREF_F  (
  @xUserInfo_ref varchar(4000)
+ ,@Lang varchar(25)=NULL
+) returns varchar(255) as  begin  
+ declare @MREF varchar(255)
+  set @MREF='to do'
+return(@MREF)
+end 
+GO
+
+if exists (select * from sysobjects where id = object_id(N'invops_in_BRIEF_F') and xtype in (N'FN', N'IF', N'TF'))
+drop function invops_in_BRIEF_F
+GO
+create function invops_in_BRIEF_F  (
+ @invops_inid uniqueidentifier
+ ,@Lang varchar(25)=NULL
+) returns varchar(255) as  begin  
+ declare @BRIEF varchar(255)
+  set @BRIEF='to do'
+return(@BRIEF)
+end 
+GO
+
+if exists (select * from sysobjects where id = object_id(N'invops_in_MREF_F') and xtype in (N'FN', N'IF', N'TF'))
+drop function invops_in_MREF_F
+GO
+create function invops_in_MREF_F  (
+ @invops_in_ref varchar(4000)
+ ,@Lang varchar(25)=NULL
+) returns varchar(255) as  begin  
+ declare @MREF varchar(255)
+  set @MREF='to do'
+return(@MREF)
+end 
+GO
+
+if exists (select * from sysobjects where id = object_id(N'invops_move_BRIEF_F') and xtype in (N'FN', N'IF', N'TF'))
+drop function invops_move_BRIEF_F
+GO
+create function invops_move_BRIEF_F  (
+ @invops_moveid uniqueidentifier
+ ,@Lang varchar(25)=NULL
+) returns varchar(255) as  begin  
+ declare @BRIEF varchar(255)
+  set @BRIEF='to do'
+return(@BRIEF)
+end 
+GO
+
+if exists (select * from sysobjects where id = object_id(N'invops_move_MREF_F') and xtype in (N'FN', N'IF', N'TF'))
+drop function invops_move_MREF_F
+GO
+create function invops_move_MREF_F  (
+ @invops_move_ref varchar(4000)
+ ,@Lang varchar(25)=NULL
+) returns varchar(255) as  begin  
+ declare @MREF varchar(255)
+  set @MREF='to do'
+return(@MREF)
+end 
+GO
+
+if exists (select * from sysobjects where id = object_id(N'invops_out_BRIEF_F') and xtype in (N'FN', N'IF', N'TF'))
+drop function invops_out_BRIEF_F
+GO
+create function invops_out_BRIEF_F  (
+ @invops_outid uniqueidentifier
+ ,@Lang varchar(25)=NULL
+) returns varchar(255) as  begin  
+ declare @BRIEF varchar(255)
+  set @BRIEF='to do'
+return(@BRIEF)
+end 
+GO
+
+if exists (select * from sysobjects where id = object_id(N'invops_out_MREF_F') and xtype in (N'FN', N'IF', N'TF'))
+drop function invops_out_MREF_F
+GO
+create function invops_out_MREF_F  (
+ @invops_out_ref varchar(4000)
  ,@Lang varchar(25)=NULL
 ) returns varchar(255) as  begin  
  declare @MREF varchar(255)
@@ -1987,6 +2224,202 @@ end
 
 GO
 
+alter function invops_in_BRIEF_F  (
+ @invops_inid uniqueidentifier
+ ,@Lang varchar(25)=NULL
+) returns varchar(255) as  begin  
+ declare @BRIEF varchar(255)
+ declare @tmpStr varchar(255)
+ declare @tmpBrief varchar(2000)
+ declare @tmpID uniqueidentifier
+ declare @tmpMR varchar(4000) -- multiref only
+ declare @MLFTemp varchar(2000)
+ declare @MLFBrief varchar(2000)
+if @invops_inid is null begin set @BRIEF='' return (@BRIEF) end
+ -- Brief body -- 
+if exists(select 1 from invops_in where invops_inID=@invops_inID)
+ begin
+ --  verify access  --
+  set @BRIEF=''
+  select @BRIEF= @BRIEF 
+  + '' + Convert(varchar(255),isnull(Convert(varchar(255), shCode),'')) + '; '
+  from invops_in  where  invops_inID = @invops_inID 
+  select @BRIEF= @BRIEF 
+  + '' + Convert(varchar(255),isnull(Convert(varchar(255), rfid),'')) + '; '
+  from invops_in  where  invops_inID = @invops_inID 
+  select @BRIEF= @BRIEF 
+  + '' + Convert(varchar(255),isnull(Convert(varchar(255), quantity),'')) + '; '
+  from invops_in  where  invops_inID = @invops_inID 
+end else begin
+  set @BRIEF= ''
+end
+set @BRIEF=left(@BRIEF,255)
+return(@BRIEF)
+end 
+
+GO
+
+alter function invops_in_MREF_F  (
+ @invops_in_ref varchar(4000)
+ ,@Lang varchar(25)=NULL
+) returns varchar(255) as  begin  
+ declare @MREF varchar(255)
+ declare @tmpBrief varchar(255)
+declare multiref_cursor cursor for
+select dbo.invops_in_BRIEF_F(invops_inID, @Lang)  from invops_in
+where @invops_in_ref like '%'+convert(varchar(38),invops_inID)+'%'
+set @MREF=''
+open multiref_cursor
+fetch next from multiref_cursor into @tmpBrief
+while @@fetch_status&gt;=0
+begin
+    if @MREF&lt;&gt;''
+        set @MREF=@MREF+', '
+    set @MREF=@MREF+@tmpBrief
+    fetch next from multiref_cursor into @tmpBrief
+End
+
+Close multiref_cursor
+deallocate multiref_cursor
+set @MREF=left(@MREF,255)
+return(@MREF)
+end 
+
+GO
+
+alter function invops_move_BRIEF_F  (
+ @invops_moveid uniqueidentifier
+ ,@Lang varchar(25)=NULL
+) returns varchar(255) as  begin  
+ declare @BRIEF varchar(255)
+ declare @tmpStr varchar(255)
+ declare @tmpBrief varchar(2000)
+ declare @tmpID uniqueidentifier
+ declare @tmpMR varchar(4000) -- multiref only
+ declare @MLFTemp varchar(2000)
+ declare @MLFBrief varchar(2000)
+if @invops_moveid is null begin set @BRIEF='' return (@BRIEF) end
+ -- Brief body -- 
+if exists(select 1 from invops_move where invops_moveID=@invops_moveID)
+ begin
+ --  verify access  --
+  set @BRIEF=''
+  select @BRIEF= @BRIEF 
+  + '' + Convert(varchar(255),isnull(Convert(varchar(255), shCodeFrom),'')) + '; '
+  from invops_move  where  invops_moveID = @invops_moveID 
+  select @BRIEF= @BRIEF 
+  + '' + Convert(varchar(255),isnull(Convert(varchar(255), shCodeTo),'')) + '; '
+  from invops_move  where  invops_moveID = @invops_moveID 
+  select @BRIEF= @BRIEF 
+  + '' + Convert(varchar(255),isnull(Convert(varchar(255), rfid),'')) + '; '
+  from invops_move  where  invops_moveID = @invops_moveID 
+  select @BRIEF= @BRIEF 
+  + '' + Convert(varchar(255),isnull(Convert(varchar(255), quantity),'')) + '; '
+  from invops_move  where  invops_moveID = @invops_moveID 
+end else begin
+  set @BRIEF= ''
+end
+set @BRIEF=left(@BRIEF,255)
+return(@BRIEF)
+end 
+
+GO
+
+alter function invops_move_MREF_F  (
+ @invops_move_ref varchar(4000)
+ ,@Lang varchar(25)=NULL
+) returns varchar(255) as  begin  
+ declare @MREF varchar(255)
+ declare @tmpBrief varchar(255)
+declare multiref_cursor cursor for
+select dbo.invops_move_BRIEF_F(invops_moveID, @Lang)  from invops_move
+where @invops_move_ref like '%'+convert(varchar(38),invops_moveID)+'%'
+set @MREF=''
+open multiref_cursor
+fetch next from multiref_cursor into @tmpBrief
+while @@fetch_status&gt;=0
+begin
+    if @MREF&lt;&gt;''
+        set @MREF=@MREF+', '
+    set @MREF=@MREF+@tmpBrief
+    fetch next from multiref_cursor into @tmpBrief
+End
+
+Close multiref_cursor
+deallocate multiref_cursor
+set @MREF=left(@MREF,255)
+return(@MREF)
+end 
+
+GO
+
+alter function invops_out_BRIEF_F  (
+ @invops_outid uniqueidentifier
+ ,@Lang varchar(25)=NULL
+) returns varchar(255) as  begin  
+ declare @BRIEF varchar(255)
+ declare @tmpStr varchar(255)
+ declare @tmpBrief varchar(2000)
+ declare @tmpID uniqueidentifier
+ declare @tmpMR varchar(4000) -- multiref only
+ declare @MLFTemp varchar(2000)
+ declare @MLFBrief varchar(2000)
+if @invops_outid is null begin set @BRIEF='' return (@BRIEF) end
+ -- Brief body -- 
+if exists(select 1 from invops_out where invops_outID=@invops_outID)
+ begin
+ --  verify access  --
+  set @BRIEF=''
+  select @BRIEF= @BRIEF 
+  + '' + Convert(varchar(255),isnull(Convert(varchar(255), shCode),'')) + '; '
+  from invops_out  where  invops_outID = @invops_outID 
+  select @BRIEF= @BRIEF 
+  + '' + Convert(varchar(255),isnull(Convert(varchar(255), rfid),'')) + '; '
+  from invops_out  where  invops_outID = @invops_outID 
+  select @BRIEF= @BRIEF 
+  + '' + Convert(varchar(255),isnull(Convert(varchar(255), quantity),'')) + '; '
+  from invops_out  where  invops_outID = @invops_outID 
+select @tmpID =  theDept
+  from invops_out  where  invops_outID = @invops_outID 
+ select @tmpBrief= dbo.invd_dep_BRIEF_F(@tmpID, @Lang)
+  set @BRIEF= @BRIEF + '{' + isnull(@tmpbrief,'') + '}; '
+end else begin
+  set @BRIEF= ''
+end
+set @BRIEF=left(@BRIEF,255)
+return(@BRIEF)
+end 
+
+GO
+
+alter function invops_out_MREF_F  (
+ @invops_out_ref varchar(4000)
+ ,@Lang varchar(25)=NULL
+) returns varchar(255) as  begin  
+ declare @MREF varchar(255)
+ declare @tmpBrief varchar(255)
+declare multiref_cursor cursor for
+select dbo.invops_out_BRIEF_F(invops_outID, @Lang)  from invops_out
+where @invops_out_ref like '%'+convert(varchar(38),invops_outID)+'%'
+set @MREF=''
+open multiref_cursor
+fetch next from multiref_cursor into @tmpBrief
+while @@fetch_status&gt;=0
+begin
+    if @MREF&lt;&gt;''
+        set @MREF=@MREF+', '
+    set @MREF=@MREF+@tmpBrief
+    fetch next from multiref_cursor into @tmpBrief
+End
+
+Close multiref_cursor
+deallocate multiref_cursor
+set @MREF=left(@MREF,255)
+return(@MREF)
+end 
+
+GO
+
 alter function invd_dep_BRIEF_F  (
  @invd_depid uniqueidentifier
  ,@Lang varchar(25)=NULL
@@ -2436,7 +2869,7 @@ invp_data.name
 name 
 , 
 invp_data.RFID 
-RFID 
+rFID 
 , 
  invp_data.groupid  
 groupid 
@@ -2499,7 +2932,7 @@ storepartid
 storepartid_name 
 , 
 inva_real.Qty 
-Qty 
+qty 
 , 
  inva_real.locationid  
 locationid 
@@ -2517,7 +2950,7 @@ theStore
 theStore_name 
 , 
 inva_real.RFID 
-RFID 
+rFID 
 , inva_real.inva_realID ID 
 , 'inva_real' VIEWBASE 
 
@@ -2536,7 +2969,7 @@ storepartid
 storepartid_name 
 , 
 inva_absnt.Qty 
-Qty 
+qty 
 , inva_absnt.inva_absntID ID 
 , 'inva_absnt' VIEWBASE 
 
@@ -2555,7 +2988,7 @@ storepartid
 storepartid_name 
 , 
 inva_extra.Qty 
-Qty 
+qty 
 , 
  inva_extra.locationid  
 locationid 
@@ -2568,7 +3001,7 @@ cellid
 cellid_name 
 , 
 inva_extra.RFID 
-RFID 
+rFID 
 , inva_extra.inva_extraID ID 
 , 'inva_extra' VIEWBASE 
 
@@ -2601,7 +3034,7 @@ storepartid
 storepartid_name 
 , 
 invm_info.Qty 
-Qty 
+qty 
 , 
  invm_info.theOP  
 theOP 
@@ -2647,10 +3080,10 @@ storepartid
 storepartid_name 
 , 
 invw_info.Qty 
-Qty 
+qty 
 , 
 invw_info.RFID 
-RFID 
+rFID 
 , invw_info.invw_infoID ID 
 , 'invw_info' VIEWBASE 
 
@@ -2691,6 +3124,71 @@ islocked_name
 , 'xUserInfo' VIEWBASE 
 
  from xUserInfo
+GO
+if exists (select * from sysobjects where id = object_id(N'V_invops_in') and OBJECTPROPERTY(id, N'IsView') = 1)
+drop view V_invops_in
+GO
+create view V_invops_in as 
+select   invops_in.invops_inId
+, 
+invops_in.shCode 
+shCode 
+, 
+invops_in.rfid 
+rfid 
+, 
+invops_in.quantity 
+quantity 
+, invops_in.invops_inID ID 
+, 'invops_in' VIEWBASE 
+
+ from invops_in
+GO
+if exists (select * from sysobjects where id = object_id(N'V_invops_move') and OBJECTPROPERTY(id, N'IsView') = 1)
+drop view V_invops_move
+GO
+create view V_invops_move as 
+select   invops_move.invops_moveId
+, 
+invops_move.shCodeFrom 
+shCodeFrom 
+, 
+invops_move.shCodeTo 
+shCodeTo 
+, 
+invops_move.rfid 
+rfid 
+, 
+invops_move.quantity 
+quantity 
+, invops_move.invops_moveID ID 
+, 'invops_move' VIEWBASE 
+
+ from invops_move
+GO
+if exists (select * from sysobjects where id = object_id(N'V_invops_out') and OBJECTPROPERTY(id, N'IsView') = 1)
+drop view V_invops_out
+GO
+create view V_invops_out as 
+select   invops_out.invops_outId
+, 
+invops_out.shCode 
+shCode 
+, 
+invops_out.rfid 
+rfid 
+, 
+invops_out.quantity 
+quantity 
+, 
+ invops_out.theDept  
+theDept 
+, dbo.invd_dep_BRIEF_F(invops_out.theDept, NULL) 
+theDept_name 
+, invops_out.invops_outID ID 
+, 'invops_out' VIEWBASE 
+
+ from invops_out
 GO
 if exists (select * from sysobjects where id = object_id(N'V_invd_dep') and OBJECTPROPERTY(id, N'IsView') = 1)
 drop view V_invd_dep
@@ -2791,7 +3289,7 @@ invwh_cell.name
 name 
 , 
 invwh_cell.SHCODE 
-SHCODE 
+sHCODE 
 , invwh_cell.invwh_cellID ID 
 , 'invwh_cell' VIEWBASE 
 
