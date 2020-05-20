@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config
+  ClosePassword="1111"
+  ServiceURL="http://192.168.1.90:8080/api/"
+  GoodNet="no"
+>
+
+</config>
