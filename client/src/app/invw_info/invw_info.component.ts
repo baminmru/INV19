@@ -7,6 +7,7 @@ import {  Validators } from "@angular/forms";
 import { RemoveHTMLtagPipe } from 'app/pipes';
 import { invw } from "app/invw";
 import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const MODE_LIST = 0;
 const MODE_NEW = 1;
@@ -85,9 +86,17 @@ export class invw_infoComponent implements OnInit {
         this.currentinvw_info = item;
     }
 
+    onReport() {
+        this.invw_info_Service.report().subscribe((res) => {this.downLoad(res.body);});
+    }
+
+    downLoad(data: any) {
+        //saveAs(new Blob([data], { type: 'application/vnd.ms-excel' }), 'inventory.xlsx');
+        saveAs(data, 'losttags.xlsx');
+      }
+
     onConfirmDeletion() {
-        this.invw_info_Service.delete_invw_infoById(this.currentinvw_info.invw_infoId).subscribe(data => {this.refreshinvw_info()}, error => { this.ShowError(error.message); });
-        this.backToList();
+        this.invw_info_Service.delete_invw_infoById(this.currentinvw_info.invw_infoId).subscribe(data => {this.refreshinvw_info(); this.backToList();}, error => { this.ShowError(error.message); });
     }
 
     save(item: invw.invw_info) {
@@ -100,18 +109,17 @@ export class invw_infoComponent implements OnInit {
             switch (this.mode) {
                 case MODE_NEW: {
                     this.invw_info_Service.create_invw_info(item)
-                        .subscribe(data =>{ this.refreshinvw_info()}, error => { this.ShowError(error.message); });
+                        .subscribe(data =>{ this.refreshinvw_info();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 case MODE_EDIT: {
                     this.invw_info_Service.update_invw_info( item)
-                        .subscribe(data => {this.refreshinvw_info()}, error => { this.ShowError(error.message); });
+                        .subscribe(data => {this.refreshinvw_info();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 default:
                     break;
             }
-            this.backToList();
         //} else {
         //    this.ShowError("Ошибка заполнения формы");
         }

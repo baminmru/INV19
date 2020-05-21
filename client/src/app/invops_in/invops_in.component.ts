@@ -37,6 +37,7 @@ export class invops_inComponent implements OnInit {
         this.onNew();
     }
     refreshCombo() {
+        this.AppService.refreshComboinvp_data();
     }
     ngOnDestroy() {
     }
@@ -61,6 +62,7 @@ export class invops_inComponent implements OnInit {
     save(item: invops.invops_in) {
         this.valid=true; 
         if(this.currentinvops_in.shCode == undefined || this.currentinvops_in.shCode=='') this.valid=false;
+        if(this.currentinvops_in.thePart == undefined || this.currentinvops_in.thePart=='') this.valid=false;
         if(this.currentinvops_in.rfid == undefined || this.currentinvops_in.rfid=='') this.valid=false;
         if(this.currentinvops_in.quantity == undefined  ) this.valid=false;
         if (this.valid) {

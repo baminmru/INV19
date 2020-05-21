@@ -61,7 +61,7 @@ export class invops_moveComponent implements OnInit {
      if(this.currentinvops_move.shCodeFrom == undefined || this.currentinvops_move.shCodeFrom=='') this.valid=false;
      if(this.currentinvops_move.shCodeTo == undefined || this.currentinvops_move.shCodeTo=='') this.valid=false;
      if(this.currentinvops_move.rfid == undefined || this.currentinvops_move.rfid=='') this.valid=false;
-     if(this.currentinvops_move.quantity == undefined  ) this.valid=false;
+    // if(this.currentinvops_move.quantity == undefined  ) this.valid=false;
         if (this.valid) {
                     this.invops_move_Service.create_invops_move(item)
                         .subscribe(data =>{ this.onNew()}, error => { 

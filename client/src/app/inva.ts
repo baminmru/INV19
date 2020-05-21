@@ -1,7 +1,7 @@
 ﻿import { enums } from './enums';
 
 export namespace inva { 
-	/* inva -  Инвентраизация */ 
+	/* inva -  Инвентаризация */ 
 
  export interface   inva_info { // Описание
 	inva_infoId:string; // Primary key field

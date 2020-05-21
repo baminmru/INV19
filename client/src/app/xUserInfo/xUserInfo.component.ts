@@ -82,8 +82,7 @@ export class xUserInfoComponent implements OnInit {
     }
 
     onConfirmDeletion() {
-        this.xUserInfo_Service.delete_xUserInfoById(this.currentxUserInfo.xUserInfoId).subscribe(data => {this.refreshxUserInfo()}, error => { this.ShowError(error.message); });
-        this.backToList();
+        this.xUserInfo_Service.delete_xUserInfoById(this.currentxUserInfo.xUserInfoId).subscribe(data => {this.refreshxUserInfo(); this.backToList();}, error => { this.ShowError(error.message); });
     }
 
     save(item: XUser.xUserInfo) {
@@ -96,18 +95,17 @@ export class xUserInfoComponent implements OnInit {
             switch (this.mode) {
                 case MODE_NEW: {
                     this.xUserInfo_Service.create_xUserInfo(item)
-                        .subscribe(data =>{ this.refreshxUserInfo()}, error => { this.ShowError(error.message); });
+                        .subscribe(data =>{ this.refreshxUserInfo();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 case MODE_EDIT: {
                     this.xUserInfo_Service.update_xUserInfo( item)
-                        .subscribe(data => {this.refreshxUserInfo()}, error => { this.ShowError(error.message); });
+                        .subscribe(data => {this.refreshxUserInfo();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 default:
                     break;
             }
-            this.backToList();
         //} else {
         //    this.ShowError("Ошибка заполнения формы");
         }

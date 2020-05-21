@@ -82,7 +82,24 @@ export class invw_info_Service {
         return this.http.delete(this.serviceURL + '/invw_info/' + invw_infoId, { headers: cpHeaders })
             
 			
-    }	
+	}	
+	
+
+	report(): Observable<any> {
+        let cpHeaders = new HttpHeaders({
+		'Content-Type': 'application/octet-stream',
+		'Accept': 'application/octet-stream', 
+		'Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
+		
+		const options : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: cpHeaders
+        };
+
+        return this.http.request<any>('get', this.serviceURL + '/report/losttags/', options )
+    }
+
 	
 	private mSelecetd:invw.invw_info = null;
 	

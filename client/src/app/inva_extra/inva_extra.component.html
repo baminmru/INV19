@@ -1,12 +1,12 @@
 ﻿<!--Error dialogue-->
-<amexio-window [show-window]="errorFlag"
-               [header]="true"
+<amexio-window amexioColorPalette [color-palette]="'amexio-theme-color2'" [gradient]="true"  [show-window]="errorFlag"
+            [header]="true"
 			   [footer]="true" 
-			   [draggable]="true" 
+			   [draggable]="false" 
 			   [vertical-position]="'center'" 
 			   [horizontal-position]="'center'" 
 			   [closable]="false"
-               >
+            amexioThemeStyle  [theme-style]="'round-edge'"    >
 	<amexio-header>
         <i class="fa fa-exclamation-triangle"></i> Ошибка
       </amexio-header>
@@ -20,26 +20,38 @@
 	<amexio-action> 
 	<amexio-row> 
 	<amexio-column size="11"> 
-     <amexio-button  [label]="'Ok'" (onClick)="errorFlag=false" [type]="'red'" [tooltip]="'Ok'" [icon]="'fa fa-exclamation-triangle'"></amexio-button>
+     <amexio-button amexioThemeStyle [theme-style]="'round-edge'"    [label]="'Ok'" (onClick)="errorFlag=false" [type]="'red'" [tooltip]="'Ok'" [icon]="'fa fa-exclamation-triangle'"></amexio-button>
 	</amexio-column> 
 	</amexio-row> 
 	</amexio-action> 
 </amexio-window>
 <!-- edit row pane -->	 
- <amexio-window [closable]="false" [maximize]="true" [vertical-position]="'center'"    [horizontal-position]="'center'"  [draggable]="true" [remember-window-position]="true" [width]="'auto'"  amexioThemeStyle  [theme-style]="'round-edge'"  [show-window]="opened" [header]="true" [footer]="true" > 
+ <amexio-window amexioColorPalette [color-palette]="'amexio-theme-color2'" [gradient]="true"  
+        [closable]="false" [maximize]="true" 
+        [vertical-position]="'center'"    
+        [horizontal-position]="'center'"  
+        [draggable]="false" 
+        [remember-window-position]="true" 
+        [width]="'auto'"  
+        amexioThemeStyle  [theme-style]="'round-edge'"  
+        [show-window]="opened  && errorFlag==false" 
+        [header]="true" 
+        [footer]="true" > 
 	  <amexio-header> 
-        {{formMsg}} Инвентраизация::Излишки 
+        {{formMsg}} Инвентаризация::Излишки 
 <amexio-box *ngIf="valid==false" border-color ="red" border="all" padding="true" background-color="yellow">
 	<amexio-label font-color="red"  border="bottom">Ошибка заполнения формы</amexio-label>
 </amexio-box>
       </amexio-header> 
      <amexio-body> 
      <amexio-row><amexio-column size="12" >
+<amexio-label 
+            [size]="'small'" font-color="BLUE" 
+>Запчасть</amexio-label>
 	 <amexio-dropdown 
 	 [place-holder] = "'Запчасть'"
 	 name ="storepartid"
-	 [field-label]= "'Запчасть'"
-            [allow-blank]="false" [error-msg] ="'Не задано: Запчасть'" 
+            [allow-blank]="true" 
 	 
 	 [display-field]="'name'"
 	 [value-field]="'id'"
@@ -50,7 +62,10 @@
   </amexio-dropdown>
      </amexio-column></amexio-row>
      <amexio-row><amexio-column size="12" >
- <amexio-number-input  [enable-popover]= "false" [field-label]="'Количество'" name ="qty" 
+<amexio-label 
+            [size]="'small-bold'" font-color="BLACK" 
+>Количество</amexio-label>
+ <amexio-number-input  [enable-popover]= "false"  name ="qty" 
                     [place-holder]="'Количество'" 
             [allow-blank]="false" [error-msg] ="'Не задано: Количество'" 
 	 [(ngModel)]="currentinva_extra.qty"
@@ -58,10 +73,12 @@
  </amexio-number-input>
      </amexio-column></amexio-row>
      <amexio-row><amexio-column size="12" >
+<amexio-label 
+            [size]="'small-bold'" font-color="BLACK" 
+>Стеллаж</amexio-label>
 	 <amexio-dropdown 
 	 [place-holder] = "'Стеллаж'"
 	 name ="locationid"
-	 [field-label]= "'Стеллаж'"
             [allow-blank]="false" [error-msg] ="'Не задано: Стеллаж'" 
 	 
 	 [display-field]="'name'"
@@ -73,11 +90,13 @@
   </amexio-dropdown>
      </amexio-column></amexio-row>
      <amexio-row><amexio-column size="12" >
+<amexio-label 
+            [size]="'small'" font-color="BLUE" 
+>Ячейка</amexio-label>
 	 <amexio-dropdown 
 	 [place-holder] = "'Ячейка'"
 	 name ="cellid"
-	 [field-label]= "'Ячейка'"
-            [allow-blank]="false" [error-msg] ="'Не задано: Ячейка'" 
+            [allow-blank]="true" 
 	 
 	 [display-field]="'name'"
 	 [value-field]="'id'"
@@ -88,8 +107,12 @@
   </amexio-dropdown>
      </amexio-column></amexio-row>
      <amexio-row><amexio-column size="12" >
-                    <amexio-text-input [field-label]= "'Метка RFID'" name ="rFID"  
+<amexio-label 
+            [size]="'small-bold'" font-color="BLACK" 
+>Метка RFID</amexio-label>
+                    <amexio-text-input  name ="rFID"  
                     [place-holder] = "'Метка RFID'" 
+            [allow-blank]="false" [error-msg] ="'Не задано: Метка RFID'" 
                     [icon-feedback] = "true" [(ngModel)]="currentinva_extra.rFID" >
                     </amexio-text-input>
      </amexio-column></amexio-row>
@@ -97,31 +120,33 @@
 	<amexio-action> 
 	<amexio-row> 
 	<amexio-column size="12"> 
-     <amexio-button  [label]="'Отмена'" (onClick)="opened = false;  refreshinva_extra();" [type]="'secondary'" [tooltip]="'Отмена'" [icon]="'fa fa-times'"></amexio-button>
-     <amexio-button  [label]="'Сохранить'" (onClick)="save(currentinva_extra)" [type]="'success'" [tooltip]="'Сохранить'" [icon]="'fa fa-save'"></amexio-button>
+     <amexio-button amexioThemeStyle [theme-style]="'round-edge'"   [label]="'Отмена'" (onClick)="opened = false;  refreshinva_extra();" [type]="'secondary'" [tooltip]="'Отмена'" [icon]="'fa fa-times'"></amexio-button>
+     <amexio-button amexioThemeStyle [theme-style]="'round-edge'"   [label]="'Сохранить'" (onClick)="save(currentinva_extra)" [type]="'success'" [tooltip]="'Сохранить'" [icon]="'fa fa-save'"></amexio-button>
 	</amexio-column> 
 	</amexio-row> 
 	</amexio-action> 
 </amexio-window> 
    
 <!-- list Of row pane --> 
-<amexio-card [show]="true" [header] ="true" [footer] ="false" > 
+<amexio-card  amexioColorPalette [color-palette]="'classic'" [gradient]="true" [show]="true" [header] ="true" [footer] ="false" > 
     <amexio-header> 
 	<amexio-row> 
 		<amexio-column size="12" > 
-		<!-- <amexio-button [disabled]="AppService.Lastinva_info.inva_infoId==null" [label]="'Создать'" [type]="'secondary'" [tooltip]="'Создать новую запись'" [icon]="'fa fa-plus'" (onClick)="onNew()"></amexio-button>
-		<amexio-button [disabled]="currentinva_extra.inva_extraId==null" [label]="'Изменить'" (onClick)="onEdit(currentinva_extra)" [type]="'secondary'" [tooltip]="'Изменить запись'" [icon]="'fa fa-edit'"></amexio-button>
-     <amexio-button [disabled]="currentinva_extra.inva_extraId==null" [label]="'Удалить'" (onClick)="onDelete(currentinva_extra)" [type]="'secondary'" [tooltip]="'Удалить запись'" [icon]="'fa fa-trash'"></amexio-button> -->
-     <amexio-button  [label]="'Обновить'" (onClick)="refreshinva_extra()" [type]="'secondary'" [tooltip]="'Обновить данные'" [icon]="'fa fa-refresh'"></amexio-button>
-     <amexio-button  [label]="'Экспорт'" (onClick)="exportXSLX()" [type]="'secondary'" [tooltip]="'Экспорт данных'" [icon]="'fa fa-cloud'"></amexio-button>
+		<!-- 
+<amexio-button amexioThemeStyle [theme-style]="'round-edge'"  [disabled]="AppService.Lastinva_info.inva_infoId==null" [label]="'Создать'" [type]="'secondary'" [tooltip]="'Создать новую запись'" [icon]="'fa fa-plus'" (onClick)="onNew()"></amexio-button>
+		<amexio-button amexioThemeStyle [theme-style]="'round-edge'"  [disabled]="currentinva_extra.inva_extraId==null" [label]="'Изменить'" (onClick)="onEdit(currentinva_extra)" [type]="'secondary'" [tooltip]="'Изменить запись'" [icon]="'fa fa-edit'"></amexio-button>
+     <amexio-button amexioThemeStyle [theme-style]="'round-edge'"  [disabled]="currentinva_extra.inva_extraId==null" [label]="'Удалить'" (onClick)="onDelete(currentinva_extra)" [type]="'secondary'" [tooltip]="'Удалить запись'" [icon]="'fa fa-trash'"></amexio-button>
+-->
+     <amexio-button amexioThemeStyle [theme-style]="'round-edge'"   [label]="'Обновить'" (onClick)="refreshinva_extra()" [type]="'secondary'" [tooltip]="'Обновить данные'" [icon]="'fa fa-refresh'"></amexio-button>
+     <amexio-button amexioThemeStyle [theme-style]="'round-edge'"   [label]="'Экспорт'" (onClick)="exportXSLX()" [type]="'secondary'" [tooltip]="'Экспорт данных'" [icon]="'fa fa-cloud'"></amexio-button>
 		</amexio-column>
 	</amexio-row> 
 	</amexio-header> 
 	<amexio-body> 
-		<amexio-datagrid 
-		  [title]="'Инвентраизация::Излишки'" 
+		<amexio-datagrid amexioColorPalette [color-palette]="'vibrant'" [gradient]="true" 
+		  [title]="'Инвентаризация::Излишки'" 
 		  [page-size] = "10" 
-		  [enable-data-filter]="true" 
+		  [enable-data-filter]="false" [global-filter]="true" 
 		  [enable-checkbox]="false" 
 		  [data]="inva_extraArray" 
 		  (selectedRowData)="onSelect($event)" 
@@ -140,10 +165,10 @@
 </amexio-card> 
  
 <!-- confirm delete  dialog -->  
-<amexio-window  [(show-window)]="confirmOpened" [closable]="false" [header]="true" [footer]="true" >  
+<amexio-window amexioColorPalette [color-palette]="'amexio-theme-color2'" [gradient]="true"   [(show-window)]="confirmOpened" [closable]="false" [header]="true" [footer]="true" >  
      
     <amexio-header>
-Удалить строку:  Инвентраизация::Излишки ?
+Удалить строку:  Инвентаризация::Излишки ?
     </amexio-header> 
     <amexio-body> 
             Удалить запись: {{ ( (currentinva_extra.storepartid_name +'; '+  currentinva_extra.qty +'; '+  currentinva_extra.rFID||'').length >100 ? (currentinva_extra.storepartid_name +'; '+  currentinva_extra.qty +'; '+  currentinva_extra.rFID||'').substr(0,100)+'...' : (currentinva_extra.storepartid_name +'; '+  currentinva_extra.qty +'; '+  currentinva_extra.rFID||'')) | removehtmltag }}?  
@@ -151,8 +176,8 @@
 	<amexio-action> 
 	<amexio-row> 
 	<amexio-column size="12"> 
-     <amexio-button  [label]="'Отмена'" (onClick)="confirmOpened = false" [type]="'secondary'" [tooltip]="'Отмена'" [icon]="'fa fa-times'"></amexio-button>
-     <amexio-button  [label]="'Удалить'" (onClick)="onConfirmDeletion()" [type]="'danger'" [tooltip]="'Удалить'" [icon]="'fa fa-trash'"></amexio-button>
+     <amexio-button amexioThemeStyle [theme-style]="'round-edge'"   [label]="'Отмена'" (onClick)="confirmOpened = false" [type]="'secondary'" [tooltip]="'Отмена'" [icon]="'fa fa-times'"></amexio-button>
+     <amexio-button amexioThemeStyle [theme-style]="'round-edge'"   [label]="'Удалить'" (onClick)="onConfirmDeletion()" [type]="'danger'" [tooltip]="'Удалить'" [icon]="'fa fa-trash'"></amexio-button>
 	</amexio-column> 
 	</amexio-row> 
 	</amexio-action> 

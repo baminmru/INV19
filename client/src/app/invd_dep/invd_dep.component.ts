@@ -82,8 +82,7 @@ export class invd_depComponent implements OnInit {
     }
 
     onConfirmDeletion() {
-        this.invd_dep_Service.delete_invd_depById(this.currentinvd_dep.invd_depId).subscribe(data => {this.refreshinvd_dep()}, error => { this.ShowError(error.message); });
-        this.backToList();
+        this.invd_dep_Service.delete_invd_depById(this.currentinvd_dep.invd_depId).subscribe(data => {this.refreshinvd_dep(); this.backToList();}, error => { this.ShowError(error.message); });
     }
 
     save(item: invd.invd_dep) {
@@ -93,18 +92,17 @@ export class invd_depComponent implements OnInit {
             switch (this.mode) {
                 case MODE_NEW: {
                     this.invd_dep_Service.create_invd_dep(item)
-                        .subscribe(data =>{ this.refreshinvd_dep()}, error => { this.ShowError(error.message); });
+                        .subscribe(data =>{ this.refreshinvd_dep();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 case MODE_EDIT: {
                     this.invd_dep_Service.update_invd_dep( item)
-                        .subscribe(data => {this.refreshinvd_dep()}, error => { this.ShowError(error.message); });
+                        .subscribe(data => {this.refreshinvd_dep();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 default:
                     break;
             }
-            this.backToList();
         //} else {
         //    this.ShowError("Ошибка заполнения формы");
         }

@@ -108,8 +108,7 @@ export class inva_realComponent implements OnInit {
     }
 
     onConfirmDeletion() {
-        this.inva_real_Service.delete_inva_realById(this.currentinva_real.inva_realId).subscribe(data => {this.refreshinva_real()}, error => { this.ShowError(error.message); });
-        this.backToList();
+        this.inva_real_Service.delete_inva_realById(this.currentinva_real.inva_realId).subscribe(data => {this.refreshinva_real(); this.backToList();}, error => { this.ShowError(error.message); });
     }
 
     save(item: inva.inva_real) {
@@ -122,18 +121,17 @@ export class inva_realComponent implements OnInit {
             switch (this.mode) {
                 case MODE_NEW: {
                     this.inva_real_Service.create_inva_real(item)
-                        .subscribe(data =>{ this.refreshinva_real()}, error => { this.ShowError(error.message); });
+                        .subscribe(data =>{ this.refreshinva_real();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 case MODE_EDIT: {
                     this.inva_real_Service.update_inva_real( item)
-                        .subscribe(data => {this.refreshinva_real()}, error => { this.ShowError(error.message); });
+                        .subscribe(data => {this.refreshinva_real();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 default:
                     break;
             }
-            this.backToList();
         //} else {
         //    this.ShowError("Ошибка заполнения формы");
         }
@@ -179,8 +177,8 @@ export class inva_realComponent implements OnInit {
         
 
         wb.Props = {
-            Title: "Инвентраизация::Наличие",
-            Subject: "Инвентраизация::Наличие",
+            Title: "Инвентаризация::Наличие",
+            Subject: "Инвентаризация::Наличие",
             Company: "master.bami",
             Category: "Experimentation",
             Keywords: "Export service",

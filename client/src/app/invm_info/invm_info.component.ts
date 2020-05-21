@@ -88,8 +88,7 @@ export class invm_infoComponent implements OnInit {
     }
 
     onConfirmDeletion() {
-        this.invm_info_Service.delete_invm_infoById(this.currentinvm_info.invm_infoId).subscribe(data => {this.refreshinvm_info()}, error => { this.ShowError(error.message); });
-        this.backToList();
+        this.invm_info_Service.delete_invm_infoById(this.currentinvm_info.invm_infoId).subscribe(data => {this.refreshinvm_info(); this.backToList();}, error => { this.ShowError(error.message); });
     }
 
     save(item: invm.invm_info) {
@@ -102,18 +101,17 @@ export class invm_infoComponent implements OnInit {
             switch (this.mode) {
                 case MODE_NEW: {
                     this.invm_info_Service.create_invm_info(item)
-                        .subscribe(data =>{ this.refreshinvm_info()}, error => { this.ShowError(error.message); });
+                        .subscribe(data =>{ this.refreshinvm_info();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 case MODE_EDIT: {
                     this.invm_info_Service.update_invm_info( item)
-                        .subscribe(data => {this.refreshinvm_info()}, error => { this.ShowError(error.message); });
+                        .subscribe(data => {this.refreshinvm_info();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 default:
                     break;
             }
-            this.backToList();
         //} else {
         //    this.ShowError("Ошибка заполнения формы");
         }

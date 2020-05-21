@@ -6,8 +6,11 @@ export namespace invops {
  export interface   invops_in { // Приемка
 	invops_inId:string; // Primary key field
 	shCode:string; // Штрихкод ячейки
+	thePart:string; //Деталь -> invp_data
 	rfid:string; // RFID детали
 	quantity:Number; // Количество
+	// add dereference fields 
+	thePart_name :string; // dereference for invp_data
  }
 
  export interface   invops_move { // Перемещение
@@ -15,10 +18,10 @@ export namespace invops {
 	shCodeFrom:string; // Штрихкод начальной ячейки 
 	shCodeTo:string; // Штрихкод конечной ячейки
 	rfid:string; // RFID детали
-	quantity:Number; // Количество
+	// quantity:Number; // Количество
  }
 
- export interface   invops_out { // Отргузка
+ export interface   invops_out { // Отгрузка
 	invops_outId:string; // Primary key field
 	shCode:string; // Штрихкод ячейки
 	rfid:string; // RFID детали

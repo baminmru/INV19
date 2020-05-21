@@ -1,12 +1,12 @@
 ﻿<!--Error dialogue-->
-<amexio-window [show-window]="errorFlag"
+<amexio-window amexioColorPalette [color-palette]="'amexio-theme-color2'" [gradient]="true"  [show-window]="errorFlag"
                [header]="true"
 			   [footer]="true" 
-			   [draggable]="true" 
+			   [draggable]="false" 
 			   [vertical-position]="'center'" 
 			   [horizontal-position]="'center'" 
 			   [closable]="false"
-               >
+            amexioThemeStyle  [theme-style]="'round-edge'"    >
 	<amexio-header>
         <i class="fa fa-exclamation-triangle"></i> Ошибка
       </amexio-header>
@@ -20,34 +20,45 @@
 	<amexio-action> 
 	<amexio-row> 
 	<amexio-column size="11"> 
-     <amexio-button  [label]="'Ok'" (onClick)="errorFlag=false" [type]="'red'" [tooltip]="'Ok'" [icon]="'fa fa-exclamation-triangle'"></amexio-button>
+     <amexio-button amexioThemeStyle [theme-style]="'round-edge'"    [label]="'Ok'" (onClick)="errorFlag=false" [type]="'red'" [tooltip]="'Ok'" [icon]="'fa fa-exclamation-triangle'"></amexio-button>
 	</amexio-column> 
 	</amexio-row> 
 	</amexio-action> 
 </amexio-window>
 <!-- edit row pane -->	 
-<amexio-card [show]="true" [header] ="true" [footer] ="true" > 
+<amexio-card amexioColorPalette [color-palette]="'amexio-theme-color2'" [gradient]="true" [show]="true" [header] ="true" [footer] ="true" > 
 	  <amexio-header> 
-        Отргузка 
+        Отгрузка 
 <amexio-box *ngIf="valid==false" border-color ="red" border="all" padding="true" background-color="yellow">
 	<amexio-label font-color="red"  border="bottom">Ошибка заполнения формы</amexio-label>
 </amexio-box>
       </amexio-header> 
      <amexio-body> 
      <amexio-row><amexio-column size="12" >
-                    <amexio-text-input [field-label]= "'Штрихкод ячейки'" name ="shCode"  
+<amexio-label 
+            [size]="'small-bold'" font-color="BLACK" 
+>Штрихкод ячейки</amexio-label>
+                    <amexio-text-input  name ="shCode"  
                     [place-holder] = "'Штрихкод ячейки'" 
+            [allow-blank]="false" [error-msg] ="'Не задано: Штрихкод ячейки'" 
                     [icon-feedback] = "true" [(ngModel)]="currentinvops_out.shCode" >
                     </amexio-text-input>
      </amexio-column></amexio-row>
      <amexio-row><amexio-column size="12" >
-                    <amexio-text-input [field-label]= "'RFID детали'" name ="rfid"  
+<amexio-label 
+            [size]="'small-bold'" font-color="BLACK" 
+>RFID детали</amexio-label>
+                    <amexio-text-input  name ="rfid"  
                     [place-holder] = "'RFID детали'" 
+            [allow-blank]="false" [error-msg] ="'Не задано: RFID детали'" 
                     [icon-feedback] = "true" [(ngModel)]="currentinvops_out.rfid" >
                     </amexio-text-input>
      </amexio-column></amexio-row>
      <amexio-row><amexio-column size="12" >
- <amexio-number-input  [enable-popover]= "false" [field-label]="'Количество'" name ="quantity" 
+<amexio-label 
+            [size]="'small-bold'" font-color="BLACK" 
+>Количество</amexio-label>
+ <amexio-number-input  [enable-popover]= "false"  name ="quantity" 
                     [place-holder]="'Количество'" 
             [allow-blank]="false" [error-msg] ="'Не задано: Количество'" 
 	 [(ngModel)]="currentinvops_out.quantity"
@@ -55,10 +66,12 @@
  </amexio-number-input>
      </amexio-column></amexio-row>
      <amexio-row><amexio-column size="12" >
+<amexio-label 
+            [size]="'small-bold'" font-color="BLACK" 
+>Отдел</amexio-label>
 	 <amexio-dropdown 
 	 [place-holder] = "'Отдел'"
 	 name ="theDept"
-	 [field-label]= "'Отдел'"
             [allow-blank]="false" [error-msg] ="'Не задано: Отдел'" 
 	 
 	 [display-field]="'name'"
@@ -73,8 +86,8 @@
 	<amexio-action> 
 	<amexio-row> 
 	<amexio-column size="12"> 
-     <amexio-button  [label]="'Отмена'" (onClick)="onNew();" [type]="'secondary'" [tooltip]="'Отмена'" [icon]="'fa fa-times'"></amexio-button>
-     <amexio-button  [label]="'Провести'" (onClick)="save(currentinvops_out)" [type]="'success'" [tooltip]="'Провести'" [icon]="'fa fa-save'"></amexio-button>
+     <amexio-button amexioThemeStyle [theme-style]="'round-edge'"  [label]="'Отмена'" (onClick)="onNew();" [type]="'secondary'" [tooltip]="'Отмена'" [icon]="'fa fa-times'"></amexio-button>
+     <amexio-button amexioThemeStyle [theme-style]="'round-edge'"  [label]="'Провести'" (onClick)="save(currentinvops_out)" [type]="'success'" [tooltip]="'Провести'" [icon]="'fa fa-save'"></amexio-button>
 	</amexio-column> 
 	</amexio-row> 
 	</amexio-action> 

@@ -82,8 +82,7 @@ export class invd_opComponent implements OnInit {
     }
 
     onConfirmDeletion() {
-        this.invd_op_Service.delete_invd_opById(this.currentinvd_op.invd_opId).subscribe(data => {this.refreshinvd_op()}, error => { this.ShowError(error.message); });
-        this.backToList();
+        this.invd_op_Service.delete_invd_opById(this.currentinvd_op.invd_opId).subscribe(data => {this.refreshinvd_op(); this.backToList();}, error => { this.ShowError(error.message); });
     }
 
     save(item: invd.invd_op) {
@@ -93,18 +92,17 @@ export class invd_opComponent implements OnInit {
             switch (this.mode) {
                 case MODE_NEW: {
                     this.invd_op_Service.create_invd_op(item)
-                        .subscribe(data =>{ this.refreshinvd_op()}, error => { this.ShowError(error.message); });
+                        .subscribe(data =>{ this.refreshinvd_op();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 case MODE_EDIT: {
                     this.invd_op_Service.update_invd_op( item)
-                        .subscribe(data => {this.refreshinvd_op()}, error => { this.ShowError(error.message); });
+                        .subscribe(data => {this.refreshinvd_op();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 default:
                     break;
             }
-            this.backToList();
         //} else {
         //    this.ShowError("Ошибка заполнения формы");
         }

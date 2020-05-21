@@ -87,8 +87,7 @@ export class invwh_locComponent implements OnInit {
     }
 
     onConfirmDeletion() {
-        this.invwh_loc_Service.delete_invwh_locById(this.currentinvwh_loc.invwh_locId).subscribe(data => {this.refreshinvwh_loc()}, error => { this.ShowError(error.message); });
-        this.backToList();
+        this.invwh_loc_Service.delete_invwh_locById(this.currentinvwh_loc.invwh_locId).subscribe(data => {this.refreshinvwh_loc(); this.backToList();}, error => { this.ShowError(error.message); });
     }
 
     save(item: invwh.invwh_loc) {
@@ -99,18 +98,17 @@ export class invwh_locComponent implements OnInit {
             switch (this.mode) {
                 case MODE_NEW: {
                     this.invwh_loc_Service.create_invwh_loc(item)
-                        .subscribe(data =>{ this.refreshinvwh_loc()}, error => { this.ShowError(error.message); });
+                        .subscribe(data =>{ this.refreshinvwh_loc();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 case MODE_EDIT: {
                     this.invwh_loc_Service.update_invwh_loc( item)
-                        .subscribe(data => {this.refreshinvwh_loc()}, error => { this.ShowError(error.message); });
+                        .subscribe(data => {this.refreshinvwh_loc();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 default:
                     break;
             }
-            this.backToList();
         //} else {
         //    this.ShowError("Ошибка заполнения формы");
         }

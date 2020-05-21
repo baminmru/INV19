@@ -104,8 +104,7 @@ export class invwh_cellComponent implements OnInit {
     }
 
     onConfirmDeletion() {
-        this.invwh_cell_Service.delete_invwh_cellById(this.currentinvwh_cell.invwh_cellId).subscribe(data => {this.refreshinvwh_cell()}, error => { this.ShowError(error.message); });
-        this.backToList();
+        this.invwh_cell_Service.delete_invwh_cellById(this.currentinvwh_cell.invwh_cellId).subscribe(data => {this.refreshinvwh_cell(); this.backToList();}, error => { this.ShowError(error.message); });
     }
 
     save(item: invwh.invwh_cell) {
@@ -115,18 +114,17 @@ export class invwh_cellComponent implements OnInit {
             switch (this.mode) {
                 case MODE_NEW: {
                     this.invwh_cell_Service.create_invwh_cell(item)
-                        .subscribe(data =>{ this.refreshinvwh_cell()}, error => { this.ShowError(error.message); });
+                        .subscribe(data =>{ this.refreshinvwh_cell();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 case MODE_EDIT: {
                     this.invwh_cell_Service.update_invwh_cell( item)
-                        .subscribe(data => {this.refreshinvwh_cell()}, error => { this.ShowError(error.message); });
+                        .subscribe(data => {this.refreshinvwh_cell();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 default:
                     break;
             }
-            this.backToList();
         //} else {
         //    this.ShowError("Ошибка заполнения формы");
         }

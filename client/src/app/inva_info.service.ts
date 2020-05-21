@@ -74,7 +74,28 @@ export class inva_info_Service {
     update_inva_info(inva_info: inva.inva_info):Observable<Object > {
         let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
         return this.http.put(this.serviceURL + '/inva_info/' + inva_info.inva_infoId, inva_info, { headers: cpHeaders })
+	}
+	
+
+	report(inva_infoId: string): Observable<any> {
+        let cpHeaders = new HttpHeaders({
+		'Content-Type': 'application/octet-stream',
+		'Accept': 'application/octet-stream', 
+		'Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
+		
+		const options : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: cpHeaders
+        };
+
+        return this.http.request<any>('get', this.serviceURL + '/report/inventory/' + inva_infoId, options )
     }
+
+	reportUrl(inva_infoId: string): string {
+        return this.serviceURL + '/report/inventory/' + inva_infoId;
+    }
+
 	
     //Delete inva_info	
     delete_inva_infoById(inva_infoId: string): Observable<Object> {

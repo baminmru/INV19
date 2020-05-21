@@ -104,8 +104,7 @@ export class invg_subgrpComponent implements OnInit {
     }
 
     onConfirmDeletion() {
-        this.invg_subgrp_Service.delete_invg_subgrpById(this.currentinvg_subgrp.invg_subgrpId).subscribe(data => {this.refreshinvg_subgrp()}, error => { this.ShowError(error.message); });
-        this.backToList();
+        this.invg_subgrp_Service.delete_invg_subgrpById(this.currentinvg_subgrp.invg_subgrpId).subscribe(data => {this.refreshinvg_subgrp(); this.backToList();}, error => { this.ShowError(error.message); });
     }
 
     save(item: invg.invg_subgrp) {
@@ -115,18 +114,17 @@ export class invg_subgrpComponent implements OnInit {
             switch (this.mode) {
                 case MODE_NEW: {
                     this.invg_subgrp_Service.create_invg_subgrp(item)
-                        .subscribe(data =>{ this.refreshinvg_subgrp()}, error => { this.ShowError(error.message); });
+                        .subscribe(data =>{ this.refreshinvg_subgrp();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 case MODE_EDIT: {
                     this.invg_subgrp_Service.update_invg_subgrp( item)
-                        .subscribe(data => {this.refreshinvg_subgrp()}, error => { this.ShowError(error.message); });
+                        .subscribe(data => {this.refreshinvg_subgrp();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 default:
                     break;
             }
-            this.backToList();
         //} else {
         //    this.ShowError("Ошибка заполнения формы");
         }

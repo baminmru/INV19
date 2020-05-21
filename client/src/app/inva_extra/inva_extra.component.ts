@@ -107,31 +107,29 @@ export class inva_extraComponent implements OnInit {
     }
 
     onConfirmDeletion() {
-        this.inva_extra_Service.delete_inva_extraById(this.currentinva_extra.inva_extraId).subscribe(data => {this.refreshinva_extra()}, error => { this.ShowError(error.message); });
-        this.backToList();
+        this.inva_extra_Service.delete_inva_extraById(this.currentinva_extra.inva_extraId).subscribe(data => {this.refreshinva_extra(); this.backToList();}, error => { this.ShowError(error.message); });
     }
 
     save(item: inva.inva_extra) {
         this.valid=true; 
      if(this.currentinva_extra.qty == undefined  ) this.valid=false;
      if(this.currentinva_extra.locationid == undefined ) this.valid=false;
-     //if(this.currentinva_extra.RFID == undefined || this.currentinva_extra.RFID=='') this.valid=false;
+     if(this.currentinva_extra.rFID == undefined || this.currentinva_extra.rFID=='') this.valid=false;
         if (this.valid) {
             switch (this.mode) {
                 case MODE_NEW: {
                     this.inva_extra_Service.create_inva_extra(item)
-                        .subscribe(data =>{ this.refreshinva_extra()}, error => { this.ShowError(error.message); });
+                        .subscribe(data =>{ this.refreshinva_extra();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 case MODE_EDIT: {
                     this.inva_extra_Service.update_inva_extra( item)
-                        .subscribe(data => {this.refreshinva_extra()}, error => { this.ShowError(error.message); });
+                        .subscribe(data => {this.refreshinva_extra();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 default:
                     break;
             }
-            this.backToList();
         //} else {
         //    this.ShowError("Ошибка заполнения формы");
         }
@@ -174,8 +172,8 @@ export class inva_extraComponent implements OnInit {
         
 
         wb.Props = {
-            Title: "Инвентраизация::Излишки",
-            Subject: "Инвентраизация::Излишки",
+            Title: "Инвентаризация::Излишки",
+            Subject: "Инвентаризация::Излишки",
             Company: "master.bami",
             Category: "Experimentation",
             Keywords: "Export service",

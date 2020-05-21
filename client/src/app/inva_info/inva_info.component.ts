@@ -7,6 +7,7 @@ import {  Validators } from "@angular/forms";
 import { RemoveHTMLtagPipe } from 'app/pipes';
 import { inva } from "app/inva";
 import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const MODE_LIST = 0;
 const MODE_NEW = 1;
@@ -84,9 +85,17 @@ export class inva_infoComponent implements OnInit {
         this.currentinva_info = item;
     }
 
+    onReport() {
+        this.inva_info_Service.report(this.currentinva_info.inva_infoId).subscribe((res) => {this.downLoad(res.body);});
+    }
+
+    downLoad(data: any) {
+        //saveAs(new Blob([data], { type: 'application/vnd.ms-excel' }), 'inventory.xlsx');
+        saveAs(data, 'inventory.xlsx');
+      }
+
     onConfirmDeletion() {
-        this.inva_info_Service.delete_inva_infoById(this.currentinva_info.inva_infoId).subscribe(data => {this.refreshinva_info()}, error => { this.ShowError(error.message); });
-        this.backToList();
+        this.inva_info_Service.delete_inva_infoById(this.currentinva_info.inva_infoId).subscribe(data => {this.refreshinva_info(); this.backToList();}, error => { this.ShowError(error.message); });
     }
 
     save(item: inva.inva_info) {
@@ -96,18 +105,17 @@ export class inva_infoComponent implements OnInit {
             switch (this.mode) {
                 case MODE_NEW: {
                     this.inva_info_Service.create_inva_info(item)
-                        .subscribe(data =>{ this.refreshinva_info()}, error => { this.ShowError(error.message); });
+                        .subscribe(data =>{ this.refreshinva_info();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 case MODE_EDIT: {
                     this.inva_info_Service.update_inva_info( item)
-                        .subscribe(data => {this.refreshinva_info()}, error => { this.ShowError(error.message); });
+                        .subscribe(data => {this.refreshinva_info();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 default:
                     break;
             }
-            this.backToList();
         //} else {
         //    this.ShowError("Ошибка заполнения формы");
         }
@@ -144,8 +152,8 @@ export class inva_infoComponent implements OnInit {
         
 
         wb.Props = {
-            Title: "Инвентраизация::Описание",
-            Subject: "Инвентраизация::Описание",
+            Title: "Инвентаризация::Описание",
+            Subject: "Инвентаризация::Описание",
             Company: "master.bami",
             Category: "Experimentation",
             Keywords: "Export service",

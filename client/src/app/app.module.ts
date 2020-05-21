@@ -31,8 +31,10 @@ import { invg_subgrp_Service } from 'app/invg_subgrp.service';
 import { inviComponent } from './invi/invi.component'; // Запчасть
 import { invp_dataComponent } from './invp_data/invp_data.component'; // Описание
 import { invp_data_Service } from 'app/invp_data.service'; 
+import { invp_tagComponent } from './invp_tag/invp_tag.component'; // Метки
+import { invp_tag_Service } from 'app/invp_tag.service'; 
  
-import { invaComponent } from './inva/inva.component'; // Инвентраизация
+import { invaComponent } from './inva/inva.component'; // Инвентаризация
 import { inva_infoComponent } from './inva_info/inva_info.component'; // Описание
 import { inva_info_Service } from 'app/inva_info.service'; 
 import { inva_realComponent } from './inva_real/inva_real.component'; // Наличие
@@ -59,7 +61,7 @@ import { invops_inComponent } from './invops_in/invops_in.component'; // При�
 import { invops_in_Service } from 'app/invops_in.service'; 
 import { invops_moveComponent } from './invops_move/invops_move.component'; // Перемещение
 import { invops_move_Service } from 'app/invops_move.service'; 
-import { invops_outComponent } from './invops_out/invops_out.component'; // Отргузка
+import { invops_outComponent } from './invops_out/invops_out.component'; // Отгрузка
 import { invops_out_Service } from 'app/invops_out.service'; 
  
 import { invdComponent } from './invd/invd.component'; // Справочник
@@ -94,8 +96,9 @@ jwtLoginComponent,
  
  inviComponent ,  // Запчасть
   invp_dataComponent, // Описание
+  invp_tagComponent, // Метки
  
- invaComponent ,  // Инвентраизация
+ invaComponent ,  // Инвентаризация
   inva_infoComponent, // Описание
   inva_realComponent, // Наличие
   inva_absntComponent, // Недостача
@@ -113,7 +116,7 @@ jwtLoginComponent,
  invopsComponent ,  // Операции
   invops_inComponent, // Приемка
   invops_moveComponent, // Перемещение
-  invops_outComponent, // Отргузка
+  invops_outComponent, // Отгрузка
  
  invdComponent ,  // Справочник
   invd_depComponent, // Отдел
@@ -150,6 +153,7 @@ jwtLoginComponent,
   ,invg_grp_Service
   ,invg_subgrp_Service
   ,invp_data_Service
+  ,invp_tag_Service
   ,inva_info_Service
   ,inva_real_Service
   ,inva_absnt_Service

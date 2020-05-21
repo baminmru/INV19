@@ -85,8 +85,7 @@ export class invg_grpComponent implements OnInit {
     }
 
     onConfirmDeletion() {
-        this.invg_grp_Service.delete_invg_grpById(this.currentinvg_grp.invg_grpId).subscribe(data => {this.refreshinvg_grp()}, error => { this.ShowError(error.message); });
-        this.backToList();
+        this.invg_grp_Service.delete_invg_grpById(this.currentinvg_grp.invg_grpId).subscribe(data => {this.refreshinvg_grp(); this.backToList();}, error => { this.ShowError(error.message); });
     }
 
     save(item: invg.invg_grp) {
@@ -96,18 +95,17 @@ export class invg_grpComponent implements OnInit {
             switch (this.mode) {
                 case MODE_NEW: {
                     this.invg_grp_Service.create_invg_grp(item)
-                        .subscribe(data =>{ this.refreshinvg_grp()}, error => { this.ShowError(error.message); });
+                        .subscribe(data =>{ this.refreshinvg_grp();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 case MODE_EDIT: {
                     this.invg_grp_Service.update_invg_grp( item)
-                        .subscribe(data => {this.refreshinvg_grp()}, error => { this.ShowError(error.message); });
+                        .subscribe(data => {this.refreshinvg_grp();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 default:
                     break;
             }
-            this.backToList();
         //} else {
         //    this.ShowError("Ошибка заполнения формы");
         }

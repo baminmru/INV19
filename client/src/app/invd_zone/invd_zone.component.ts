@@ -82,8 +82,7 @@ export class invd_zoneComponent implements OnInit {
     }
 
     onConfirmDeletion() {
-        this.invd_zone_Service.delete_invd_zoneById(this.currentinvd_zone.invd_zoneId).subscribe(data => {this.refreshinvd_zone()}, error => { this.ShowError(error.message); });
-        this.backToList();
+        this.invd_zone_Service.delete_invd_zoneById(this.currentinvd_zone.invd_zoneId).subscribe(data => {this.refreshinvd_zone(); this.backToList();}, error => { this.ShowError(error.message); });
     }
 
     save(item: invd.invd_zone) {
@@ -93,18 +92,17 @@ export class invd_zoneComponent implements OnInit {
             switch (this.mode) {
                 case MODE_NEW: {
                     this.invd_zone_Service.create_invd_zone(item)
-                        .subscribe(data =>{ this.refreshinvd_zone()}, error => { this.ShowError(error.message); });
+                        .subscribe(data =>{ this.refreshinvd_zone();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 case MODE_EDIT: {
                     this.invd_zone_Service.update_invd_zone( item)
-                        .subscribe(data => {this.refreshinvd_zone()}, error => { this.ShowError(error.message); });
+                        .subscribe(data => {this.refreshinvd_zone();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 default:
                     break;
             }
-            this.backToList();
         //} else {
         //    this.ShowError("Ошибка заполнения формы");
         }

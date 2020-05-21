@@ -14,7 +14,6 @@ export class invp_data_Service {
 	
 	
 	name:string = '';
-	RFID:string = '';
 	PageSize:number=10;
 	PageUrl:string='';
     
@@ -26,10 +25,6 @@ export class invp_data_Service {
 		if(this.name!=''){
 			if(qry !='') qry=qry +'&';
 			qry='name='+encodeURIComponent(this.name)
-		}
-		if(this.RFID!=''){
-			if(qry !='') qry=qry +'&';
-			qry='RFID='+encodeURIComponent(this.RFID)
 		}
 		/*
 		if(this.PageNo!=null){
@@ -51,7 +46,6 @@ export class invp_data_Service {
 	
 	clearSearch():void{
 	this.name = '';
-	this.RFID = '';
 		
 	}
  

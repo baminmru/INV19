@@ -18,8 +18,10 @@ export class ComboInfo{
 	id:string; 
 	name:string; 
 } 
- 
-
+export class enumInfo{ 
+	id:number; 
+	name:string; 
+} 
  
 @Injectable() 
 export class AppService { 
@@ -267,6 +269,17 @@ public SelectedRole = new BehaviorSubject<string>("");
 	} 
 	public currentinvp_data = this.Selectedinvp_data.asObservable(); 
 
+	// support for Selected invi.invp_tag; 
+	public Lastinvp_tag:invi.invp_tag = {} as invi.invp_tag; 
+	public Selectedinvp_tag = new BehaviorSubject<invi.invp_tag>({} as invi.invp_tag); 
+	public pushSelectedinvp_tag(item:invi.invp_tag){ 
+		console.log("change Selected invp_tag"); 
+		this.Lastinvp_tag=item; 
+		this.Selectedinvp_tag.next(item); 
+		 
+	} 
+	public currentinvp_tag = this.Selectedinvp_tag.asObservable(); 
+
 
 	// support for Selected inva.inva_info; 
 	public Lastinva_info:inva.inva_info = {} as inva.inva_info; 
@@ -490,6 +503,14 @@ public SelectedRole = new BehaviorSubject<string>("");
 	public refreshComboinvp_data() { 
 	this.getinvp_data().subscribe(Data => {this.Comboinvp_data=Data;});
  }
+	public Comboinvp_tag:Array<ComboInfo> = []; 
+	public getinvp_tag(): Observable<ComboInfo[]> { 
+     let cpHeaders = new HttpHeaders({ 'Content-Type': 'application/json','Authorization': 'Bearer '+ sessionStorage.getItem('auth_token') });
+		return this.http.get<ComboInfo[]>(this.serviceURL + '/invp_tag/Combo', { headers: cpHeaders }); 
+ }
+	public refreshComboinvp_tag() { 
+	this.getinvp_tag().subscribe(Data => {this.Comboinvp_tag=Data;});
+ }
 
 	public Comboinva_info:Array<ComboInfo> = []; 
 	public getinva_info(): Observable<ComboInfo[]> { 
@@ -618,6 +639,7 @@ public RefreshCombo(){
 	}); 
 
 	this.getinvp_data().subscribe(data => {this.Comboinvp_data=data;}); 
+	this.getinvp_tag().subscribe(data => {this.Comboinvp_tag=data;}); 
 	 
 	this.getinva_info().subscribe(data => {this.Comboinva_info=data;}); 
 	this.getinva_real().subscribe(data => {this.Comboinva_real=data;}); 
@@ -647,515 +669,515 @@ public RefreshCombo(){
 	public enumStructTypeCombo(){
 		return this.enumStructType;
 	}
-	enumStructType:Array<ComboInfo> =[
+	enumStructType:Array<enumInfo> =[
 
-	 {id:'0',name:'Строка атрибутов'}
-	, {id:'1',name:'Коллекция'}
-	, {id:'2',name:'Дерево'}	];
+	 {id:0,name:'Строка атрибутов'}
+	, {id:1,name:'Коллекция'}
+	, {id:2,name:'Дерево'}	];
 
 	/* WFFuncParam - Вариант расшифровки параметра функции */ 
 	public enumWFFuncParamCombo(){
 		return this.enumWFFuncParam;
 	}
-	enumWFFuncParam:Array<ComboInfo> =[
+	enumWFFuncParam:Array<enumInfo> =[
 
-	 {id:'8',name:'Роль'}
-	, {id:'2',name:'Выражение'}
-	, {id:'5',name:'Документ'}
-	, {id:'7',name:'Поле'}
-	, {id:'9',name:'Тип документа'}
-	, {id:'0',name:'Значение'}
-	, {id:'6',name:'Раздел'}
-	, {id:'4',name:'Документ процесса'}
-	, {id:'3',name:'Папка'}
-	, {id:'1',name:'Значение из параметра'}	];
+	 {id:8,name:'Роль'}
+	, {id:2,name:'Выражение'}
+	, {id:5,name:'Документ'}
+	, {id:7,name:'Поле'}
+	, {id:9,name:'Тип документа'}
+	, {id:0,name:'Значение'}
+	, {id:6,name:'Раздел'}
+	, {id:4,name:'Документ процесса'}
+	, {id:3,name:'Папка'}
+	, {id:1,name:'Значение из параметра'}	];
 
 	/* ReportType - Вариант отчета */ 
 	public enumReportTypeCombo(){
 		return this.enumReportType;
 	}
-	enumReportType:Array<ComboInfo> =[
+	enumReportType:Array<enumInfo> =[
 
-	 {id:'4',name:'Экспорт по Excel шаблону'}
-	, {id:'0',name:'Таблица'}
-	, {id:'3',name:'Экспорт по WORD шаблону'}
-	, {id:'1',name:'Двумерная матрица'}
-	, {id:'2',name:'Только расчет'}	];
+	 {id:4,name:'Экспорт по Excel шаблону'}
+	, {id:0,name:'Таблица'}
+	, {id:3,name:'Экспорт по WORD шаблону'}
+	, {id:1,name:'Двумерная матрица'}
+	, {id:2,name:'Только расчет'}	];
 
 	/* Education - Образование */ 
 	public enumEducationCombo(){
 		return this.enumEducation;
 	}
-	enumEducation:Array<ComboInfo> =[
+	enumEducation:Array<enumInfo> =[
 
-	 {id:'-1',name:'Не важно'}
-	, {id:'1',name:'Среднее'}
-	, {id:'4',name:'Высшее'}
-	, {id:'3',name:'Неполное высшее'}
-	, {id:'0',name:'Неполное среднее'}
-	, {id:'5',name:'Несколько высших'}
-	, {id:'2',name:'Среднее специальное'}	];
+	 {id:-1,name:'Не важно'}
+	, {id:1,name:'Среднее'}
+	, {id:4,name:'Высшее'}
+	, {id:3,name:'Неполное высшее'}
+	, {id:0,name:'Неполное среднее'}
+	, {id:5,name:'Несколько высших'}
+	, {id:2,name:'Среднее специальное'}	];
 
 	/* TypeStyle - Вариант трактовки типа поля */ 
 	public enumTypeStyleCombo(){
 		return this.enumTypeStyle;
 	}
-	enumTypeStyle:Array<ComboInfo> =[
+	enumTypeStyle:Array<enumInfo> =[
 
-	 {id:'4',name:'Ссылка'}
-	, {id:'1',name:'Выражение'}
-	, {id:'5',name:'Элемент оформления'}
-	, {id:'3',name:'Интервал'}
-	, {id:'2',name:'Перечисление'}
-	, {id:'0',name:'Скалярный тип'}	];
+	 {id:4,name:'Ссылка'}
+	, {id:1,name:'Выражение'}
+	, {id:5,name:'Элемент оформления'}
+	, {id:3,name:'Интервал'}
+	, {id:2,name:'Перечисление'}
+	, {id:0,name:'Скалярный тип'}	];
 
 	/* ReplicationType - Вариант репликации докуента */ 
 	public enumReplicationTypeCombo(){
 		return this.enumReplicationType;
 	}
-	enumReplicationType:Array<ComboInfo> =[
+	enumReplicationType:Array<enumInfo> =[
 
-	 {id:'1',name:'Построчно'}
-	, {id:'0',name:'Весь документ'}
-	, {id:'2',name:'Локальный'}	];
+	 {id:1,name:'Построчно'}
+	, {id:0,name:'Весь документ'}
+	, {id:2,name:'Локальный'}	];
 
 	/* NumerationRule - Правило нумерации */ 
 	public enumNumerationRuleCombo(){
 		return this.enumNumerationRule;
 	}
-	enumNumerationRule:Array<ComboInfo> =[
+	enumNumerationRule:Array<enumInfo> =[
 
-	 {id:'2',name:'По кварталу'}
-	, {id:'3',name:'По месяцу'}
-	, {id:'0',name:'Единая зона'}
-	, {id:'4',name:'По дню'}
-	, {id:'1',name:'По году'}
-	, {id:'10',name:'Произвольные зоны'}	];
+	 {id:2,name:'По кварталу'}
+	, {id:3,name:'По месяцу'}
+	, {id:0,name:'Единая зона'}
+	, {id:4,name:'По дню'}
+	, {id:1,name:'По году'}
+	, {id:10,name:'Произвольные зоны'}	];
 
 	/* WFProcessState - Состояния процесса */ 
 	public enumWFProcessStateCombo(){
 		return this.enumWFProcessState;
 	}
-	enumWFProcessState:Array<ComboInfo> =[
+	enumWFProcessState:Array<enumInfo> =[
 
-	 {id:'3',name:'Pause'}
-	, {id:'2',name:'Active'}
-	, {id:'4',name:'Done'}
-	, {id:'1',name:'Prepare'}
-	, {id:'0',name:'Initial'}
-	, {id:'5',name:'Processed'}	];
+	 {id:3,name:'Pause'}
+	, {id:2,name:'Active'}
+	, {id:4,name:'Done'}
+	, {id:1,name:'Prepare'}
+	, {id:0,name:'Initial'}
+	, {id:5,name:'Processed'}	];
 
 	/* MenuActionType - Вариант действия при выборе пункта меню */ 
 	public enumMenuActionTypeCombo(){
 		return this.enumMenuActionType;
 	}
-	enumMenuActionType:Array<ComboInfo> =[
+	enumMenuActionType:Array<enumInfo> =[
 
-	 {id:'4',name:'Запустить АРМ'}
-	, {id:'2',name:'Выполнить метод'}
-	, {id:'5',name:'Открыть отчет'}
-	, {id:'0',name:'Ничего не делать'}
-	, {id:'1',name:'Открыть документ'}
-	, {id:'3',name:'Открыть журнал'}	];
+	 {id:4,name:'Запустить АРМ'}
+	, {id:2,name:'Выполнить метод'}
+	, {id:5,name:'Открыть отчет'}
+	, {id:0,name:'Ничего не делать'}
+	, {id:1,name:'Открыть документ'}
+	, {id:3,name:'Открыть журнал'}	];
 
 	/* WFShortcutType - Варианты ярлыков, которые может размещать процесс */ 
 	public enumWFShortcutTypeCombo(){
 		return this.enumWFShortcutType;
 	}
-	enumWFShortcutType:Array<ComboInfo> =[
+	enumWFShortcutType:Array<enumInfo> =[
 
-	 {id:'0',name:'Document'}
-	, {id:'2',name:'Process'}
-	, {id:'1',name:'Function'}	];
+	 {id:0,name:'Document'}
+	, {id:2,name:'Process'}
+	, {id:1,name:'Function'}	];
 
 	/* VHAlignment - Выравнивание */ 
 	public enumVHAlignmentCombo(){
 		return this.enumVHAlignment;
 	}
-	enumVHAlignment:Array<ComboInfo> =[
+	enumVHAlignment:Array<enumInfo> =[
 
-	 {id:'6',name:'Right Top'}
-	, {id:'7',name:'Right Center'}
-	, {id:'8',name:'Right Bottom'}
-	, {id:'3',name:'Center Top'}
-	, {id:'0',name:'Left Top'}
-	, {id:'4',name:'Center Center'}
-	, {id:'1',name:'Left Center'}
-	, {id:'5',name:'Center Bottom'}
-	, {id:'2',name:'Left Bottom'}	];
+	 {id:6,name:'Right Top'}
+	, {id:7,name:'Right Center'}
+	, {id:8,name:'Right Bottom'}
+	, {id:3,name:'Center Top'}
+	, {id:0,name:'Left Top'}
+	, {id:4,name:'Center Center'}
+	, {id:1,name:'Left Center'}
+	, {id:5,name:'Center Bottom'}
+	, {id:2,name:'Left Bottom'}	];
 
 	/* CurrencyType - Валюта платежа */ 
 	public enumCurrencyTypeCombo(){
 		return this.enumCurrencyType;
 	}
-	enumCurrencyType:Array<ComboInfo> =[
+	enumCurrencyType:Array<enumInfo> =[
 
-	 {id:'2',name:'Евро'}
-	, {id:'0',name:'Рубль'}
-	, {id:'1',name:'Доллар'}	];
+	 {id:2,name:'Евро'}
+	, {id:0,name:'Рубль'}
+	, {id:1,name:'Доллар'}	];
 
 	/* InfoStoreType - Тип каталога */ 
 	public enumInfoStoreTypeCombo(){
 		return this.enumInfoStoreType;
 	}
-	enumInfoStoreType:Array<ComboInfo> =[
+	enumInfoStoreType:Array<enumInfo> =[
 
-	 {id:'2',name:'Групповой'}
-	, {id:'0',name:' Общий'}
-	, {id:'1',name:'Персональный'}	];
+	 {id:2,name:'Групповой'}
+	, {id:0,name:' Общий'}
+	, {id:1,name:'Персональный'}	];
 
 	/* DevelopmentBase - Платформа разработки */ 
 	public enumDevelopmentBaseCombo(){
 		return this.enumDevelopmentBase;
 	}
-	enumDevelopmentBase:Array<ComboInfo> =[
+	enumDevelopmentBase:Array<enumInfo> =[
 
-	 {id:'3',name:'OTHER'}
-	, {id:'1',name:'DOTNET'}
-	, {id:'2',name:'JAVA'}
-	, {id:'0',name:'VB6'}	];
+	 {id:3,name:'OTHER'}
+	, {id:1,name:'DOTNET'}
+	, {id:2,name:'JAVA'}
+	, {id:0,name:'VB6'}	];
 
 	/* Quarter - Квартал */ 
 	public enumQuarterCombo(){
 		return this.enumQuarter;
 	}
-	enumQuarter:Array<ComboInfo> =[
+	enumQuarter:Array<enumInfo> =[
 
-	 {id:'1',name:'I'}
-	, {id:'4',name:'IV'}
-	, {id:'0',name:'?'}
-	, {id:'2',name:'II'}
-	, {id:'3',name:'III'}	];
+	 {id:1,name:'I'}
+	, {id:4,name:'IV'}
+	, {id:0,name:'?'}
+	, {id:2,name:'II'}
+	, {id:3,name:'III'}	];
 
 	/* Months - Месяцы */ 
 	public enumMonthsCombo(){
 		return this.enumMonths;
 	}
-	enumMonths:Array<ComboInfo> =[
+	enumMonths:Array<enumInfo> =[
 
-	 {id:'5',name:'Май'}
-	, {id:'9',name:'Сентябрь'}
-	, {id:'6',name:'Июнь'}
-	, {id:'12',name:'Декабрь'}
-	, {id:'1',name:'Январь'}
-	, {id:'8',name:'Август'}
-	, {id:'2',name:'Февраль'}
-	, {id:'4',name:'Апрель'}
-	, {id:'7',name:'Июль'}
-	, {id:'10',name:'Октябрь'}
-	, {id:'3',name:'Март'}
-	, {id:'11',name:'Ноябрь'}	];
+	 {id:5,name:'Май'}
+	, {id:9,name:'Сентябрь'}
+	, {id:6,name:'Июнь'}
+	, {id:12,name:'Декабрь'}
+	, {id:1,name:'Январь'}
+	, {id:8,name:'Август'}
+	, {id:2,name:'Февраль'}
+	, {id:4,name:'Апрель'}
+	, {id:7,name:'Июль'}
+	, {id:10,name:'Октябрь'}
+	, {id:3,name:'Март'}
+	, {id:11,name:'Ноябрь'}	];
 
 	/* ColumnSortType - Вариант сортиовки данных колонки */ 
 	public enumColumnSortTypeCombo(){
 		return this.enumColumnSortType;
 	}
-	enumColumnSortType:Array<ComboInfo> =[
+	enumColumnSortType:Array<enumInfo> =[
 
-	 {id:'0',name:'As String'}
-	, {id:'1',name:'As Numeric'}
-	, {id:'2',name:'As Date'}	];
+	 {id:0,name:'As String'}
+	, {id:1,name:'As Numeric'}
+	, {id:2,name:'As Date'}	];
 
 	/* Boolean - Да / Нет */ 
 	public enumBooleanCombo(){
 		return this.enumBoolean;
 	}
-	enumBoolean:Array<ComboInfo> =[
+	enumBoolean:Array<enumInfo> =[
 
-	 {id:'-1',name:'Да'}
-	, {id:'0',name:'Нет'}	];
+	 {id:-1,name:'Да'}
+	, {id:0,name:'Нет'}	];
 
 	/* JournalLinkType - Для связи журналов друг с другом */ 
 	public enumJournalLinkTypeCombo(){
 		return this.enumJournalLinkType;
 	}
-	enumJournalLinkType:Array<ComboInfo> =[
+	enumJournalLinkType:Array<enumInfo> =[
 
-	 {id:'0',name:'Нет'}
-	, {id:'4',name:'Связка ParentStructRowID  (в передлах объекта)'}
-	, {id:'3',name:'Связка InstanceID (в передлах объекта)'}
-	, {id:'1',name:'Ссылка на объект'}
-	, {id:'2',name:'Ссылка на строку'}	];
+	 {id:0,name:'Нет'}
+	, {id:4,name:'Связка ParentStructRowID  (в передлах объекта)'}
+	, {id:3,name:'Связка InstanceID (в передлах объекта)'}
+	, {id:1,name:'Ссылка на объект'}
+	, {id:2,name:'Ссылка на строку'}	];
 
 	/* TargetType - Вариант уровня приложения, куда может генерироваться код */ 
 	public enumTargetTypeCombo(){
 		return this.enumTargetType;
 	}
-	enumTargetType:Array<ComboInfo> =[
+	enumTargetType:Array<enumInfo> =[
 
-	 {id:'0',name:'СУБД'}
-	, {id:'3',name:'Документация'}
-	, {id:'1',name:'МОДЕЛЬ'}
-	, {id:'2',name:'Приложение'}
-	, {id:'4',name:'АРМ'}	];
+	 {id:0,name:'СУБД'}
+	, {id:3,name:'Документация'}
+	, {id:1,name:'МОДЕЛЬ'}
+	, {id:2,name:'Приложение'}
+	, {id:4,name:'АРМ'}	];
 
 	/* ParityType - Четность */ 
 	public enumParityTypeCombo(){
 		return this.enumParityType;
 	}
-	enumParityType:Array<ComboInfo> =[
+	enumParityType:Array<enumInfo> =[
 
-	 {id:'4',name:'Space'}
-	, {id:'3',name:'Mark'}
-	, {id:'2',name:'Odd'}
-	, {id:'0',name:'None'}
-	, {id:'1',name:'Even'}	];
+	 {id:4,name:'Space'}
+	, {id:3,name:'Mark'}
+	, {id:2,name:'Odd'}
+	, {id:0,name:'None'}
+	, {id:1,name:'Even'}	];
 
 	/* MesureFormat - Формат индикатора */ 
 	public enumMesureFormatCombo(){
 		return this.enumMesureFormat;
 	}
-	enumMesureFormat:Array<ComboInfo> =[
+	enumMesureFormat:Array<enumInfo> =[
 
-	 {id:'0',name:'Число'}
-	, {id:'1',name:'Дата'}
-	, {id:'4',name:'Объект'}
-	, {id:'2',name:'Справочник'}
-	, {id:'5',name:'Текст'}	];
+	 {id:0,name:'Число'}
+	, {id:1,name:'Дата'}
+	, {id:4,name:'Объект'}
+	, {id:2,name:'Справочник'}
+	, {id:5,name:'Текст'}	];
 
 	/* ExportType - Тип экспорта */ 
 	public enumExportTypeCombo(){
 		return this.enumExportType;
 	}
-	enumExportType:Array<ComboInfo> =[
+	enumExportType:Array<enumInfo> =[
 
-	 {id:'3',name:'Сайт и МБ'}
-	, {id:'1',name:'Сайт'}
-	, {id:'0',name:'Нет'}	];
+	 {id:3,name:'Сайт и МБ'}
+	, {id:1,name:'Сайт'}
+	, {id:0,name:'Нет'}	];
 
 	/* WFStepClass - Тип шага процесса */ 
 	public enumWFStepClassCombo(){
 		return this.enumWFStepClass;
 	}
-	enumWFStepClass:Array<ComboInfo> =[
+	enumWFStepClass:Array<enumInfo> =[
 
-	 {id:'3',name:'PeriodicFunction'}
-	, {id:'0',name:'SimpleFunction'}
-	, {id:'2',name:'StopFunction'}
-	, {id:'1',name:'StartFunction'}	];
+	 {id:3,name:'PeriodicFunction'}
+	, {id:0,name:'SimpleFunction'}
+	, {id:2,name:'StopFunction'}
+	, {id:1,name:'StartFunction'}	];
 
 	/* DayInWeek - День недели */ 
 	public enumDayInWeekCombo(){
 		return this.enumDayInWeek;
 	}
-	enumDayInWeek:Array<ComboInfo> =[
+	enumDayInWeek:Array<enumInfo> =[
 
-	 {id:'4',name:'Четверг'}
-	, {id:'6',name:'Суббота'}
-	, {id:'1',name:'Понедельник'}
-	, {id:'7',name:'Воскресенье'}
-	, {id:'2',name:'Вторник'}
-	, {id:'5',name:'Пятница'}
-	, {id:'3',name:'Среда'}	];
+	 {id:4,name:'Четверг'}
+	, {id:6,name:'Суббота'}
+	, {id:1,name:'Понедельник'}
+	, {id:7,name:'Воскресенье'}
+	, {id:2,name:'Вторник'}
+	, {id:5,name:'Пятница'}
+	, {id:3,name:'Среда'}	];
 
 	/* GeneratorStyle - GeneratorStyle */ 
 	public enumGeneratorStyleCombo(){
 		return this.enumGeneratorStyle;
 	}
-	enumGeneratorStyle:Array<ComboInfo> =[
+	enumGeneratorStyle:Array<enumInfo> =[
 
-	 {id:'0',name:'Один тип'}
-	, {id:'1',name:'Все типы сразу'}	];
+	 {id:0,name:'Один тип'}
+	, {id:1,name:'Все типы сразу'}	];
 
 	/* PlatType - Тип плательщика */ 
 	public enumPlatTypeCombo(){
 		return this.enumPlatType;
 	}
-	enumPlatType:Array<ComboInfo> =[
+	enumPlatType:Array<enumInfo> =[
 
-	 {id:'1',name:'Получатель'}
-	, {id:'0',name:'Отправитель'}
-	, {id:'2',name:'Другой'}	];
+	 {id:1,name:'Получатель'}
+	, {id:0,name:'Отправитель'}
+	, {id:2,name:'Другой'}	];
 
 	/* msgState - Состояние заявки */ 
 	public enummsgStateCombo(){
 		return this.enummsgState;
 	}
-	enummsgState:Array<ComboInfo> =[
+	enummsgState:Array<enumInfo> =[
 
-	 {id:'1',name:'Сообщено абоненту'}
-	, {id:'3',name:'Промежуточный ответ'}
-	, {id:'0',name:'Состояние заявки'}
-	, {id:'2',name:'Абонент не ответил'}	];
+	 {id:1,name:'Сообщено абоненту'}
+	, {id:3,name:'Промежуточный ответ'}
+	, {id:0,name:'Состояние заявки'}
+	, {id:2,name:'Абонент не ответил'}	];
 
 	/* OnJournalRowClick - действие при открытии строки журнала */ 
 	public enumOnJournalRowClickCombo(){
 		return this.enumOnJournalRowClick;
 	}
-	enumOnJournalRowClick:Array<ComboInfo> =[
+	enumOnJournalRowClick:Array<enumInfo> =[
 
-	 {id:'2',name:'Открыть документ'}
-	, {id:'0',name:'Ничего не делать'}
-	, {id:'1',name:'Открыть строку'}	];
+	 {id:2,name:'Открыть документ'}
+	, {id:0,name:'Ничего не делать'}
+	, {id:1,name:'Открыть строку'}	];
 
 	/* PartType - PartType */ 
 	public enumPartTypeCombo(){
 		return this.enumPartType;
 	}
-	enumPartType:Array<ComboInfo> =[
+	enumPartType:Array<enumInfo> =[
 
-	 {id:'1',name:'Коллекция'}
-	, {id:'2',name:'Дерево'}
-	, {id:'0',name:'Строка'}
-	, {id:'4',name:'Расширение с данными'}
-	, {id:'3',name:'Расширение'}	];
+	 {id:1,name:'Коллекция'}
+	, {id:2,name:'Дерево'}
+	, {id:0,name:'Строка'}
+	, {id:4,name:'Расширение с данными'}
+	, {id:3,name:'Расширение'}	];
 
 	/* ReferenceType - ReferenceType */ 
 	public enumReferenceTypeCombo(){
 		return this.enumReferenceType;
 	}
-	enumReferenceType:Array<ComboInfo> =[
+	enumReferenceType:Array<enumInfo> =[
 
-	 {id:'3',name:'На источник данных'}
-	, {id:'0',name:'Скалярное поле ( не ссылка)'}
-	, {id:'2',name:'На строку раздела'}
-	, {id:'1',name:'На объект '}	];
+	 {id:3,name:'На источник данных'}
+	, {id:0,name:'Скалярное поле ( не ссылка)'}
+	, {id:2,name:'На строку раздела'}
+	, {id:1,name:'На объект '}	];
 
 	/* ContactType -  */ 
 	public enumContactTypeCombo(){
 		return this.enumContactType;
 	}
-	enumContactType:Array<ComboInfo> =[
+	enumContactType:Array<enumInfo> =[
 
-	 {id:'0',name:'контакт разомкнут'}
-	, {id:'-1',name:'контакт замкнут'}	];
+	 {id:0,name:'контакт разомкнут'}
+	, {id:-1,name:'контакт замкнут'}	];
 
 	/* ConditionType - Варианты условий */ 
 	public enumConditionTypeCombo(){
 		return this.enumConditionType;
 	}
-	enumConditionType:Array<ComboInfo> =[
+	enumConditionType:Array<enumInfo> =[
 
-	 {id:'6',name:'<'}
-	, {id:'4',name:'>='}
-	, {id:'7',name:'<='}
-	, {id:'0',name:'none'}
-	, {id:'1',name:'='}
-	, {id:'8',name:'like'}
-	, {id:'3',name:'>'}
-	, {id:'2',name:'<>'}	];
+	 {id:6,name:'<'}
+	, {id:4,name:'>='}
+	, {id:7,name:'<='}
+	, {id:0,name:'none'}
+	, {id:1,name:'='}
+	, {id:8,name:'like'}
+	, {id:3,name:'>'}
+	, {id:2,name:'<>'}	];
 
 	/* FolderType - Тип папки */ 
 	public enumFolderTypeCombo(){
 		return this.enumFolderType;
 	}
-	enumFolderType:Array<ComboInfo> =[
+	enumFolderType:Array<enumInfo> =[
 
-	 {id:'3',name:'Удаленные'}
-	, {id:'1',name:'Входящие'}
-	, {id:'9',name:'Отложенные'}
-	, {id:'4',name:'Журнал'}
-	, {id:'2',name:'Исходящие'}
-	, {id:'7',name:'Черновики'}
-	, {id:'6',name:'Отправленные'}
-	, {id:'8',name:'В работе'}
-	, {id:'5',name:'Календарь'}
-	, {id:'10',name:'Завершенные'}
-	, {id:'0',name:'cls__'}	];
+	 {id:3,name:'Удаленные'}
+	, {id:1,name:'Входящие'}
+	, {id:9,name:'Отложенные'}
+	, {id:4,name:'Журнал'}
+	, {id:2,name:'Исходящие'}
+	, {id:7,name:'Черновики'}
+	, {id:6,name:'Отправленные'}
+	, {id:8,name:'В работе'}
+	, {id:5,name:'Календарь'}
+	, {id:10,name:'Завершенные'}
+	, {id:0,name:'cls__'}	];
 
 	/* msgResult - Результат */ 
 	public enummsgResultCombo(){
 		return this.enummsgResult;
 	}
-	enummsgResult:Array<ComboInfo> =[
+	enummsgResult:Array<enumInfo> =[
 
-	 {id:'2',name:'Выполнено'}
-	, {id:'1',name:'В работе'}
-	, {id:'0',name:'Результат'}	];
+	 {id:2,name:'Выполнено'}
+	, {id:1,name:'В работе'}
+	, {id:0,name:'Результат'}	];
 
 	/* PartAddBehaivor - Поведение при добавлении строки раздела */ 
 	public enumPartAddBehaivorCombo(){
 		return this.enumPartAddBehaivor;
 	}
-	enumPartAddBehaivor:Array<ComboInfo> =[
+	enumPartAddBehaivor:Array<enumInfo> =[
 
-	 {id:'0',name:'AddForm'}
-	, {id:'2',name:'RunAction'}
-	, {id:'1',name:'RefreshOnly'}	];
+	 {id:0,name:'AddForm'}
+	, {id:2,name:'RunAction'}
+	, {id:1,name:'RefreshOnly'}	];
 
 	/* ExtentionType - Тип расширения */ 
 	public enumExtentionTypeCombo(){
 		return this.enumExtentionType;
 	}
-	enumExtentionType:Array<ComboInfo> =[
+	enumExtentionType:Array<enumInfo> =[
 
-	 {id:'6',name:'VerifyRowExt'}
-	, {id:'7',name:'CodeGenerator'}
-	, {id:'5',name:'DefaultExt'}
-	, {id:'0',name:'StatusExt'}
-	, {id:'4',name:'JrnlRunExt'}
-	, {id:'2',name:'CustomExt'}
-	, {id:'8',name:'ARMGenerator'}
-	, {id:'1',name:'OnFormExt'}
-	, {id:'3',name:'JrnlAddExt'}	];
+	 {id:6,name:'VerifyRowExt'}
+	, {id:7,name:'CodeGenerator'}
+	, {id:5,name:'DefaultExt'}
+	, {id:0,name:'StatusExt'}
+	, {id:4,name:'JrnlRunExt'}
+	, {id:2,name:'CustomExt'}
+	, {id:8,name:'ARMGenerator'}
+	, {id:1,name:'OnFormExt'}
+	, {id:3,name:'JrnlAddExt'}	];
 
 	/* Sex - Мужской / Женский */ 
 	public enumSexCombo(){
 		return this.enumSex;
 	}
-	enumSex:Array<ComboInfo> =[
+	enumSex:Array<enumInfo> =[
 
-	 {id:'0',name:'Не существенно'}
-	, {id:'2',name:'Мужской'}
-	, {id:'1',name:'Женский'}	];
+	 {id:0,name:'Не существенно'}
+	, {id:2,name:'Мужской'}
+	, {id:1,name:'Женский'}	];
 
 	/* YesNo - Да / Нет (0 или 1) */ 
 	public enumYesNoCombo(){
 		return this.enumYesNo;
 	}
-	enumYesNo:Array<ComboInfo> =[
+	enumYesNo:Array<enumInfo> =[
 
-	 {id:'1',name:'Да'}
-	, {id:'0',name:'Нет'}	];
+	 {id:1,name:'Да'}
+	, {id:0,name:'Нет'}	];
 
 	/* AggregationType - Вариант агрегации по полю */ 
 	public enumAggregationTypeCombo(){
 		return this.enumAggregationType;
 	}
-	enumAggregationType:Array<ComboInfo> =[
+	enumAggregationType:Array<enumInfo> =[
 
-	 {id:'3',name:'SUM'}
-	, {id:'1',name:'AVG'}
-	, {id:'6',name:'CUSTOM'}
-	, {id:'0',name:'none'}
-	, {id:'2',name:'COUNT'}
-	, {id:'5',name:'MAX'}
-	, {id:'4',name:'MIN'}	];
+	 {id:3,name:'SUM'}
+	, {id:1,name:'AVG'}
+	, {id:6,name:'CUSTOM'}
+	, {id:0,name:'none'}
+	, {id:2,name:'COUNT'}
+	, {id:5,name:'MAX'}
+	, {id:4,name:'MIN'}	];
 
 	/* WFFuncState - Состояние функции в бизнес процессе */ 
 	public enumWFFuncStateCombo(){
 		return this.enumWFFuncState;
 	}
-	enumWFFuncState:Array<ComboInfo> =[
+	enumWFFuncState:Array<enumInfo> =[
 
-	 {id:'8',name:'Processed'}
-	, {id:'3',name:'InWork'}
-	, {id:'4',name:'Pause'}
-	, {id:'6',name:'InControl'}
-	, {id:'2',name:'Active'}
-	, {id:'5',name:'Ready'}
-	, {id:'7',name:'Done'}
-	, {id:'1',name:'Prepare'}
-	, {id:'0',name:'Initial'}	];
+	 {id:8,name:'Processed'}
+	, {id:3,name:'InWork'}
+	, {id:4,name:'Pause'}
+	, {id:6,name:'InControl'}
+	, {id:2,name:'Active'}
+	, {id:5,name:'Ready'}
+	, {id:7,name:'Done'}
+	, {id:1,name:'Prepare'}
+	, {id:0,name:'Initial'}	];
 
 	/* Employment - Занятость */ 
 	public enumEmploymentCombo(){
 		return this.enumEmployment;
 	}
-	enumEmployment:Array<ComboInfo> =[
+	enumEmployment:Array<enumInfo> =[
 
-	 {id:'1',name:'Частичная'}
-	, {id:'-1',name:'Не важно'}
-	, {id:'0',name:'Полная'}	];
+	 {id:1,name:'Частичная'}
+	, {id:-1,name:'Не важно'}
+	, {id:0,name:'Полная'}	];
 
 	/* TriState - Да / Нет / Не определено */ 
 	public enumTriStateCombo(){
 		return this.enumTriState;
 	}
-	enumTriState:Array<ComboInfo> =[
+	enumTriState:Array<enumInfo> =[
 
-	 {id:'-1',name:'Не существенно'}
-	, {id:'1',name:'Да'}
-	, {id:'0',name:'Нет'}	];
+	 {id:-1,name:'Не существенно'}
+	, {id:1,name:'Да'}
+	, {id:0,name:'Нет'}	];
  
 }

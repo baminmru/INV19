@@ -82,8 +82,7 @@ export class invd_machineComponent implements OnInit {
     }
 
     onConfirmDeletion() {
-        this.invd_machine_Service.delete_invd_machineById(this.currentinvd_machine.invd_machineId).subscribe(data => {this.refreshinvd_machine()}, error => { this.ShowError(error.message); });
-        this.backToList();
+        this.invd_machine_Service.delete_invd_machineById(this.currentinvd_machine.invd_machineId).subscribe(data => {this.refreshinvd_machine(); this.backToList();}, error => { this.ShowError(error.message); });
     }
 
     save(item: invd.invd_machine) {
@@ -93,18 +92,17 @@ export class invd_machineComponent implements OnInit {
             switch (this.mode) {
                 case MODE_NEW: {
                     this.invd_machine_Service.create_invd_machine(item)
-                        .subscribe(data =>{ this.refreshinvd_machine()}, error => { this.ShowError(error.message); });
+                        .subscribe(data =>{ this.refreshinvd_machine();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 case MODE_EDIT: {
                     this.invd_machine_Service.update_invd_machine( item)
-                        .subscribe(data => {this.refreshinvd_machine()}, error => { this.ShowError(error.message); });
+                        .subscribe(data => {this.refreshinvd_machine();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 default:
                     break;
             }
-            this.backToList();
         //} else {
         //    this.ShowError("Ошибка заполнения формы");
         }

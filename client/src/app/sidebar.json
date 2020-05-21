@@ -28,7 +28,7 @@
 	  "routerLink" : "/invi" 
 	} 
 	,{ 
-	  "text": "Инвентраизация", 
+	  "text": "Инвентаризация", 
 	  "icon" : "fa  fa-fw", 
 	  "routerLink" : "/inva" 
 	} 

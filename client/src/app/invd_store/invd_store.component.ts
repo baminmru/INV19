@@ -82,8 +82,7 @@ export class invd_storeComponent implements OnInit {
     }
 
     onConfirmDeletion() {
-        this.invd_store_Service.delete_invd_storeById(this.currentinvd_store.invd_storeId).subscribe(data => {this.refreshinvd_store()}, error => { this.ShowError(error.message); });
-        this.backToList();
+        this.invd_store_Service.delete_invd_storeById(this.currentinvd_store.invd_storeId).subscribe(data => {this.refreshinvd_store(); this.backToList();}, error => { this.ShowError(error.message); });
     }
 
     save(item: invd.invd_store) {
@@ -93,18 +92,17 @@ export class invd_storeComponent implements OnInit {
             switch (this.mode) {
                 case MODE_NEW: {
                     this.invd_store_Service.create_invd_store(item)
-                        .subscribe(data =>{ this.refreshinvd_store()}, error => { this.ShowError(error.message); });
+                        .subscribe(data =>{ this.refreshinvd_store();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 case MODE_EDIT: {
                     this.invd_store_Service.update_invd_store( item)
-                        .subscribe(data => {this.refreshinvd_store()}, error => { this.ShowError(error.message); });
+                        .subscribe(data => {this.refreshinvd_store();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 default:
                     break;
             }
-            this.backToList();
         //} else {
         //    this.ShowError("Ошибка заполнения формы");
         }

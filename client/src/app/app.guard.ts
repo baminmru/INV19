@@ -26,7 +26,7 @@ export class AppGuard implements CanActivate, CanActivateChild {
     console.log('checkROle '+ this.AppService.Role +' for : '+ url);
 	if ( this.AppService.isLoggedIn) { 
 	
-		if(this.AppService.Role=="SUPERADMIN"){
+		if(this.AppService.Role.includes("SUPERADMIN")){
 			switch(url){
 				
 				
@@ -67,7 +67,7 @@ export class AppGuard implements CanActivate, CanActivateChild {
 			}
 		}
 	
-		if(this.AppService.Role=="Администратор"){
+		if(this.AppService.Role.includes("Администратор")){
 			switch(url){
 				
 				

@@ -105,8 +105,7 @@ export class inva_absntComponent implements OnInit {
     }
 
     onConfirmDeletion() {
-        this.inva_absnt_Service.delete_inva_absntById(this.currentinva_absnt.inva_absntId).subscribe(data => {this.refreshinva_absnt()}, error => { this.ShowError(error.message); });
-        this.backToList();
+        this.inva_absnt_Service.delete_inva_absntById(this.currentinva_absnt.inva_absntId).subscribe(data => {this.refreshinva_absnt(); this.backToList();}, error => { this.ShowError(error.message); });
     }
 
     save(item: inva.inva_absnt) {
@@ -116,18 +115,17 @@ export class inva_absntComponent implements OnInit {
             switch (this.mode) {
                 case MODE_NEW: {
                     this.inva_absnt_Service.create_inva_absnt(item)
-                        .subscribe(data =>{ this.refreshinva_absnt()}, error => { this.ShowError(error.message); });
+                        .subscribe(data =>{ this.refreshinva_absnt();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 case MODE_EDIT: {
                     this.inva_absnt_Service.update_inva_absnt( item)
-                        .subscribe(data => {this.refreshinva_absnt()}, error => { this.ShowError(error.message); });
+                        .subscribe(data => {this.refreshinva_absnt();this.backToList();}, error => { this.ShowError(error.message); });
                     break;
                 }
                 default:
                     break;
             }
-            this.backToList();
         //} else {
         //    this.ShowError("Ошибка заполнения формы");
         }
@@ -161,8 +159,8 @@ export class inva_absntComponent implements OnInit {
         
 
         wb.Props = {
-            Title: "Инвентраизация::Недостача",
-            Subject: "Инвентраизация::Недостача",
+            Title: "Инвентаризация::Недостача",
+            Subject: "Инвентаризация::Недостача",
             Company: "master.bami",
             Category: "Experimentation",
             Keywords: "Export service",
