@@ -144,7 +144,73 @@ namespace inv19.Controllers
             }
         }
 
+        
 
+
+        [HttpPost("terminallogin")]
+        [AllowAnonymous]
+        [Produces(typeof(ResponseData<Guid>))]
+        public async Task<ResponseData<Guid>> TerminalLogin([FromBody] TermLoginRequest request)
+        {
+
+
+
+            _logger.LogInformation("term login by " +request.email );
+            var response = new ResponseData<Guid>();
+
+            var result = await _signInManager.PasswordSignInAsync(request.email, request.password, false, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+
+               
+
+                var user = await _context.xUserInfo.FirstOrDefaultAsync(u => u.email == request.email && u.islocked == 0);
+                if (user != null)
+                {
+                    response.code = BaseStatus.Success;
+                    response.data = user.xUserInfoId;
+                }
+                else
+                {
+                    response.code = BaseStatus.Error;
+                    response.description = "Пользователь не обнаружен";
+                    response.data = Guid.Empty;
+                }
+            }
+            else
+            {
+                response.code = BaseStatus.Error;
+                response.description = "Ошибка регистрации";
+                response.data = Guid.Empty;
+            }
+            return response;
+
+            //try
+            //{
+            //    var result = await _signInManager.PasswordSignInAsync(request.email, request.password, false, lockoutOnFailure: false);
+            //    if (result.Succeeded)
+            //    {
+            //        var currentUser = await _userManager.FindByEmailAsync(request.email);
+            //        response.code = BaseStatus.Success;
+            //        response.data =currentUser.Id;
+            //        return response;
+            //    }
+
+            //    response.code = BaseStatus.Error;
+            //    response.description = "Не удалось войти в систему";
+            //    response.data = Guid.Empty;
+            //    return response;
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError(ex, "could not login terminal");
+            //    response.code = BaseStatus.Exception;
+            //    response.message = "Ошибка";
+            //    response.description = "Не удалось выполнить вход";
+            //    response.data = Guid.Empty;
+            //    return response;
+            //}
+        }
 
         [HttpPost("RefreshToken")]
         [AllowAnonymous]
@@ -296,12 +362,17 @@ namespace inv19.Controllers
        // [AllowAnonymous]
         public async Task<IActionResult> InitUsers()
         {
-            
-            await _roleManager.CreateAsync(new MyIdentityRole
+            try
             {
-                Name = MyIdentityRole.ROLE_USER,
-                Id = new Guid("EA275999-49D0-4A0A-658B-08D5AF855020")
-            });
+                await _roleManager.CreateAsync(new MyIdentityRole
+                {
+                    Name = MyIdentityRole.ROLE_USER,
+                    Id = new Guid("EA275999-49D0-4A0A-658B-08D5AF855020")
+                });
+            }
+            catch { }
+            try { 
+            
 
             await _roleManager.CreateAsync(new MyIdentityRole
             {
@@ -309,31 +380,41 @@ namespace inv19.Controllers
                 Id = new Guid("BE2C9C98-8174-4798-6589-08D5AF855020")
             });
 
-            var email = "developer.bami@gmail.com";
-            var user = new ApplicationUser
+            }
+            catch { }
+            try
             {
-                Id = Guid.NewGuid(),
-                Email = email,
-                EmailConfirmed = true,
-                UserName = email,
-            };
-            await _userManager.CreateAsync(user, "password");
-
-            await _roleManager.CreateAsync(new MyIdentityRole
+                await _roleManager.CreateAsync(new MyIdentityRole
             {
-                Name = MyIdentityRole.ROLE_SUPERADMIN
+                Name = MyIdentityRole.ROLE_SUPERADMIN,
+                Id = new Guid("E892F4FF-8FC5-4779-086D-08D6C2FA7668")
             });
-
-            await _userManager.AddToRoleAsync(user, MyIdentityRole.ROLE_SUPERADMIN);
-
-            _context.Add(new xUserInfo
+            }
+            catch { }
+            try
             {
-                email = email,
-                name = "Super",
-                family = "Administrator",
-                login = user.Id.ToString(),
-                xUserInfoId = user.Id
-            });
+
+                var email = "developer.bami@gmail.com";
+                var user = new ApplicationUser
+                {
+                    Id = Guid.NewGuid(),
+                    Email = email,
+                    EmailConfirmed = true,
+                    UserName = email,
+                };
+                await _userManager.CreateAsync(user, "Password_INV20");
+                await _userManager.AddToRoleAsync(user, MyIdentityRole.ROLE_SUPERADMIN);
+
+                _context.Add(new xUserInfo
+                {
+                    email = email,
+                    name = "Super",
+                    family = "Administrator",
+                    login = user.Id.ToString(),
+                    xUserInfoId = user.Id
+                });
+            }
+            catch { }
             await _context.SaveChangesAsync();
 
             return Content("User created");

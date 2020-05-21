@@ -53,7 +53,7 @@ namespace inv19
             services.AddDbContext<MySysIdentityDbContext>(o => o.UseSqlServer(connectionStringLogin));
 
             services.AddOptions();
-            services.Configure<IntegrationOptions>(Configuration.GetSection("IntegrationOptions"));
+            //services.Configure<IntegrationOptions>(Configuration.GetSection("IntegrationOptions"));
 
             services.Configure<JWTSettings>(Configuration.GetSection("JWTSettings"));
 
@@ -112,6 +112,8 @@ namespace inv19
                .AddDefaultTokenProviders();
 
             services.AddTransient<UserService>();
+
+            services.AddTransient<TerminalService>();
 
             services.AddMvc().AddNewtonsoftJson();
         }
