@@ -11,7 +11,14 @@
 	 go 
 
 
-
+	 delete from invp_tag where invp_dataId not in ( select invp_dataId from invp_data) 
+	 go 
+	 ALTER TABLE invp_tag 
+                                ADD CONSTRAINT FK_invp_tag_Parent
+                                FOREIGN KEY (invp_dataId)
+                                REFERENCES invp_data (invp_dataId)
+                                ON DELETE CASCADE 
+	 go 
 
 
 	 delete from inva_real where inva_infoId not in ( select inva_infoId from inva_info) 
@@ -40,6 +47,14 @@
                                 REFERENCES inva_info (inva_infoId)
                                 ON DELETE CASCADE 
 	 go 
+
+
+
+
+
+
+
+
 
 
 

@@ -98,11 +98,6 @@ alter table invp_data add
 name
  VARCHAR (120) null /* Название */
 go
-if  not exists(select * from syscolumns where name='RFID' and id=object_id(N'invp_data'))
-alter table invp_data add 
-RFID
- VARCHAR (128) null /* Метка RFID */
-go
 if  not exists(select * from syscolumns where name='groupid' and id=object_id(N'invp_data'))
 alter table invp_data add 
 groupid
@@ -130,7 +125,7 @@ declare @e_str nvarchar(4000)
 
 declare nnn cursor local for
 select name from syscolumns where id = object_id('invp_data')
-and name not in('invp_dataID','name','RFID','groupid','subgroupid','departmentid','machineid')
+and name not in('invp_dataID','name','groupid','subgroupid','departmentid','machineid')
 open nnn
 fetch next from nnn into @n
 while @@fetch_status &gt;=0
@@ -147,6 +142,46 @@ if exists(select * from sysobjects where id=object_id(N'pk_invp_data') and xtype
 ALTER TABLE invp_data DROP CONSTRAINT pk_invp_data
 GO
 alter table invp_data add constraint pk_invp_data primary key (invp_dataID)
+
+GO
+/*Метки*/
+if not exists (select * from sysobjects where id = object_id(N'invp_tag') and OBJECTPROPERTY(id, N'IsUserTable') = 1)
+BEGIN
+create table invp_tag/*метки к этой запчасти*/ (
+invp_tagid uniqueidentifier not null rowguidcol default ( newid())  
+,invp_dataID uniqueidentifier not null
+)
+END
+go
+if  not exists(select * from syscolumns where name='RFID' and id=object_id(N'invp_tag'))
+alter table invp_tag add 
+RFID
+ VARCHAR (128) null /* Метка RFID */
+go
+go
+-- drop extra columns from generated table: invp_tag
+declare @n nvarchar(255)
+declare @e_str nvarchar(4000)
+
+declare nnn cursor local for
+select name from syscolumns where id = object_id('invp_tag')
+and name not in('invp_tagID','invp_dataID','RFID')
+open nnn
+fetch next from nnn into @n
+while @@fetch_status &gt;=0
+begin
+  set @e_str=N'alter table invp_tag drop column '+@n
+  exec  sp_sqlexec @e_str
+  fetch next from nnn into @n
+End
+Close nnn
+deallocate nnn
+go
+
+if exists(select * from sysobjects where id=object_id(N'pk_invp_tag') and xtype='PK' and type='K')
+ALTER TABLE invp_tag DROP CONSTRAINT pk_invp_tag
+GO
+alter table invp_tag add constraint pk_invp_tag primary key (invp_tagID)
 
 GO
 /* TYPE=inva (Инвентраизация) */
@@ -610,6 +645,11 @@ alter table invops_in add
 shCode
  VARCHAR (64) null /* Штрихкод ячейки */
 go
+if  not exists(select * from syscolumns where name='thePart' and id=object_id(N'invops_in'))
+alter table invops_in add 
+thePart
+ UNIQUEIDENTIFIER null /* Деталь */
+go
 if  not exists(select * from syscolumns where name='rfid' and id=object_id(N'invops_in'))
 alter table invops_in add 
 rfid
@@ -627,7 +667,7 @@ declare @e_str nvarchar(4000)
 
 declare nnn cursor local for
 select name from syscolumns where id = object_id('invops_in')
-and name not in('invops_inID','shCode','rfid','quantity')
+and name not in('invops_inID','shCode','thePart','rfid','quantity')
 open nnn
 fetch next from nnn into @n
 while @@fetch_status &gt;=0
@@ -1152,6 +1192,32 @@ drop function invp_data_MREF_F
 GO
 create function invp_data_MREF_F  (
  @invp_data_ref varchar(4000)
+ ,@Lang varchar(25)=NULL
+) returns varchar(255) as  begin  
+ declare @MREF varchar(255)
+  set @MREF='to do'
+return(@MREF)
+end 
+GO
+
+if exists (select * from sysobjects where id = object_id(N'invp_tag_BRIEF_F') and xtype in (N'FN', N'IF', N'TF'))
+drop function invp_tag_BRIEF_F
+GO
+create function invp_tag_BRIEF_F  (
+ @invp_tagid uniqueidentifier
+ ,@Lang varchar(25)=NULL
+) returns varchar(255) as  begin  
+ declare @BRIEF varchar(255)
+  set @BRIEF='to do'
+return(@BRIEF)
+end 
+GO
+
+if exists (select * from sysobjects where id = object_id(N'invp_tag_MREF_F') and xtype in (N'FN', N'IF', N'TF'))
+drop function invp_tag_MREF_F
+GO
+create function invp_tag_MREF_F  (
+ @invp_tag_ref varchar(4000)
  ,@Lang varchar(25)=NULL
 ) returns varchar(255) as  begin  
  declare @MREF varchar(255)
@@ -1742,9 +1808,10 @@ if exists(select 1 from invp_data where invp_dataID=@invp_dataID)
   select @BRIEF= @BRIEF 
   + '' + Convert(varchar(255),isnull(Convert(varchar(255), name),'')) + '; '
   from invp_data  where  invp_dataID = @invp_dataID 
-  select @BRIEF= @BRIEF 
-  + '' + Convert(varchar(255),isnull(Convert(varchar(255), RFID),'')) + '; '
+select @tmpID =  machineid
   from invp_data  where  invp_dataID = @invp_dataID 
+ select @tmpBrief= dbo.invd_machine_BRIEF_F(@tmpID, @Lang)
+  set @BRIEF= @BRIEF + '{' + isnull(@tmpbrief,'') + '}; '
 end else begin
   set @BRIEF= ''
 end
@@ -1763,6 +1830,63 @@ alter function invp_data_MREF_F  (
 declare multiref_cursor cursor for
 select dbo.invp_data_BRIEF_F(invp_dataID, @Lang)  from invp_data
 where @invp_data_ref like '%'+convert(varchar(38),invp_dataID)+'%'
+set @MREF=''
+open multiref_cursor
+fetch next from multiref_cursor into @tmpBrief
+while @@fetch_status&gt;=0
+begin
+    if @MREF&lt;&gt;''
+        set @MREF=@MREF+', '
+    set @MREF=@MREF+@tmpBrief
+    fetch next from multiref_cursor into @tmpBrief
+End
+
+Close multiref_cursor
+deallocate multiref_cursor
+set @MREF=left(@MREF,255)
+return(@MREF)
+end 
+
+GO
+
+alter function invp_tag_BRIEF_F  (
+ @invp_tagid uniqueidentifier
+ ,@Lang varchar(25)=NULL
+) returns varchar(255) as  begin  
+ declare @BRIEF varchar(255)
+ declare @tmpStr varchar(255)
+ declare @tmpBrief varchar(2000)
+ declare @tmpID uniqueidentifier
+ declare @tmpMR varchar(4000) -- multiref only
+ declare @MLFTemp varchar(2000)
+ declare @MLFBrief varchar(2000)
+if @invp_tagid is null begin set @BRIEF='' return (@BRIEF) end
+ -- Brief body -- 
+if exists(select 1 from invp_tag where invp_tagID=@invp_tagID)
+ begin
+ --  verify access  --
+  set @BRIEF=''
+  select @BRIEF= @BRIEF 
+  + '' + Convert(varchar(255),isnull(Convert(varchar(255), RFID),'')) + '; '
+  from invp_tag  where  invp_tagID = @invp_tagID 
+end else begin
+  set @BRIEF= ''
+end
+set @BRIEF=left(@BRIEF,255)
+return(@BRIEF)
+end 
+
+GO
+
+alter function invp_tag_MREF_F  (
+ @invp_tag_ref varchar(4000)
+ ,@Lang varchar(25)=NULL
+) returns varchar(255) as  begin  
+ declare @MREF varchar(255)
+ declare @tmpBrief varchar(255)
+declare multiref_cursor cursor for
+select dbo.invp_tag_BRIEF_F(invp_tagID, @Lang)  from invp_tag
+where @invp_tag_ref like '%'+convert(varchar(38),invp_tagID)+'%'
 set @MREF=''
 open multiref_cursor
 fetch next from multiref_cursor into @tmpBrief
@@ -2244,6 +2368,10 @@ if exists(select 1 from invops_in where invops_inID=@invops_inID)
   select @BRIEF= @BRIEF 
   + '' + Convert(varchar(255),isnull(Convert(varchar(255), shCode),'')) + '; '
   from invops_in  where  invops_inID = @invops_inID 
+select @tmpID =  thePart
+  from invops_in  where  invops_inID = @invops_inID 
+ select @tmpBrief= dbo.invp_data_BRIEF_F(@tmpID, @Lang)
+  set @BRIEF= @BRIEF + '{' + isnull(@tmpbrief,'') + '}; '
   select @BRIEF= @BRIEF 
   + '' + Convert(varchar(255),isnull(Convert(varchar(255), rfid),'')) + '; '
   from invops_in  where  invops_inID = @invops_inID 
@@ -2729,10 +2857,6 @@ select @tmpID =  theStore
   select @BRIEF= @BRIEF 
   + '' + Convert(varchar(255),isnull(Convert(varchar(255), name),'')) + '; '
   from invwh_loc  where  invwh_locID = @invwh_locID 
-select @tmpID =  whZone
-  from invwh_loc  where  invwh_locID = @invwh_locID 
- select @tmpBrief= dbo.invd_zone_BRIEF_F(@tmpID, @Lang)
-  set @BRIEF= @BRIEF + '{' + isnull(@tmpbrief,'') + '}; '
 end else begin
   set @BRIEF= ''
 end
@@ -2789,6 +2913,9 @@ if exists(select 1 from invwh_cell where invwh_cellID=@invwh_cellID)
   set @BRIEF=''
   select @BRIEF= @BRIEF 
   + '' + Convert(varchar(255),isnull(Convert(varchar(255), name),'')) + '; '
+  from invwh_cell  where  invwh_cellID = @invwh_cellID 
+  select @BRIEF= @BRIEF 
+  + '' + Convert(varchar(255),isnull(Convert(varchar(255), SHCODE),'')) + '; '
   from invwh_cell  where  invwh_cellID = @invwh_cellID 
 end else begin
   set @BRIEF= ''
@@ -2868,9 +2995,6 @@ select   invp_data.invp_dataId
 invp_data.name 
 name 
 , 
-invp_data.RFID 
-rFID 
-, 
  invp_data.groupid  
 groupid 
 , dbo.invg_grp_BRIEF_F(invp_data.groupid, NULL) 
@@ -2894,6 +3018,20 @@ machineid_name
 , 'invp_data' VIEWBASE 
 
  from invp_data
+GO
+if exists (select * from sysobjects where id = object_id(N'V_invp_tag') and OBJECTPROPERTY(id, N'IsView') = 1)
+drop view V_invp_tag
+GO
+create view V_invp_tag as 
+select   invp_tag.invp_tagId
+, invp_dataId 
+, 
+invp_tag.RFID 
+rFID 
+, invp_tag.invp_tagID ID 
+, 'invp_tag' VIEWBASE 
+
+ from invp_tag
 GO
 if exists (select * from sysobjects where id = object_id(N'V_inva_info') and OBJECTPROPERTY(id, N'IsView') = 1)
 drop view V_inva_info
@@ -3133,6 +3271,11 @@ select   invops_in.invops_inId
 , 
 invops_in.shCode 
 shCode 
+, 
+ invops_in.thePart  
+thePart 
+, dbo.invp_data_BRIEF_F(invops_in.thePart, NULL) 
+thePart_name 
 , 
 invops_in.rfid 
 rfid 
