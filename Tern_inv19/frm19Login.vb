@@ -83,7 +83,7 @@ Public Class frm19Login
 
 
             Try
-                Dim str As String = ""
+                Dim sStr As String = ""
                 Using dataStream As Stream = request.GetRequestStream()
                     dataStream.Write(byteArray, 0, byteArray.Length)
                     dataStream.Close()
@@ -91,7 +91,7 @@ Public Class frm19Login
                 Using objResponse As HttpWebResponse = request.GetResponse()
                     Using Stream As Stream = objResponse.GetResponseStream()
                         Using sr As New StreamReader(Stream, Encoding.GetEncoding("utf-8"))
-                            str = sr.ReadToEnd()
+                            sStr = sr.ReadToEnd()
                             sr.Close()
                         End Using
 
@@ -102,7 +102,7 @@ Public Class frm19Login
 
 
 
-                Dim resp As ResponseData(Of String) = JsonConvert.DeserializeObject(Of ResponseData(Of String))(str)
+                Dim resp As ResponseData(Of String) = JsonConvert.DeserializeObject(Of ResponseData(Of String))(sStr)
                 UID = New Guid(resp.data)
                 If Not UID.Equals(Guid.Empty) Then
                     Me.DialogResult = Windows.Forms.DialogResult.OK
@@ -111,8 +111,8 @@ Public Class frm19Login
                 End If
 
 
-            Catch ex As WebException
-                MsgBox(ex.Message)
+            Catch ex As Exception
+                MsgBox("Login: " + ex.Message, MsgBoxStyle.OkOnly + MsgBoxStyle.Exclamation, "Ошибка")
                 RestartWLAN()
             End Try
 
@@ -125,7 +125,7 @@ Public Class frm19Login
             '    End If
             '    Me.DialogResult = Windows.Forms.DialogResult.Cancel
             '    Me.Close()
-            'Catch ex As WebException
+            'Catch ex As Exception
             '    MsgBox(ex.Message)
             '    Me.DialogResult = Windows.Forms.DialogResult.Cancel
             '    Me.Close()

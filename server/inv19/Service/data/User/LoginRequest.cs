@@ -19,4 +19,10 @@ namespace inv19.Services.Data.User
         public string DeviceToken { get; set; }
         public string AppVersion { get; set; }
     }
+
+    public class TermLoginRequest
+    {
+        public string email { get; set; }
+        public string password { get; set; }
+    }
 }

@@ -344,7 +344,7 @@ Public Class frmInventoryCell
             MsgBox("RFID  метки запчастей не обнаружены", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Ошибка")
             Return
         End If
-        If txtCellCode.Text = "" Then
+        If txtCellCode.Tag = "" Then
             MsgBox("Надо выбрать ячейку", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Ошибка")
             Return
         End If
@@ -359,128 +359,141 @@ Public Class frmInventoryCell
 
 
         Dim OK As Boolean
+        Dim sStr As String = ""
 
-
-        ' очищаем информацию о  ячейке, чтобы можно было перезаписать данные
-        Dim request1 As HttpWebRequest = HttpWebRequest.Create(ServiceURL + "terminal/clearcell/" + UID.ToString())
-        request1.Method = "POST"
-        request1.Timeout = TimeoutConst
-        request1.ReadWriteTimeout = RWTimeoutConst
-        request1.KeepAlive = KeepAliveConst
-
-        Dim r1 As invops_clear
-
-        r1 = New invops_clear
-        r1.InventoryID = New Guid(CurrentINV.id)
-        r1.shCode = txtCellCode.Tag
-
-        Dim byteArray1 As Byte() = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(r1))
-
-        request1.ContentLength = byteArray1.Length
-        request1.ProtocolVersion = HttpVersion.Version11
-        request1.ContentType = "application/json; charset=UTF-8"
-        request1.Accept = "application/json"
-
-        Dim str As String = ""
 
         Try
 
-            Using dataStream As Stream = request1.GetRequestStream()
-                dataStream.Write(byteArray1, 0, byteArray1.Length)
-                dataStream.Close()
-            End Using
 
-            Using objResponse As HttpWebResponse = request1.GetResponse()
-                Using Stream As Stream = objResponse.GetResponseStream()
-                    Using sr As New StreamReader(Stream, Encoding.GetEncoding("utf-8"))
-                        str = sr.ReadToEnd()
-                        sr.Close()
-                    End Using
+            ' очищаем информацию о  ячейке, чтобы можно было перезаписать данные
+            Dim request1 As HttpWebRequest = HttpWebRequest.Create(ServiceURL + "terminal/clearcell/" + UID.ToString())
+            request1.Method = "POST"
+            request1.Timeout = TimeoutConst
+            request1.ReadWriteTimeout = RWTimeoutConst
+            request1.KeepAlive = KeepAliveConst
+
+            Dim r1 As invops_clear
+
+            r1 = New invops_clear
+            r1.InventoryID = New Guid(CurrentINV.id)
+            r1.shCode = txtCellCode.Tag
+
+            Dim byteArray1 As Byte() = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(r1))
+
+            request1.ContentLength = byteArray1.Length
+            request1.ProtocolVersion = HttpVersion.Version11
+            request1.ContentType = "application/json; charset=UTF-8"
+            request1.Accept = "application/json"
+
+
+            Try
+
+                Using dataStream As Stream = request1.GetRequestStream()
+                    dataStream.Write(byteArray1, 0, byteArray1.Length)
+                    dataStream.Close()
                 End Using
-                objResponse.Close()
-            End Using
 
-            Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(str)
-            If resp.message = "OK" Then
-                OK = True
-            Else
-                OK = False
-                MsgBox(resp.message, MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Ошибка")
+                Using objResponse As HttpWebResponse = request1.GetResponse()
+                    Using Stream As Stream = objResponse.GetResponseStream()
+                        Using sr As New StreamReader(Stream, Encoding.GetEncoding("utf-8"))
+                            sStr = sr.ReadToEnd()
+                            sr.Close()
+                        End Using
+                    End Using
+                    objResponse.Close()
+                End Using
+
+                Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(sStr)
+                If resp.message = "OK" Then
+                    OK = True
+                Else
+                    OK = False
+                    MsgBox(resp.message, MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Ошибка")
+                    Return
+                End If
+
+            Catch ex As Exception
+                MsgBox("Clear Cell: " + ex.Message, MsgBoxStyle.OkOnly + MsgBoxStyle.Exclamation, "Ошибка")
+                RestartWLAN()
                 Return
-            End If
-
-        Catch ex As WebException
-            MsgBox(ex.Message)
-            RestartWLAN()
-            Return
+            End Try
+        Catch ex1 As Exception
+            MsgBox("Clear Cell: " + ex1.Message, MsgBoxStyle.OkOnly + MsgBoxStyle.Exclamation, "Ошибка")
         End Try
 
         If OK Then
-            str = ""
-            Dim request As HttpWebRequest = HttpWebRequest.Create(ServiceURL + "terminal/inventory/" + UID.ToString())
-            request.Method = "POST"
-            request.Timeout = TimeoutConst
-            request.ReadWriteTimeout = RWTimeoutConst
-            request.KeepAlive = KeepAliveConst
+
+            OK = False
 
             For Each Tag As TagListInfo In ItemList.Values
 
-                Dim r As invops_inventory
-
-                r = New invops_inventory
-                r.InventoryID = New Guid(CurrentINV.id)
-                r.shCode = txtCellCode.Tag
-                If Tag.q = "*" Then
-                    r.quantity = 1
-                Else
-                    Try
-                        r.quantity = Integer.Parse(Tag.q)
-
-                    Catch ex As Exception
-                        r.quantity = 1
-                    End Try
-                End If
-
-
-                r.rfid = Tag.name
-
-
-                Dim byteArray As Byte() = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(r))
-
-                request.ContentLength = byteArray.Length
-                request.ProtocolVersion = HttpVersion.Version11
-                request.ContentType = "application/json; charset=UTF-8"
-                request.Accept = "application/json"
+                sStr = ""
+                Dim request As HttpWebRequest = HttpWebRequest.Create(ServiceURL + "terminal/inventory/" + UID.ToString())
+                request.Method = "POST"
+                request.Timeout = TimeoutConst
+                request.ReadWriteTimeout = RWTimeoutConst
+                request.KeepAlive = KeepAliveConst
 
                 Try
-                    Using dataStream As Stream = request.GetRequestStream()
-                        dataStream.Write(byteArray, 0, byteArray.Length)
-                        dataStream.Close()
-                    End Using
-                    Using objResponse As HttpWebResponse = request.GetResponse()
-                        Using Stream As Stream = objResponse.GetResponseStream()
-                            Using sr As New StreamReader(Stream, Encoding.GetEncoding("utf-8"))
-                                str = sr.ReadToEnd()
-                                sr.Close()
-                            End Using
-                        End Using
-                        objResponse.Close()
-                    End Using
 
-
-                    Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(str)
-                    If resp.message = "OK" Then
-                        OK = True
+                    Dim r As invops_inventory
+                    r = New invops_inventory
+                    r.InventoryID = New Guid(CurrentINV.id)
+                    r.shCode = txtCellCode.Tag
+                    If Tag.q = "*" Then
+                        r.quantity = 1
                     Else
-                        OK = False
-                        MsgBox(resp.message, MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Ошибка")
-                    End If
+                        Try
+                            r.quantity = Integer.Parse(Tag.q)
 
-                Catch ex As WebException
-                    MsgBox(ex.Message)
-                    RestartWLAN()
+                        Catch ex As Exception
+                            r.quantity = 1
+                        End Try
+                    End If
+                    r.rfid = Tag.name
+
+
+                    Dim byteArray As Byte() = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(r))
+
+                    request.ContentLength = byteArray.Length
+                    request.ProtocolVersion = HttpVersion.Version11
+                    request.ContentType = "application/json; charset=UTF-8"
+                    request.Accept = "application/json"
+
+                    Try
+                        Using dataStream As Stream = request.GetRequestStream()
+                            dataStream.Write(byteArray, 0, byteArray.Length)
+                            dataStream.Close()
+                        End Using
+                        Using objResponse As HttpWebResponse = request.GetResponse()
+                            Using Stream As Stream = objResponse.GetResponseStream()
+                                Using sr As New StreamReader(Stream, Encoding.GetEncoding("utf-8"))
+                                    sStr = sr.ReadToEnd()
+                                    sr.Close()
+                                End Using
+                            End Using
+                            objResponse.Close()
+                        End Using
+
+
+                        Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(sStr)
+                        If resp.message = "OK" Then
+                            OK = OK Or True
+                        Else
+                            OK = OK Or False
+                            MsgBox(resp.message, MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Ошибка")
+                        End If
+
+                    Catch ex As Exception
+                        MsgBox("Register tag" + Tag.name + " : " + ex.Message, MsgBoxStyle.OkOnly + MsgBoxStyle.Exclamation, "Ошибка")
+                        RestartWLAN()
+                    End Try
+
+                Catch ex2 As Exception
+                    MsgBox("Register tag" + Tag.name + " : " + ex2.Message, MsgBoxStyle.OkOnly + MsgBoxStyle.Exclamation, "Ошибка")
                 End Try
 
+                request = Nothing
             Next
 
         End If
@@ -491,6 +504,7 @@ Public Class frmInventoryCell
             f.ShowDialog()
             Clear()
         End If
+
         Me.DialogResult = Windows.Forms.DialogResult.OK
         'Me.Close()
     End Sub

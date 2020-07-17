@@ -50,13 +50,13 @@ Module Utils
         request.ReadWriteTimeout = RWTimeoutConst
         request.KeepAlive = KeepAliveConst
 
-        Dim str As String = ""
+        Dim sStr As String = ""
         Try
 
             Using objResponse As HttpWebResponse = request.GetResponse()
                 Using Stream As Stream = objResponse.GetResponseStream()
                     Using sr As New StreamReader(Stream, Encoding.GetEncoding("utf-8"))
-                        str = sr.ReadToEnd()
+                        sStr = sr.ReadToEnd()
                         sr.Close()
                     End Using
 
@@ -64,7 +64,7 @@ Module Utils
                 objResponse.Close()
             End Using
 
-            Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(str)
+            Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(sStr)
 
 
 
@@ -77,7 +77,7 @@ Module Utils
 
             Return resp.message
 
-        Catch ex As WebException
+        Catch ex As Exception
             Return ""
         End Try
     End Function
@@ -102,20 +102,20 @@ Module Utils
         request.ReadWriteTimeout = RWTimeoutConst
         request.KeepAlive = KeepAliveConst
 
-        Dim str As String = ""
+        Dim sStr As String = ""
 
         Try
             Using objResponse As HttpWebResponse = request.GetResponse()
                 Using Stream As Stream = objResponse.GetResponseStream()
                     Using sr As New StreamReader(Stream, Encoding.GetEncoding("utf-8"))
-                        str = sr.ReadToEnd()
+                        sStr = sr.ReadToEnd()
                         sr.Close()
                     End Using
                 End Using
                 objResponse.Close()
             End Using
 
-            Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(str)
+            Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(sStr)
 
 
             If Not resp.message.StartsWith("Ошибка") Then
@@ -127,7 +127,7 @@ Module Utils
 
             Return resp.message
 
-        Catch ex As WebException
+        Catch ex As Exception
             Return ""
         End Try
     End Function
@@ -154,12 +154,12 @@ Module Utils
 
 
 
-        Dim str As String = ""
+        Dim sStr As String = ""
         Try
             Using objResponse As HttpWebResponse = request.GetResponse()
                 Using Stream As Stream = objResponse.GetResponseStream()
                     Using sr As New StreamReader(Stream, Encoding.GetEncoding("utf-8"))
-                        str = sr.ReadToEnd()
+                        sStr = sr.ReadToEnd()
                         sr.Close()
                     End Using
 
@@ -167,7 +167,7 @@ Module Utils
                 objResponse.Close()
             End Using
 
-            Dim tList As List(Of ComboInfo) = JsonConvert.DeserializeObject(Of List(Of ComboInfo))(str)
+            Dim tList As List(Of ComboInfo) = JsonConvert.DeserializeObject(Of List(Of ComboInfo))(sStr)
             If tList.Count > 0 Then
                 If Not TagCache.Keys.Contains(tag) Then
                     TagCache.Add(tag, tList(0))
@@ -176,7 +176,7 @@ Module Utils
             End If
             Return Nothing
 
-        Catch ex As WebException
+        Catch ex As Exception
             Return Nothing
 
         End Try

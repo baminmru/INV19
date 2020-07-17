@@ -66,7 +66,8 @@
 	 [display-field]="'name'"
 	 [value-field]="'id'"
 	 [data]="AppService.Comboinvg_grp"
-	 
+	 (onSingleSelect) ="groupSelected($event)"
+
 	 [(ngModel)]="currentinvp_data.groupid"
 	 >
   </amexio-dropdown>
@@ -150,7 +151,7 @@
 		<amexio-datagrid amexioColorPalette [color-palette]="'vibrant'" [gradient]="true" 
 		  [title]="'Запчасть::Описание'" 
 		  [page-size] = "10" 
-		  [enable-data-filter]="false" [global-filter]="true" 
+		  [enable-data-filter]="true" [global-filter]="false" 
 		  [enable-checkbox]="false" 
 		  [data]="invp_dataArray" 
 		  (selectedRowData)="onSelect($event)" 

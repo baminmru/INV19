@@ -22,19 +22,15 @@ namespace inv19.models {
 	[Required]
 	 public System.Guid  inva_infoId { get; set; } // обратная ссылка на: Описание
 	public System.Guid  storepartid { get; set; } //Запчасть
-	[ForeignKey("storepartid")]
-	public invp_data invp_data { get; set; } // Объект - Запчасть
+	
 	[Required]
 	public double  Qty{ get; set; } // Количество
 	public System.Guid  locationid { get; set; } //Стеллаж
-	[ForeignKey("locationid")]
-	public invwh_loc invwh_loc { get; set; } // Объект - Стеллаж
+	
 	public System.Guid  cellid { get; set; } //Ячейка
-	[ForeignKey("cellid")]
-	public invwh_cell invwh_cell { get; set; } // Объект - Ячейка
+	
 	public System.Guid  theStore { get; set; } //Склад
-	[ForeignKey("theStore")]
-	public invd_store invd_store { get; set; } // Объект - Склад
+	
 	[Required]
 	public string  RFID{ get; set; } // Метка RFID
  }
@@ -44,8 +40,7 @@ namespace inv19.models {
 	[Required]
 	 public System.Guid  inva_infoId { get; set; } // обратная ссылка на: Описание
 	public System.Guid  storepartid { get; set; } //Запчасть
-	[ForeignKey("storepartid")]
-	public invp_data invp_data { get; set; } // Объект - Запчасть
+	
 	[Required]
 	public double  Qty{ get; set; } // Количество
  }
@@ -55,16 +50,13 @@ namespace inv19.models {
 	[Required]
 	 public System.Guid  inva_infoId { get; set; } // обратная ссылка на: Описание
 	public System.Guid  storepartid { get; set; } //Запчасть
-	[ForeignKey("storepartid")]
-	public invp_data invp_data { get; set; } // Объект - Запчасть
+	
 	[Required]
 	public double  Qty{ get; set; } // Количество
 	public System.Guid  locationid { get; set; } //Стеллаж
-	[ForeignKey("locationid")]
-	public invwh_loc invwh_loc { get; set; } // Объект - Стеллаж
+	
 	public System.Guid  cellid { get; set; } //Ячейка
-	[ForeignKey("cellid")]
-	public invwh_cell invwh_cell { get; set; } // Объект - Ячейка
+	
 	[Required]
 	public string  RFID{ get; set; } // Метка RFID
  }

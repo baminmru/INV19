@@ -73,7 +73,7 @@ Public Class frmRegister
         request.ReadWriteTimeout = RWTimeoutConst
         request.KeepAlive = KeepAliveConst
 
-        Dim str As String = ""
+        Dim sStr As String = ""
         Try
             Using dataStream As Stream = request.GetRequestStream()
                 dataStream.Write(byteArray, 0, byteArray.Length)
@@ -82,7 +82,7 @@ Public Class frmRegister
             Using objResponse As HttpWebResponse = request.GetResponse()
                 Using Stream As Stream = objResponse.GetResponseStream()
                     Using sr As New StreamReader(Stream, Encoding.GetEncoding("utf-8"))
-                        str = sr.ReadToEnd()
+                        sStr = sr.ReadToEnd()
                         sr.Close()
                     End Using
 
@@ -90,7 +90,7 @@ Public Class frmRegister
                 objResponse.Close()
             End Using
 
-            Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(str)
+            Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(sStr)
             If resp.message = "OK" Then
                 Dim f As frmOK
                 f = New frmOK
@@ -100,8 +100,8 @@ Public Class frmRegister
                 MsgBox(resp.message, MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Ошибка")
             End If
 
-        Catch ex As WebException
-            MsgBox(ex.Message)
+        Catch ex As Exception
+            MsgBox("Регистрация: " + ex.Message, MsgBoxStyle.OkOnly + MsgBoxStyle.Exclamation, "Ошибка")
             RestartWLAN()
         End Try
 
@@ -124,13 +124,13 @@ Public Class frmRegister
         request.KeepAlive = KeepAliveConst
 
 
-        Dim str As String = ""
+        Dim sStr As String = ""
 
         Try
             Using objResponse As HttpWebResponse = request.GetResponse()
                 Using Stream As Stream = objResponse.GetResponseStream()
                     Using sr As New StreamReader(Stream, Encoding.GetEncoding("utf-8"))
-                        str = sr.ReadToEnd()
+                        sStr = sr.ReadToEnd()
                         sr.Close()
                     End Using
 
@@ -138,12 +138,12 @@ Public Class frmRegister
                 objResponse.Close()
             End Using
 
-            PartList = JsonConvert.DeserializeObject(Of List(Of ComboInfo))(str)
+            PartList = JsonConvert.DeserializeObject(Of List(Of ComboInfo))(sStr)
 
 
             lstPart.DataSource = PartList
-        Catch ex As WebException
-            MsgBox(ex.Message)
+        Catch ex As Exception
+            MsgBox("Запчасти: " + ex.Message, MsgBoxStyle.OkOnly + MsgBoxStyle.Exclamation, "Ошибка")
 
         End Try
     End Sub

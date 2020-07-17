@@ -69,7 +69,7 @@ Public Class frmOpOut
         request.Accept = "application/json"
 
 
-        Dim str As String = ""
+        Dim sStr As String = ""
 
         Try
             Using dataStream As Stream = request.GetRequestStream()
@@ -79,7 +79,7 @@ Public Class frmOpOut
             Using objResponse As HttpWebResponse = request.GetResponse()
                 Using Stream As Stream = objResponse.GetResponseStream()
                     Using sr As New StreamReader(Stream, Encoding.GetEncoding("utf-8"))
-                        str = sr.ReadToEnd()
+                        sStr = sr.ReadToEnd()
                         sr.Close()
                     End Using
 
@@ -88,7 +88,7 @@ Public Class frmOpOut
             End Using
 
 
-            Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(str)
+            Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(sStr)
             If resp.message = "OK" Then
                 Dim f As frmOK
                 f = New frmOK
@@ -98,8 +98,8 @@ Public Class frmOpOut
                 MsgBox(resp.message, MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Ошибка")
             End If
 
-        Catch ex As WebException
-            MsgBox(ex.Message)
+        Catch ex As Exception
+            MsgBox("Отгрузка: " + ex.Message, MsgBoxStyle.OkOnly + MsgBoxStyle.Exclamation, "Ошибка")
             RestartWLAN()
         End Try
     End Sub
@@ -117,12 +117,12 @@ Public Class frmOpOut
         request.KeepAlive = KeepAliveConst
 
 
-        Dim str As String = ""
+        Dim sStr As String = ""
         Try
             Using objResponse As HttpWebResponse = request.GetResponse()
                 Using Stream As Stream = objResponse.GetResponseStream()
                     Using sr As New StreamReader(Stream, Encoding.GetEncoding("utf-8"))
-                        str = sr.ReadToEnd()
+                        sStr = sr.ReadToEnd()
                         sr.Close()
                     End Using
 
@@ -130,12 +130,12 @@ Public Class frmOpOut
                 objResponse.Close()
             End Using
 
-            DeptList = JsonConvert.DeserializeObject(Of List(Of ComboInfo))(str)
+            DeptList = JsonConvert.DeserializeObject(Of List(Of ComboInfo))(sStr)
 
 
             cmbDep.DataSource = DeptList
-        Catch ex As WebException
-            MsgBox(ex.Message)
+        Catch ex As Exception
+            MsgBox("Отделы: " + ex.Message, MsgBoxStyle.OkOnly + MsgBoxStyle.Exclamation, "Ошибка")
 
         End Try
 

@@ -136,6 +136,7 @@ namespace inv19.models
         public DbSet<inv19.models.invg_grp> invg_grp { get; set; }
         public DbSet<inv19.models.invg_subgrp> invg_subgrp { get; set; }
         public DbSet<inv19.models.invp_data> invp_data { get; set; }
+        public DbSet<inv19.models.invp_tag> invp_tag { get; set; }
         public DbSet<inv19.models.inva_info> inva_info { get; set; }
         public DbSet<inv19.models.inva_real> inva_real { get; set; }
         public DbSet<inv19.models.inva_absnt> inva_absnt { get; set; }

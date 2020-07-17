@@ -72,7 +72,7 @@ Public Class frmOpIn
 
 
         Try
-            Dim str As String = ""
+            Dim sStr As String = ""
             Using dataStream As Stream = request.GetRequestStream()
                 dataStream.Write(byteArray, 0, byteArray.Length)
                 dataStream.Close()
@@ -80,7 +80,7 @@ Public Class frmOpIn
             Using objResponse As HttpWebResponse = request.GetResponse()
                 Using Stream As Stream = objResponse.GetResponseStream()
                     Using sr As New StreamReader(Stream, Encoding.GetEncoding("utf-8"))
-                        str = sr.ReadToEnd()
+                        sStr = sr.ReadToEnd()
                         sr.Close()
                     End Using
                 End Using
@@ -88,7 +88,7 @@ Public Class frmOpIn
             End Using
 
 
-            Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(str)
+            Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(sStr)
             If resp.message = "OK" Then
                 Dim f As frmOK
                 f = New frmOK
@@ -99,8 +99,8 @@ Public Class frmOpIn
             End If
 
 
-        Catch ex As WebException
-            MsgBox(ex.Message)
+        Catch ex As Exception
+            MsgBox("Приемка: " + ex.Message, MsgBoxStyle.OkOnly + MsgBoxStyle.Exclamation, "Ошибка")
             RestartWLAN()
         End Try
 

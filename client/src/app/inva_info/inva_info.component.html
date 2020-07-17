@@ -99,7 +99,7 @@
 		<amexio-button amexioThemeStyle [theme-style]="'round-edge'"  [label]="'Создать'" [type]="'secondary'" [tooltip]="'Создать новую запись'" [icon]="'fa fa-plus'" (onClick)="onNew()"></amexio-button>
 		<amexio-button amexioThemeStyle [theme-style]="'round-edge'"  [disabled]="currentinva_info.inva_infoId==null" [label]="'Изменить'" (onClick)="onEdit(currentinva_info)" [type]="'secondary'" [tooltip]="'Изменить запись'" [icon]="'fa fa-edit'"></amexio-button>
 	 <!-- <amexio-button amexioThemeStyle [theme-style]="'round-edge'"  [disabled]="currentinva_info.inva_infoId==null" [label]="'Удалить'" (onClick)="onDelete(currentinva_info)" [type]="'secondary'" [tooltip]="'Удалить запись'" [icon]="'fa fa-trash'"></amexio-button> -->
-	 <amexio-button amexioThemeStyle [theme-style]="'round-edge'"  [disabled]="currentinva_info.inva_infoId==null" [label]="'Отчет'" (onClick)="onReport(currentinva_info)" [type]="'secondary'" [tooltip]="'Отчет'" [icon]="'fa fa-folder'"></amexio-button>
+	 <amexio-button amexioThemeStyle [theme-style]="'round-edge'"  [disabled]="currentinva_info.inva_infoId==null" [label]="'Отчет'" (onClick)="onReport()" [type]="'secondary'" [tooltip]="'Отчет'" [icon]="'fa fa-folder'"></amexio-button>
      <amexio-button amexioThemeStyle [theme-style]="'round-edge'"   [label]="'Обновить'" (onClick)="refreshinva_info()" [type]="'secondary'" [tooltip]="'Обновить данные'" [icon]="'fa fa-refresh'"></amexio-button>
      <amexio-button amexioThemeStyle [theme-style]="'round-edge'"   [label]="'Экспорт'" (onClick)="exportXSLX()" [type]="'secondary'" [tooltip]="'Экспорт данных'" [icon]="'fa fa-cloud'"></amexio-button>
 		</amexio-column>
@@ -109,7 +109,7 @@
 		<amexio-datagrid amexioColorPalette [color-palette]="'vibrant'" [gradient]="true" 
 		  [title]="'Инвентаризация::Описание'" 
 		  [page-size] = "10" 
-		  [enable-data-filter]="false" [global-filter]="true" 
+		  [enable-data-filter]="true" [global-filter]="false" 
 		  [enable-checkbox]="false" 
 		  [data]="inva_infoArray" 
 		  (selectedRowData)="onSelect($event)" 

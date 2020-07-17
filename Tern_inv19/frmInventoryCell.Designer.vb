@@ -48,6 +48,7 @@ Partial Public Class frmInventoryCell
         '
         Me.txtCellCode.Location = New System.Drawing.Point(70, 3)
         Me.txtCellCode.Name = "txtCellCode"
+        Me.txtCellCode.ReadOnly = True
         Me.txtCellCode.Size = New System.Drawing.Size(141, 21)
         Me.txtCellCode.TabIndex = 10
         '

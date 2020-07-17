@@ -57,6 +57,7 @@ Partial Public Class frmOpIn
         '
         Me.txtCellCode.Location = New System.Drawing.Point(8, 19)
         Me.txtCellCode.Name = "txtCellCode"
+        Me.txtCellCode.ReadOnly = True
         Me.txtCellCode.Size = New System.Drawing.Size(209, 21)
         Me.txtCellCode.TabIndex = 1
         '
@@ -86,6 +87,7 @@ Partial Public Class frmOpIn
         '
         Me.txtItem.Location = New System.Drawing.Point(8, 61)
         Me.txtItem.Name = "txtItem"
+        Me.txtItem.ReadOnly = True
         Me.txtItem.Size = New System.Drawing.Size(209, 21)
         Me.txtItem.TabIndex = 5
         '

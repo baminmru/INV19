@@ -47,7 +47,7 @@ Public Class frmOpMove
 
 
         If txtItem.Text = "" Then
-            MsgBox("Надо выбрать запчасть", "Ошибка", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly)
+            MsgBox("Надо выбрать запчасть", MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Ошибка")
             Return
         End If
 
@@ -72,7 +72,7 @@ Public Class frmOpMove
         request.KeepAlive = KeepAliveConst
        
 
-        Dim Str As String = ""
+        Dim sStr As String = ""
         Try
             Using dataStream As Stream = request.GetRequestStream()
                 dataStream.Write(byteArray, 0, byteArray.Length)
@@ -81,7 +81,7 @@ Public Class frmOpMove
             Using objResponse As HttpWebResponse = request.GetResponse()
                 Using Stream As Stream = objResponse.GetResponseStream()
                     Using sr As New StreamReader(Stream, Encoding.GetEncoding("utf-8"))
-                        Str = sr.ReadToEnd()
+                        sStr = sr.ReadToEnd()
                         sr.Close()
                     End Using
 
@@ -90,7 +90,7 @@ Public Class frmOpMove
             End Using
 
 
-            Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(Str)
+            Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(sStr)
             If resp.message = "OK" Then
                 Dim f As frmOK
                 f = New frmOK
@@ -100,8 +100,8 @@ Public Class frmOpMove
                 MsgBox(resp.message, MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Ошибка")
             End If
 
-        Catch ex As WebException
-            MsgBox(ex.Message)
+        Catch ex As Exception
+            MsgBox("Перемещение: " + ex.Message, MsgBoxStyle.OkOnly + MsgBoxStyle.Exclamation, "Ошибка")
             RestartWLAN()
         End Try
     End Sub

@@ -76,8 +76,11 @@ Module Module1
             Dim i As Integer
             Dim WLAN_ok As Boolean
             WLAN_ok = False
+
             For i = 0 To myWlan.Adapters.Length - 1
                 myAdapter = myWlan.Adapters(i)
+
+
                 If myAdapter.PowerState = Symbol.Fusion.WLAN.Adapter.PowerStates.ON Then
                     WLAN_ok = True
                 End If

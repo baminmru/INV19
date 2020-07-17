@@ -55,6 +55,7 @@ Partial Public Class frmRegister
         '
         Me.txtItem.Location = New System.Drawing.Point(15, 99)
         Me.txtItem.Name = "txtItem"
+        Me.txtItem.ReadOnly = True
         Me.txtItem.Size = New System.Drawing.Size(198, 21)
         Me.txtItem.TabIndex = 8
         '

@@ -38,12 +38,12 @@ Public Class frmInventory
             request.ReadWriteTimeout = RWTimeoutConst
             request.KeepAlive = KeepAliveConst
 
-            Dim str As String = ""
+            Dim sStr As String = ""
             Try
                 Using objResponse As HttpWebResponse = request.GetResponse()
                     Using Stream As Stream = objResponse.GetResponseStream()
                         Using sr As New StreamReader(Stream, Encoding.GetEncoding("utf-8"))
-                            str = sr.ReadToEnd()
+                            sStr = sr.ReadToEnd()
                             sr.Close()
                         End Using
 
@@ -51,7 +51,7 @@ Public Class frmInventory
                     objResponse.Close()
                 End Using
 
-                Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(str)
+                Dim resp As TerminalMessage = JsonConvert.DeserializeObject(Of TerminalMessage)(sStr)
                 If resp.message = "OK" Then
                     Dim f As frmOK
                     f = New frmOK
@@ -61,8 +61,8 @@ Public Class frmInventory
                     MsgBox(resp.message, MsgBoxStyle.Critical + MsgBoxStyle.OkOnly, "Ошибка")
                 End If
 
-            Catch ex As WebException
-                MsgBox(ex.Message)
+            Catch ex As Exception
+                MsgBox("Stop inventory: " + ex.Message, MsgBoxStyle.OkOnly + MsgBoxStyle.Exclamation, "Ошибка")
                 RestartWLAN()
             End Try
 
@@ -91,24 +91,24 @@ Public Class frmInventory
         'request.ContentType = "application/json; charset=UTF-8"
         request.Accept = "application/json"
 
-        Dim str As String = ""
+        Dim sStr As String = ""
         Try
             Using objResponse As HttpWebResponse = request.GetResponse()
                 Using Stream As Stream = objResponse.GetResponseStream()
                     Using sr As New StreamReader(Stream, Encoding.GetEncoding("utf-8"))
-                        str = sr.ReadToEnd()
+                        sStr = sr.ReadToEnd()
                         sr.Close()
                     End Using
                 End Using
                 objResponse.Close()
             End Using
 
-            InvList = JsonConvert.DeserializeObject(Of List(Of ComboInfo))(str)
+            InvList = JsonConvert.DeserializeObject(Of List(Of ComboInfo))(sStr)
 
 
             cmbInv.DataSource = InvList
-        Catch ex As WebException
-            MsgBox(ex.Message)
+        Catch ex As Exception
+            MsgBox("Load inventory: " + ex.Message, MsgBoxStyle.OkOnly + MsgBoxStyle.Exclamation, "Ошибка")
 
         End Try
     End Sub

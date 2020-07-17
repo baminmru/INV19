@@ -10,13 +10,11 @@ namespace inv19.models {
 	 public System.Guid  invwh_locId{ get; set; } // Идентификатор (первичный ключ)
 	 public List<invwh_cell>  invwh_cell { get; set; } // дочерний раздел: Ячейка
 	public System.Guid  theStore { get; set; } //Склад
-	[ForeignKey("theStore")]
-	public invd_store invd_store { get; set; } // Объект - Склад
+	
 	[Required]
 	public string  name{ get; set; } // Название
 	public System.Guid  whZone { get; set; } //Зона
-	[ForeignKey("whZone")]
-	public invd_zone invd_zone { get; set; } // Объект - Зона
+	
  }
 
  public class  invwh_cell { // Ячейка
