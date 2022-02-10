@@ -64,7 +64,7 @@
     "karma-jasmine": "^1.1.2",
     "karma-mocha-reporter": "^2.2.1",
     "karma-remap-istanbul": "^0.6.0",
-    "node-sass": "^4.12.0",
+    "node-sass": "^7.0.0",
     "postcss": "6.0.13",
     "postcss-strip-inline-comments": "0.1.5",
     "protractor": "^5.4.2",
